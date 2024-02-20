@@ -107,14 +107,13 @@ export default function Signup() {
       </div>
       
       <div>
-      <div className="header">  
-      <div className="text2">OR</div>
-      <div className="underline"></div>  
-    </div>
-        <Link to="/login" className="d">
-  <img src={google_icon} alt="Google Icon" /> 
-</Link>
-</div>
+      <div className="header"> 
+      <div className="text2">         </div>
+      <div className="text2">         </div>
+      <div className="text2">         </div>
+       <div className="underline"></div>  
+      </div>  
+      </div>  
 
 
 

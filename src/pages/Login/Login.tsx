@@ -6,6 +6,7 @@ import email_icon from '../../assets/img/email.png'
 import password_icon from '../../assets/img/password.png'
 import signup_icon from '../../assets/img/login.png'
 import logo from '../../assets/img/logo.png'
+import google_icon from '../../assets/img/login3.png'
 
 
 export default function Login() {
@@ -57,6 +58,13 @@ export default function Login() {
       <img src={password_icon} alt="" /> 
       <input type="password" placeholder='Password' value={password} onChange={handleChangepassword}  />
       </div>
+      <div className="header">  
+      <div className="text2">OR</div>
+      <div className="underline"></div>  
+        <Link to="/login" className="d">
+  <img src={google_icon} alt="Google Icon" /> 
+</Link>
+</div>
     
       </div>
       <div className="forgot-password">Lost password ? <span>Click here !</span></div>
