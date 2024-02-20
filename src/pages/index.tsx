@@ -1,21 +1,40 @@
 import Signup from "./Signup/Signup";
+import ForgetPassword from "./ForgetPassword/ForgetPassword";
+import ResetPassword from "./ForgetPassword/ResetPassword";
+import Conditions from "./ForgetPassword/Conditions";
+//import Test from "./ForgetPassword/Test";
+
+//import ResetPassword from "./ForgetPassword/ResetPassword";
+
+
 
 export default [
-  // {
-  //   path: "login/*",
-  //   element: <Login />,
-  // },
+ 
 
   {
     path: "/signup/*",
     element: <Signup />,
   },
-  // {
-  //   path: "/reset-password/*",
-  //   element: <ResetPassword />,
-  // },
-  // {
-  //   path: "/forget-password/*",
-  //   element: <ForgetPassword />,
+ 
+ {
+  path: "/forgetPassword",
+  element:<ForgetPassword/>,
+ },
+    {
+     path: "/reset-password/*",
+     element: <ResetPassword />,
+  },
+  {
+    path: "/conditions/*",
+    element: <Conditions/>,
+ },
+
+  //{
+   // path: "/test/*",
+    //element:<Test/> , }
+
+   // {
+  //   path: "login/*",
+  //   element: <Login />,
   // },
 ];
