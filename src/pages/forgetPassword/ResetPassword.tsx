@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import './ForgetPassword.css';
+import './Password.css';
 import { Link } from 'react-router-dom';
 
 export default function ResetPassword() {
