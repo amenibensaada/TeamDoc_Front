@@ -17,9 +17,9 @@ module.exports = {
       },
     },
     extend: {
-      // #081A51
+      // 
       colors: {
-        "dark-purple": "#581c87",
+        "dark-purple": "#081A51",
         "light-white": "rgba(255,255,255,0.17)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
