@@ -1,10 +1,11 @@
 import Signup from "./Signup/Signup";
+import Login from "./Login/Login";
 
 export default [
-  // {
-  //   path: "login/*",
-  //   element: <Login />,
-  // },
+   {
+     path: "login/*",
+     element: <Login />,
+   },
 
   {
     path: "/signup/*",
@@ -18,4 +19,5 @@ export default [
   //   path: "/forget-password/*",
   //   element: <ForgetPassword />,
   // },
+  //dddd
 ];
