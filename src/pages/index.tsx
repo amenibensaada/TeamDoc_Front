@@ -1,4 +1,5 @@
 import Signup from "./Signup/Signup";
+import SideBar from "./sidebar/sidebar";
 
 export default [
   // {
@@ -9,6 +10,10 @@ export default [
   {
     path: "/signup/*",
     element: <Signup />,
+  },
+  {
+    path: "/sidebar/*",
+    element: <SideBar />,
   },
   // {
   //   path: "/reset-password/*",
