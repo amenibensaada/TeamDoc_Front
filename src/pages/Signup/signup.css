@@ -1,3 +1,4 @@
+
 .container{
     display:flex;
     margin: auto;
@@ -5,6 +6,7 @@
     width:100%;
     background:#fff ;
     padding-bottom: 30px;
+
 }
 .left-half {
     display: flex;
@@ -12,6 +14,8 @@
     flex: 1;
     margin-right: 160px;
     margin-left: 40px;
+    width: calc(50% - 40px); /* Utilisation de calc() pour ajuster la largeur en fonction de l'écran */
+
 }
 
 .right-half {
@@ -19,12 +23,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: calc(50% - 40px); /* Utilisation de calc() pour ajuster la largeur en fonction de l'écran */
+
 }
 
 .right-half img {
     width: 100%;
     height: 100%;
     object-fit: cover; /* Ajuste la taille de l'image pour qu'elle couvre entièrement la div */
+    max-width: 100%; /* Image réactive */
+
 }
 
 .header{
@@ -106,7 +114,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 220px;
+    width: 100%; /* Ajustement de la largeur pour s'adapter à la taille de l'écran */
     height: 59px;
     color: #fff;
     background: #4c00b4;
@@ -122,7 +130,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 220px;
+    width: 100%; /* Ajustement de la largeur pour s'adapter à la taille de l'écran */
     height: 59px;
     color: #fff;
     background: #9387a4;
@@ -148,5 +156,10 @@
     width: 300px; /* Ajustez la taille de l'image */
     height: auto; /* Laissez la hauteur s'ajuster automatiquement */
     margin-right: 10px; /* Ajoutez une marge à droite pour l'espacement */
+}
+.error {
+    margin-top: 10px; /* Ajoutez une marge en haut pour l'espacement */
+    margin-left: 120px; /* Ajoutez une marge à gauche pour l'espacement horizontal */
+    color: red; /* Changez la couleur du texte en rouge pour les messages d'erreur */
 }
 
