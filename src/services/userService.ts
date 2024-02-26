@@ -1,4 +1,9 @@
-export const createUser = async (createUserDto: any) => {
+import { z } from "zod";
+import { signupSchema } from "../pages/dto/createUserDto";
+
+export const createUser = async (
+  createUserDto: z.infer<typeof signupSchema>
+) => {
   const response = await fetch("http://localhost:3000/auth/signup", {
     method: "POST",
     headers: {
