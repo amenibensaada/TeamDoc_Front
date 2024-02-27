@@ -1,7 +1,8 @@
-import { useState} from "react";
+import { useState, useEffect} from "react";
 
 export default function SideBar() {
     const [open, setOpen] = useState(true);
+    const [showButton, setShowButton] = useState(false);
 
     const Menus = [
       { title: "Dashboard", src: "Chart_fill" },
@@ -21,7 +22,15 @@ export default function SideBar() {
       { title: "logout", src: "logout" },
     ];
    
+    useEffect(() => {
+      const handleResize = () => {
+        setShowButton(window.innerWidth < 500);
+      };
   
+      handleResize(); // Check initial width
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
     return (
         <div className="flex">
           <div
