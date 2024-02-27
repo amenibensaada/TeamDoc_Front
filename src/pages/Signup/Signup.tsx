@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import "./signup.css";
 
@@ -13,6 +13,7 @@ import { signupSchema } from "../dto/createUserDto";
 import { createUser } from "@/services/userService";
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -29,20 +30,22 @@ export default function Signup() {
   }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChangeFirstName = (e) => {
+  const handleChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
   };
-  const handleChangeLastName = (e) => {
+  const handleChangeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
   };
-  const handleChangeEmail = (e) => {
+  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const handleChangePassword = (e) => {
+  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
-  const handleChangeConfirmPassword = (e) => {
+  const handleChangeConfirmPassword = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setConfirmPassword(e.target.value);
   };
 
@@ -55,6 +58,11 @@ export default function Signup() {
 
   const mutation = useMutation({
     mutationFn: (body: z.infer<typeof signupSchema>) => createUser(body),
+    onSuccess: () => {
+      console.log("User created successfully");
+      setErrors({});
+      navigate("/login");
+    },
   });
 
   const handleSubmit = async () => {
@@ -185,13 +193,10 @@ export default function Signup() {
             <Link to="/login" className="submit1">
               Login
             </Link>{" "}
-            {/* Redirection vers la page de connexion */}
           </div>
-          {/* Affichez le message d'erreur */}
           {errorMessage}
         </div>
         <div className="right-half">
-          {/* Ajoutez votre image de profil ici */}
           <img src={signup_icon} alt="Profile" />
         </div>
       </div>
