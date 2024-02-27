@@ -1,26 +1,37 @@
-import { useState } from "react";
+import { useState} from "react";
 
 export default function SideBar() {
     const [open, setOpen] = useState(true);
+
     const Menus = [
       { title: "Dashboard", src: "Chart_fill" },
-      { title: "Inbox", src: "Chat" },
+      { title: "Files ", src: "folders", gap: true },
+      { title: " Create folder ", src: "new-folder"},
+      { title: " Create file ", src: "add-file" },
+      { title: "Last Modification", src: "history" },
+      { title: "add team space", src: "queue" },
+      { title: "Members", src: "diversity" },
+      { title: "Inbox", src: "freedom-of-speech" },
+      { title: "Analytics", src: "analytics" },
+      { title: "Download", src: "cloud-computing" },
       { title: "Accounts", src: "User", gap: true },
       { title: "Schedule ", src: "Calendar" },
       { title: "Search", src: "Search" },
-      { title: "Analytics", src: "Chart" },
-      { title: "Files ", src: "Folder", gap: true },
       { title: "Setting", src: "Setting" },
       { title: "logout", src: "logout" },
     ];
+   
   
     return (
         <div className="flex">
           <div
             className={` ${
               open ? "w-72" : "w-20 "
-            } bg-dark-purple h-screen p-5  pt-8 relative duration-300`}
+            } bg-dark-purple h-full p-5  pt-8 relative duration-300`}
           >
+     
+
+
             <img
               src="/src/pages/sidebar/assets/control.png"
               className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
@@ -42,6 +53,7 @@ export default function SideBar() {
                 TeamDoc
               </h1>
             </div>
+           
             <ul className="pt-6">
               {Menus.map((Menu, index) => (
                 <li
