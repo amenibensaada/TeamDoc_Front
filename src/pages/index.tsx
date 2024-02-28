@@ -20,8 +20,9 @@ export default [
   path: "/forgetPassword",
   element:<ForgetPassword/>,
  },
+
     {
-     path: "/reset-password/*",
+     path: "/reset-password/:token",
      element: <ResetPassword />,
   },
   {
