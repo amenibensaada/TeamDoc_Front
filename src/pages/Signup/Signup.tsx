@@ -184,7 +184,7 @@ export default function Signup() {
           <div className="submit-container">
             <div
               className={buttonClass}
-              onClick={isFormValid ? handleSubmit : null}
+              onClick={isFormValid ? handleSubmit : () => {}}
               style={
                 !isFormValid && isSubmitted ? { cursor: "not-allowed" } : {}
               }>
