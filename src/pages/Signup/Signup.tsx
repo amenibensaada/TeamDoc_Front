@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import "./signup.css";
 
@@ -10,9 +10,12 @@ import password_icon from "../../assets/img/password.png";
 import signup_icon from "../../assets/img/aziz1.jpg";
 import logo from "../../assets/img/logo.png";
 import { signupSchema } from "../dto/createUserDto";
+import { createUser } from "@/services/userService";
 //import { createUser } from "@/services/userService";
 
 export default function Signup() {
+  const navigate = useNavigate();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -33,27 +36,26 @@ export default function Signup() {
     setFirstName(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, firstName: "" }));
   };
-  
+
   const handleChangeLastName = (e) => {
     setLastName(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, lastName: "" }));
   };
-  
+
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, email: "" }));
   };
-  
+
   const handleChangePassword = (e) => {
     setPassword(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, password: "" }));
   };
-  
+
   const handleChangeConfirmPassword = (e) => {
     setConfirmPassword(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: "" }));
   };
-  
 
   const isFormValid =
     firstName !== "" &&
@@ -62,9 +64,14 @@ export default function Signup() {
     password !== "" &&
     confirmPassword !== "";
 
-  //const mutation = useMutation({
-   // mutationFn: (body: z.infer<typeof signupSchema>) => createUser(body),
-  //});
+  const mutation = useMutation({
+    mutationFn: (body: z.infer<typeof signupSchema>) => createUser(body),
+    onSuccess: () => {
+      console.log("User created successfully");
+      setErrors({});
+      navigate("/login");
+    },
+  });
 
   const handleSubmit = async () => {
     setIsSubmitted(true);
