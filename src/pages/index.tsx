@@ -2,12 +2,19 @@ import Signup from "./Signup/Signup";
 import Login from "./Login/Login";
 import SideBar from "./sidebar/sidebar";
 
-export default [
-  {
-    path: "login/*",
-    element: <Login />,
-  },
 
+
+import Conditions from "./forgetPassword/Conditions";
+import ResetPassword from "./forgetPassword/ResetPassword";
+import ForgetPassword from "./forgetPassword/forgetPassword";
+
+
+export default [
+  
+    {
+      path: "login/*",
+      element: <Login />,
+    },
   {
     path: "/signup/*",
     element: <Signup />,
@@ -16,13 +23,28 @@ export default [
     path: "/sidebar/*",
     element: <SideBar />,
   },
+
+  {
+    path: "/forgetPassword",
+    element: <ForgetPassword />,
+  },
+
+  {
+    path: "/reset-password/:token",
+    element: <ResetPassword />,
+  },
+  {
+    path: "/conditions/*",
+    element: <Conditions />,
+  },
+
+  //{
+  // path: "/test/*",
+  //element:<Test/> , }
+
   // {
-  //   path: "/reset-password/*",
-  //   element: <ResetPassword />,
-  // },
-  // {
-  //   path: "/forget-password/*",
-  //   element: <ForgetPassword />,
+  //   path: "login/*",
+  //   element: <Login />,
   // },
   //dddd
 ];
