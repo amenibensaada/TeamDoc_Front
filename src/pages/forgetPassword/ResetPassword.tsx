@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Password.css";
 import { Link, useParams } from "react-router-dom";
-import { resetPassword } from "../../services/resetPasswordService"; // Assurez-vous de remplacer 'chemin/vers/resetPasswordService' par le bon chemin
+import { resetPassword } from "../../services/resetPasswordService";
 import { useMutation } from "@tanstack/react-query";
 import { resetPasswordSchema } from "../dto/resetPasswordDto";
 import { z } from "zod";
@@ -30,9 +30,7 @@ export default function ResetPassword() {
   ) => {
     setConfirmPassword(e.target.value);
   };
-  useEffect(() => {
-    console.log("Token from URL:", token);
-  }, [token]);
+  useEffect(() => {}, [token]);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,7 +69,6 @@ export default function ResetPassword() {
       setSuccessMessage("Email sent successfully");
       setPassword("");
       setConfirmPassword("");
-
       setSuccessMessage("Your password has been successfully reset.");
       setErrorMessage("");
     } catch (error) {

@@ -23,13 +23,11 @@ export default function ResetPassword() {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Vérifier si la case à cocher est cochée
     const termsCheckbox = document.getElementById("terms") as HTMLInputElement;
     if (!termsCheckbox.checked) {
       setErrorMessage("Please accept the Terms and Conditions.");
     }
 
-    // Valider l'e-mail avec le schéma Zod
     try {
       const userData = { email: email.trim() };
       forgetPasswordSchema.parse(userData);
@@ -40,7 +38,6 @@ export default function ResetPassword() {
       setErrorMessage("");
     } catch (error) {
       if (error instanceof z.ZodError) {
-        // Gérer les erreurs de validation de Zod
         setErrorMessage(error.errors[0].message);
       }
     }
