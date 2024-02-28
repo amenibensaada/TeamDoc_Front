@@ -23,11 +23,6 @@ export default function ResetPassword() {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const termsCheckbox = document.getElementById("terms") as HTMLInputElement;
-    if (!termsCheckbox.checked) {
-      setErrorMessage("Please accept the Terms and Conditions.");
-    }
-
     try {
       const userData = { email: email.trim() };
       forgetPasswordSchema.parse(userData);
