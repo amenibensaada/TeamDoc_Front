@@ -7,20 +7,25 @@ import SideBar from "./sidebar/sidebar";
 import Conditions from "./forgetPassword/Conditions";
 import ResetPassword from "./forgetPassword/ResetPassword";
 import ForgetPassword from "./forgetPassword/forgetPassword";
+import NotFound from "./notFound/notFound";
+
+
+
+
 
 
 export default [
   
     {
-      path: "login/*",
+      path: "login/",
       element: <Login />,
     },
   {
-    path: "/signup/*",
+    path: "/signup/",
     element: <Signup />,
   },
   {
-    path: "/sidebar/*",
+    path: "/sidebar/",
     element: <SideBar />,
   },
 
@@ -34,9 +39,16 @@ export default [
     element: <ResetPassword />,
   },
   {
-    path: "/conditions/*",
+    path: "/conditions/",
     element: <Conditions />,
-  },
+  }, 
+
+  {
+    path: "/*", // This path will match any URL
+    element: <NotFound/> // Use the NotFound component as the element
+  }
+   
+] ;
 
   //{
   // path: "/test/*",
@@ -47,4 +59,4 @@ export default [
   //   element: <Login />,
   // },
   //dddd
-];
+
