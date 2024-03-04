@@ -1,6 +1,8 @@
 import Signup from "./Signup/Signup";
 import Login from "./Login/Login";
 import SideBar from "./sidebar/sidebar";
+import Editor from "./home/EditorContent";
+import Static from "./home/staticlist";
 
 
 
@@ -37,7 +39,14 @@ export default [
     path: "/conditions/*",
     element: <Conditions />,
   },
-
+  {
+    path: "/editor/*",
+    element: <Editor />, // Utilisez EditorComponent ici
+  },
+  {
+    path: "/",
+    element: <Static />, // Utilisez StaticFileList comme page d'accueil par défaut
+  },
   //{
   // path: "/test/*",
   //element:<Test/> , }
