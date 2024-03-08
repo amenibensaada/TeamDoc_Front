@@ -4,19 +4,16 @@ import SideBar from "./sidebar/sidebar";
 import Editor from "./home/EditorContent";
 import Static from "./home/staticlist";
 
-
-
 import Conditions from "./forgetPassword/Conditions";
 import ResetPassword from "./forgetPassword/ResetPassword";
 import ForgetPassword from "./forgetPassword/forgetPassword";
-
+import { EditorReactContent } from "./home/EditorReactContent";
 
 export default [
-  
-    {
-      path: "login/*",
-      element: <Login />,
-    },
+  {
+    path: "login/*",
+    element: <Login />,
+  },
   {
     path: "/signup/*",
     element: <Signup />,
@@ -40,8 +37,12 @@ export default [
     element: <Conditions />,
   },
   {
-    path: "/editor/*",
-    element: <Editor />, // Utilisez EditorComponent ici
+    path: "/editor/:id",
+    element: <EditorReactContent />,
+  },
+  {
+    path: "/editor/react/:id",
+    element: <Editor />,
   },
   {
     path: "/",
