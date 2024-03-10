@@ -11,7 +11,9 @@ import signup_icon from "../../assets/img/aziz3.jpg";
 import logo from "../../assets/img/logo.png";
 import google_icon from "../../assets/img/login3.png";
 import { useMutation } from "@tanstack/react-query";
-import { loginUser } from "@/services/LoginUser";
+import { loginUser, loginWithGoogle } from "@/services/LoginUser";
+import { Button } from "@/components/ui/button";
+import { signInWithGoogle } from "@/firebase/firebase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -40,6 +42,18 @@ export default function Login() {
       navigate("/sidebar");
     },
   });
+  const handleGoogleSignIn = async () => {
+    await signInWithGoogle();
+  };
+  const loginWithGoogleMutation = useMutation({
+    mutationFn: (body: z.infer<typeof loginSchema>) => loginWithGoogle(body),
+    onSuccess: () => {
+      console.log("User created successfully");
+      setErrors({});
+      navigate("/sidebar");
+    },
+  });
+
   const handleSubmit = () => {
     setIsSubmitted(true);
 
@@ -108,9 +122,12 @@ export default function Login() {
             <div className="header">
               <div className="text2">OR</div>
               <div className="underline"></div>
-              <Link to="/login" className="d">
+              <Button
+                className="d"
+                // onClick={handleSubmitGoogle}
+              >
                 <img src={google_icon} alt="Google Icon" />
-              </Link>
+              </Button>
             </div>
           </div>
           <div className="forgot-password">
