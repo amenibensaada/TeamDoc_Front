@@ -1,5 +1,4 @@
-// Login.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { loginSchema } from "../dto/loginDto";
@@ -13,7 +12,7 @@ import google_icon from "../../assets/img/login3.png";
 import { useMutation } from "@tanstack/react-query";
 import { loginUser, loginWithGoogle } from "@/services/LoginUser";
 import { Button } from "@/components/ui/button";
-import { signInWithGoogle } from "@/firebase/firebase";
+import firebase, { auth, signInWithGoogle } from "@/firebase/firebase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -42,15 +41,34 @@ export default function Login() {
       navigate("/sidebar");
     },
   });
+  useEffect(() => {
+    auth.signOut().then(() => {
+      firebase.auth().onAuthStateChanged(async (newUser: any) => {
+        if (newUser) {
+          await loginWithGoogleMutation.mutate({ googleUuid: newUser.uid });
+        }
+      });
+    });
+  });
   const handleGoogleSignIn = async () => {
     await signInWithGoogle();
   };
+
   const loginWithGoogleMutation = useMutation({
-    mutationFn: (body: z.infer<typeof loginSchema>) => loginWithGoogle(body),
+    mutationFn: (body: any) => loginWithGoogle(body),
     onSuccess: () => {
       console.log("User created successfully");
       setErrors({});
       navigate("/sidebar");
+    },
+    onError: (error: any) => {
+      if (error.response && error.response.status === 404) {
+        console.log("User not found. Please create an account.");
+        setErrors({ email: "User not found. Do you want to sign up instead?" });
+      } else {
+        console.log("User not found. Please create an account.");
+        setErrors({ email: "User not found. Please create an account." });
+      }
     },
   });
 
@@ -122,10 +140,7 @@ export default function Login() {
             <div className="header">
               <div className="text2">OR</div>
               <div className="underline"></div>
-              <Button
-                className="d"
-                // onClick={handleSubmitGoogle}
-              >
+              <Button className="d" onClick={handleGoogleSignIn}>
                 <img src={google_icon} alt="Google Icon" />
               </Button>
             </div>
