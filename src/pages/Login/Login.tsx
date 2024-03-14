@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { loginSchema } from "../dto/loginDto";
 import { z } from "zod";
-
 import email_icon from "../../assets/img/email.png";
 import password_icon from "../../assets/img/password.png";
 import signup_icon from "../../assets/img/aziz3.jpg";
@@ -43,6 +42,7 @@ export default function Login() {
   });
   useEffect(() => {
     auth.signOut().then(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       firebase.auth().onAuthStateChanged(async (newUser: any) => {
         if (newUser) {
           await loginWithGoogleMutation.mutate({ googleUuid: newUser.uid });
@@ -55,12 +55,14 @@ export default function Login() {
   };
 
   const loginWithGoogleMutation = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (body: any) => loginWithGoogle(body),
     onSuccess: () => {
       console.log("User created successfully");
       setErrors({});
       navigate("/sidebar");
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       if (error.response && error.response.status === 404) {
         console.log("User not found. Please create an account.");
@@ -156,7 +158,7 @@ export default function Login() {
             </Link>
             <div
               className={buttonClass}
-              onClick={isFormValid ? handleSubmit : null}
+              onClick={isFormValid ? handleSubmit : undefined}
               style={
                 !isFormValid && isSubmitted ? { cursor: "not-allowed" } : {}
               }>
