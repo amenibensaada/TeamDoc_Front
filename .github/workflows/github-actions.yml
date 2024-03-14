@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: "14"
 
       - name: Install dependencies
         run: npm install
@@ -29,3 +29,12 @@ jobs:
 
       # - name: Test
       #   run: npm run test
+
+      - name: Build Docker image
+        run: docker build -t amenibensaada/doc-managment-front .
+
+      - name: Log in to DockerHub
+        run: docker login -u amenibensaada -p "${{ secrets.DOCKERHUB_TOKEN }}"
+
+      - name: Push Docker image to DockerHub
+        run: docker push amenibensaada/doc-managment-front
