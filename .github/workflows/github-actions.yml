@@ -31,7 +31,7 @@ jobs:
       #   run: npm run test
 
       - name: Build Docker image
-        run: docker build -t amenibensaada/doc-managment-frontend .
+        run: docker build -t amenibensaada/doc-managment-front .
 
       - name: Log in to DockerHub
         run: docker login -u amenibensaada -p "${{ secrets.DOCKERHUB_TOKEN }}"
