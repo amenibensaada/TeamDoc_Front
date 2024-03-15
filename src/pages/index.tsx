@@ -7,6 +7,7 @@ import SideBar from "./sidebar/sidebar";
 import Conditions from "./forgetPassword/Conditions";
 import ResetPassword from "./forgetPassword/ResetPassword";
 import ForgetPassword from "./forgetPassword/forgetPassword";
+import HistoricalChangesPage  from "./ContentHistory/HistoricalChangesPage";
 
 
 export default [
@@ -37,7 +38,11 @@ export default [
     path: "/conditions/*",
     element: <Conditions />,
   },
+{
+  path :"/contenthistory/*",
+  element:    <HistoricalChangesPage   />
 
+},
   //{
   // path: "/test/*",
   //element:<Test/> , }
