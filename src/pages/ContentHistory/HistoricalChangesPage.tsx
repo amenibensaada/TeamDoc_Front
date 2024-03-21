@@ -42,7 +42,7 @@ export default function HistoricalChangesPage() {
                 <ScrollArea className="rounded-md border w-11/12">
                   <div className="p-4 text-sm leading-7">
                     <div className="flex items-center ">
-                      <GitCommitHorizontal />
+                      <GitCommitHorizontal className="text-rose-600 mr-2 h-8 w-8" />
                       <p className="mb-2 last:mb-0">
                         <span className="font-medium">
                           the 12th of February at 13:06
