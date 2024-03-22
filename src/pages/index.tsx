@@ -3,7 +3,9 @@ import Login from "./Login/Login";
 import SideBar from "./sidebar/sidebar";
 import Editor from "./home/EditorContent";
 import Static from "./home/staticlist";
+import Folder from "./home/folder";
 
+import { EditorReactContent } from "./home/EditorReactContent";
 
 
 import Conditions from "./forgetPassword/Conditions";
@@ -40,11 +42,19 @@ export default [
     element: <Conditions />,
   },
   {
-    path: "/editor/*",
-    element: <Editor />, // Utilisez EditorComponent ici
+    path: "/editor/:id",
+    element: <EditorReactContent />,
   },
   {
-    path: "/",
+    path: "/editor/react/:id",
+    element: <Editor />,
+  },
+  {
+    path: "/*",
+    element: <Folder />, // Utilisez EditorComponent ici
+  },
+  {
+    path: "/folder/static",
     element: <Static />, // Utilisez StaticFileList comme page d'accueil par défaut
   },
   //{
