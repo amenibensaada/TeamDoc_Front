@@ -1,7 +1,17 @@
 import React from "react";
 
-
-export default function PopupModel({ title, bodyContent, onClose, onSave }) {
+interface PopupModelProps {
+  title: string;
+  bodyContent: React.ReactNode;
+  onClose?: () => void;
+  onSave?: () => void;
+}
+export default function PopupModel({
+  title,
+  bodyContent,
+  onClose,
+  onSave,
+}: PopupModelProps) {
   const [showModal, setShowModal] = React.useState(false);
 
   return (
@@ -9,8 +19,7 @@ export default function PopupModel({ title, bodyContent, onClose, onSave }) {
       <button
         className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
         type="button"
-        onClick={() => setShowModal(true)}
-      >
+        onClick={() => setShowModal(true)}>
         Open regular modal
       </button>
       {showModal ? (
@@ -25,8 +34,7 @@ export default function PopupModel({ title, bodyContent, onClose, onSave }) {
                     onClick={() => {
                       setShowModal(false);
                       onClose && onClose();
-                    }}
-                  >
+                    }}>
                     <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
                       ×
                     </span>
@@ -44,8 +52,7 @@ export default function PopupModel({ title, bodyContent, onClose, onSave }) {
                     onClick={() => {
                       setShowModal(false);
                       onClose && onClose();
-                    }}
-                  >
+                    }}>
                     Close
                   </button>
                   <button
@@ -54,8 +61,7 @@ export default function PopupModel({ title, bodyContent, onClose, onSave }) {
                     onClick={() => {
                       setShowModal(false);
                       onSave && onSave();
-                    }}
-                  >
+                    }}>
                     Save Changes
                   </button>
                 </div>
@@ -66,34 +72,33 @@ export default function PopupModel({ title, bodyContent, onClose, onSave }) {
         </>
       ) : null}
     </>
-  //   <Popover.Content style={{ width: 360 }}>
-  //   <Grid columns="120px 1fr">
-  //     <Inset side="left" pr="current">
-  //       <img
-  //         src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?&auto=format&fit=crop&w=400&q=80"
-  //         style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-  //       />
-  //     </Inset>
+    //   <Popover.Content style={{ width: 360 }}>
+    //   <Grid columns="120px 1fr">
+    //     <Inset side="left" pr="current">
+    //       <img
+    //         src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?&auto=format&fit=crop&w=400&q=80"
+    //         style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+    //       />
+    //     </Inset>
 
-  //     <div>
-  //       <Heading size="2" mb="1">
-  //         Share this image
-  //       </Heading>
-  //       <Text as="p" size="2" mb="4" color="gray">
-  //         Minimalistic 3D rendering wallpaper.
-  //       </Text>
+    //     <div>
+    //       <Heading size="2" mb="1">
+    //         Share this image
+    //       </Heading>
+    //       <Text as="p" size="2" mb="4" color="gray">
+    //         Minimalistic 3D rendering wallpaper.
+    //       </Text>
 
-  //       <Flex direction="column" align="stretch">
-  //         <Popover.Close>
-  //           <Button size="1" variant="soft">
-  //             <Link1Icon width="16" height="16" />
-  //             Copy link
-  //           </Button>
-  //         </Popover.Close>
-  //       </Flex>
-  //     </div>
-  //   </Grid>
-  // </Popover.Content>
+    //       <Flex direction="column" align="stretch">
+    //         <Popover.Close>
+    //           <Button size="1" variant="soft">
+    //             <Link1Icon width="16" height="16" />
+    //             Copy link
+    //           </Button>
+    //         </Popover.Close>
+    //       </Flex>
+    //     </div>
+    //   </Grid>
+    // </Popover.Content>
   );
 }
- 
