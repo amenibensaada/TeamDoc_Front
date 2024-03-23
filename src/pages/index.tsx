@@ -2,20 +2,16 @@ import Signup from "./Signup/Signup";
 import Login from "./Login/Login";
 import SideBar from "./sidebar/sidebar";
 
-
-
 import Conditions from "./forgetPassword/Conditions";
 import ResetPassword from "./forgetPassword/ResetPassword";
 import ForgetPassword from "./forgetPassword/forgetPassword";
-import HistoricalChangesPage  from "./ContentHistory/HistoricalChangesPage";
-
+import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 
 export default [
-  
-    {
-      path: "login/*",
-      element: <Login />,
-    },
+  {
+    path: "login/*",
+    element: <Login />,
+  },
   {
     path: "/signup/*",
     element: <Signup />,
@@ -38,11 +34,10 @@ export default [
     path: "/conditions/*",
     element: <Conditions />,
   },
-{
-  path :"/contenthistory/*",
-  element:    <HistoricalChangesPage   />
-
-},
+  {
+    path: "/contenthistory/:id*",
+    element: <HistoricalChangesPage />,
+  },
   //{
   // path: "/test/*",
   //element:<Test/> , }
