@@ -1,23 +1,18 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import StaticFileCard from "./card";
 import "./staticlist.css";
 import SideBar from "../sidebar/sidebar"; // Importez le composant SideBar
+import {  useQuery } from "@tanstack/react-query";
+import {  deletedocuments, getDocuments } from "@/services/documentsService";
+import AddDocumentForm from "./AddDocumentForm";
+
 
 const StaticFileList = () => {
-  const staticFiles = [
-    { id: 1, title: "Plan marketing", description: "Analyse du marché cible et stratégies de promotion pour lancer le produit X." },
-    { id: 2, title: "Feuille de route du projet", description: "Détail de toutes les étapes et des délais pour la réalisation du projet SmartGym." },
-    { id: 3, title: "Rapport de recherche", description: "Étude approfondie sur les effets du café sur la santé, basée sur des recherches récentes." },
-    { id: 4, title: "Guide de dépannage", description: "Solutions aux problèmes courants rencontrés dans le système X, avec des instructions détaillées." },
-    { id: 5, title: "Document de spécifications", description: "Spécifications techniques et fonctionnelles pour le développement du produit Y." },
-    { id: 6, title: "Documentation API", description: "Documentation complète sur les API disponibles pour la navigation dans l'application." },
-    { id: 7, title: "Présentation du projet", description: "Diapositives de présentation détaillant le projet, ses objectifs, ses avantages et son impact prévu." },
-    { id: 8, title: "Politiques et procédures", description: "Description des politiques et procédures internes de l'entreprise pour une utilisation conforme." },
-    { id: 9, title: "Plan marketing", description: "Analyse du marché cible et stratégies de promotion pour lancer le produit X." },
-    { id: 10, title: "Feuille de route du projet", description: "Détail de toutes les étapes et des délais pour la réalisation du projet SmartGym." },
-    { id: 11, title: "Rapport de recherche", description: "Étude approfondie sur les effets du café sur la santé, basée sur des recherches récentes." },
-    { id: 12, title: "Guide de dépannage", description: "Solutions aux problèmes courants rencontrés dans le système X, avec des instructions détaillées." },
-  ];
+
+  const { data: documentsdata, isError, isLoading,refetch} = useQuery({
+    queryKey: ["documents"],
+    queryFn: () => getDocuments(),
+  });
 
   const [searchTerm, setSearchTerm] = useState(""); // État pour stocker le terme de recherche
   const [sortByName, setSortByName] = useState(false); // État pour activer/désactiver le tri par nom
@@ -34,21 +29,40 @@ const StaticFileList = () => {
     setCurrentPage(pageNumber);
   };
 
-  // Fonction pour trier les fichiers statiques par titre
-  const sortFilesByName = () => {
-    const sortedFiles = [...staticFiles].sort((a, b) => a.title.localeCompare(b.title));
-    return sortedFiles;
-  };
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching documents</div>;
 
   // Filtrer et trier les fichiers statiques en fonction du terme de recherche et du tri par nom
-  const filteredAndSortedFiles = staticFiles
-    .filter((file) => file.title.toLowerCase().includes(searchTerm.toLowerCase()))
-    .sort((a, b) => (sortByName ? a.title.localeCompare(b.title) : 0));
+  const filteredAndSortedFiles = documentsdata
+    .filter((file) => file.Title.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => (sortByName ? a.Title.localeCompare(b.Title) : 0));
 
   // Index du premier élément de la page actuelle
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredAndSortedFiles.slice(indexOfFirstItem, indexOfLastItem);
+ 
+
+   //Add form
+   const [showAddForm, setShowAddForm] = useState(false);
+   const [initialDocumentData, setInitialDocumentData] = useState(null);
+
+   const handleToggleForm = (initialData = null) => {
+    setShowAddForm((prev) => !prev);
+    setInitialDocumentData(initialData); 
+    refetch();
+  };
+
+
+
+  const handleDeleteDocument = async (documentId) => {
+    try {
+      await deletedocuments(documentId);
+      refetch();
+    } catch (error) {
+      console.error("Error deleting document:", error);
+    }
+  };
 
   return (
     <div className="content-container">
@@ -63,43 +77,45 @@ const StaticFileList = () => {
             />
           </div>
           <div className="search-bar-container">
-           
-           
-          </div><div className="search-bar-container">
-  <input
-    type="text"
-    placeholder="Rechercher..."
-    className="search-bar"
-    value={searchTerm || ""}
-    onChange={handleSearchChange}
-  />
-<button className="button-container" onClick={() => setSortByName(!sortByName)}>
-  {sortByName ? "Désactiver le tri par nom" : "Activer le tri par nom"}
-</button>
-</div>
-
+            <input
+              type="text"
+              placeholder="Rechercher..."
+              className="search-bar"
+              value={searchTerm || ""}
+              onChange={handleSearchChange}
+            />
+            <button className="button-container" onClick={() => setSortByName(!sortByName)}>
+              {sortByName ? "Désactiver le tri par nom" : "Activer le tri par nom"}
+            </button>
+          </div>
+        </div>
+        <div>
+        {showAddForm && <AddDocumentForm onClose={handleToggleForm} initialDocumentData={initialDocumentData}/>}
+        {/* Bouton pour afficher/cacher le formulaire */}
+        <button onClick={handleToggleForm}>Add Document</button>
         </div>
         <div className="file-list-container">
           <div className="static-file-list">
             {currentItems.map((file) => (
               <StaticFileCard
-                key={file.id}
-                title={file.title}
-                description={file.description}
-                noteId={file.id}
+                key={file._id}
+                title={file.Title}
+                description={file.contentType}
+                noteId={file._id}
+                onDelete={handleDeleteDocument}
+                onEdit={() => handleToggleForm(file)}
               />
             ))}
           </div>
           <div className="pagination">
-  {Array(Math.ceil(filteredAndSortedFiles.length / itemsPerPage))
-    .fill()
-    .map((_, index) => (
-      <button key={index} className="button" onClick={() => handlePageChange(index + 1)}>
-        {index + 1}
-      </button>
-    ))}
-</div>
-
+            {Array(Math.ceil(filteredAndSortedFiles.length / itemsPerPage))
+              .fill()
+              .map((_, index) => (
+                <button key={index} className="button" onClick={() => handlePageChange(index + 1)}>
+                  {index + 1}
+                </button>
+              ))}
+          </div>
         </div>
       </div>
     </div>

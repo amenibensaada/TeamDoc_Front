@@ -1,8 +1,10 @@
+
 export const getFolders = async () => {
-    const response = await fetch("http://localhost:3000/folder", {
+    const response = await fetch("http://localhost:3000/folder/getAllFolder", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZmFjNGEyMTgxNmY3NzU0MmJmMDRlYyIsImVtYWlsIjoiYW1hbEBnbWFpbC5jb20iLCJyb2xlIjpbIkNMSUVOVCJdLCJpYXQiOjE3MTExNDQzNzIsImV4cCI6MTcxMTIzMDc3Mn0.kwa4Opik6S2jyW23AnIpufRoDrkF9ws4JXMHewKgEIw`, 
       },
     });
     if (!response.ok) {
