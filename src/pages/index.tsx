@@ -6,6 +6,7 @@ import Conditions from "./forgetPassword/Conditions";
 import ResetPassword from "./forgetPassword/ResetPassword";
 import ForgetPassword from "./forgetPassword/forgetPassword";
 import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
+import Footer from "./footer/footer";
 
 export default [
   {
@@ -38,6 +39,8 @@ export default [
     path: "/contenthistory/:id*",
     element: <HistoricalChangesPage />,
   },
+  { path: "/footer", element: <Footer /> },
+
   //{
   // path: "/test/*",
   //element:<Test/> , }
