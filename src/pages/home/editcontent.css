@@ -1,0 +1,88 @@
+.editor-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  #editorjs {
+    width: 100%;
+    height: 100%;
+    margin-left: 250px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(209, 16, 16, 0.1);
+    padding: 20px;
+  }
+  
+  /* Ajoutez d'autres styles selon vos préférences */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    right: 0; /* Positionnement à droite */
+    width: 200px;
+    height: 100%;
+    background-color: #f0f0f0;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Ajoutez d'autres styles selon vos besoins */
+  
+  
+  .sidebar h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  .sidebar button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  .sidebar button:hover {
+    background-color: #ddd;
+  }
+  
+  
+
+
+
+
+  /* Ajoutez ces styles à votre fichier staticlist.css */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-bar {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 300px;
+    font-size: 1rem;
+    margin-right: 10px; /* Ajoute un espace entre la barre de recherche et le bouton */
+  }
+  
+  .button-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .button-container button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Couleur de fond bleue */
+    color: #fff; /* Couleur du texte blanc */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-container button:hover {
+    background-color: #0056b3; /* Couleur de fond bleue foncée au survol */
+  }
+  
