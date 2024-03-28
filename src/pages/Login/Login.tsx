@@ -1,10 +1,8 @@
-// Login.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { loginSchema } from "../dto/loginDto";
 import { z } from "zod";
-
 import email_icon from "../../assets/img/email.png";
 import password_icon from "../../assets/img/password.png";
 import signup_icon from "../../assets/img/aziz3.jpg";
@@ -12,6 +10,7 @@ import logo from "../../assets/img/logo.png";
 import google_icon from "../../assets/img/login3.png";
 import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "@/services/LoginUser";
+import { Button } from "@/components/ui/button";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -37,9 +36,16 @@ export default function Login() {
     onSuccess: () => {
       console.log("User created successfully");
       setErrors({});
-      navigate("/folder");
+      navigate("/");
     },
   });
+  
+  
+  
+
+ 
+    
+
   const handleSubmit = () => {
     setIsSubmitted(true);
 
@@ -108,9 +114,9 @@ export default function Login() {
             <div className="header">
               <div className="text2">OR</div>
               <div className="underline"></div>
-              <Link to="/login" className="d">
+              <Button className="d" >
                 <img src={google_icon} alt="Google Icon" />
-              </Link>
+              </Button>
             </div>
           </div>
           <div className="forgot-password">
@@ -124,7 +130,7 @@ export default function Login() {
             </Link>
             <div
               className={buttonClass}
-              onClick={isFormValid ? handleSubmit : null}
+              onClick={isFormValid ? handleSubmit : undefined}
               style={
                 !isFormValid && isSubmitted ? { cursor: "not-allowed" } : {}
               }>
