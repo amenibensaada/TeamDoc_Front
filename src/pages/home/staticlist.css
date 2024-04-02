@@ -6,9 +6,12 @@
 }
 
 .main-content {
-  flex: 1;
+  position: sticky; /* La barre d'en-tête reste fixe lorsque vous faites défiler la page */
+
+  flex: 1; /* Pour que le contenu principal s'étende pour remplir l'espace disponible */
   display: flex;
   flex-direction: column;
+  overflow-y: auto; /* Ajoutez un défilement vertical si le contenu dépasse */
 }
 
 
@@ -22,12 +25,20 @@
   margin-bottom: 10px; /* Réduire l'espacement en bas */
 
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Espacement supplémentaire au-dessus des boutons de pagination */
+}
+
 
 
 .static-file-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .pp {
@@ -49,6 +60,7 @@
   justify-content: space-between; /* Les éléments à l'intérieur de la barre d'en-tête seront espacés uniformément */
   align-items: center; /* Centrer verticalement les éléments à l'intérieur de la barre d'en-tête */
 }
+
 
 .search-bar-container {
   display: flex;
@@ -80,4 +92,45 @@
   margin-bottom: 10px; /* Réduisez l'espacement en bas */
 }
 
+/* staticlist.css */
+/* staticlist.css */
+.button-container button {
+  background-color: blue !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  cursor: pointer !important;
+  margin-right: 10px !important;
+}
 
+.pagination .button {
+  background-color: blue !important;
+  color: white !important;
+  border: none !important;
+  padding: 5px 10px !important;
+  cursor: pointer !important;
+  margin-right: 5px !important;
+}
+.button {
+  background-color: blue !important;
+  color: white !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  cursor: pointer !important;
+  margin-right: 10px !important;
+}
+
+/* staticlist.css */
+
+.static-file-card {
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease; /* Ajoute une transition sur la transformation */
+}
+
+.static-file-card:hover {
+  transform: translateY(-5px); /* Applique une transformation de translation vers le haut au survol */
+}

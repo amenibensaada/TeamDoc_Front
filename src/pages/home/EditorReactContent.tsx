@@ -8,6 +8,10 @@ import italicIcon from "../sidebar/assets/italic.png";
 import underlineIcon from "../sidebar/assets/underline.png";
 import SideBar from "../sidebar/sidebar";
 import { useEffect, useRef, useState } from "react";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import ImageTool from "@editorjs/image";
+
 import "./editcontent.css";
 
 export const EditorReactContent = () => {
@@ -115,6 +119,7 @@ export const EditorReactContent = () => {
           reinitializeOnPropsChange={true}
           tools={{
             header: Header,
+            image: ImageTool,
           }}
           editorInstance={(editorInstance) => {
             editor.current = editorInstance;

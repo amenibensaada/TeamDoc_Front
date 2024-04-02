@@ -2,6 +2,7 @@ import Signup from "./Signup/Signup";
 import Login from "./Login/Login";
 import SideBar from "./sidebar/sidebar";
 import Static from "./home/staticlist";
+import Folder from "./home/folder";
 
 import Conditions from "./forgetPassword/Conditions";
 import ResetPassword from "./forgetPassword/ResetPassword";
@@ -42,7 +43,11 @@ export default [
   },
 
   {
-    path: "/",
+    path: "/*",
+    element: <Folder />,
+  },
+  {
+    path: "/folder/static",
     element: <Static />,
   },
   { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createContent = async (createContentDto: any) => {
   const response = await fetch("http://localhost:3000/content", {
     method: "POST",

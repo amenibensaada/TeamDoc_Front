@@ -57,12 +57,19 @@ const StaticFileList = () => {
 
   const [searchTerm, setSearchTerm] = useState(""); // État pour stocker le terme de recherche
   const [sortByName, setSortByName] = useState(false); // État pour activer/désactiver le tri par nom
+  const [currentPage, setCurrentPage] = useState(1); // État pour stocker le numéro de la page actuelle
+  const itemsPerPage = 5; // Nombre d'éléments par page
 
   // Fonction pour mettre à jour le terme de recherche
   const handleSearchChange = (e: {
     target: { value: React.SetStateAction<string> };
   }) => {
     setSearchTerm(e.target.value);
+  };
+
+  // // Fonction pour changer de page
+  const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
+    setCurrentPage(pageNumber);
   };
 
   // Fonction pour trier les fichiers statiques par titre
@@ -79,6 +86,14 @@ const StaticFileList = () => {
       file.title.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .sort((a, b) => (sortByName ? a.title.localeCompare(b.title) : 0));
+
+  // Index du premier élément de la page actuelle
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredAndSortedFiles.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   return (
     <div className="content-container">
@@ -109,7 +124,7 @@ const StaticFileList = () => {
         </div>
         <div className="file-list-container">
           <div className="static-file-list">
-            {filteredAndSortedFiles.map((file) => (
+            {currentItems.map((file) => (
               <StaticFileCard
                 key={file.id}
                 title={file.title}
@@ -117,6 +132,18 @@ const StaticFileList = () => {
                 noteId={file.id}
               />
             ))}
+          </div>
+          <div className="pagination">
+            {Array(Math.ceil(filteredAndSortedFiles.length / itemsPerPage))
+              // .fill()
+              .map((_, index) => (
+                <button
+                  key={index}
+                  className="button"
+                  onClick={() => handlePageChange(index + 1)}>
+                  {index + 1}
+                </button>
+              ))}
           </div>
         </div>
       </div>
