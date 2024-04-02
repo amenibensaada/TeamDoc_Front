@@ -37,7 +37,7 @@ export default function Login() {
     onSuccess: () => {
       console.log("User created successfully");
       setErrors({});
-      navigate("/sidebar");
+      navigate("/");
     },
   });
   useEffect(() => {

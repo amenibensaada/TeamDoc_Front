@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.29.0",
+    "@editorjs/header": "^2.8.1",
+    "@editorjs/paragraph": "^2.11.4",
     "@hookform/resolvers": "^3.3.4",
+    "@natterstefan/react-editor-js": "^0.3.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -54,6 +58,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/editorjs__header": "^2.6.3",
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",

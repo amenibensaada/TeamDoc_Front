@@ -1,0 +1,83 @@
+.content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.search-bar {
+  padding: 8px; /* Réduire le rembourrage */
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: calc(20% - 40px); /* Largeur ajustée pour correspondre au padding de 20px de chaque côté */
+  font-size: 0.9rem; /* Réduire la taille de la police */
+  margin-bottom: 10px; /* Réduire l'espacement en bas */
+
+}
+
+
+.static-file-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pp {
+  display: flex;
+  align-items: center; /* Aligne les éléments verticalement */
+}
+
+.pp img {
+  margin-right: 10px; /* Ajoute un espacement à droite de l'image */
+}
+
+.headerStaticList {
+  position: fixed; /* La barre d'en-tête est fixée par rapport à la fenêtre du navigateur */
+  top: 0; /* La barre d'en-tête est toujours en haut de la fenêtre */
+  background-color: #f9f9f9;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between; /* Les éléments à l'intérieur de la barre d'en-tête seront espacés uniformément */
+  align-items: center; /* Centrer verticalement les éléments à l'intérieur de la barre d'en-tête */
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Ajoute un espacement uniforme entre les éléments */
+}
+
+
+
+.button-container button {
+  padding: 8px 12px; /* Ajustez la taille du bouton */
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button-container button:hover {
+  background-color: #0056b3;
+}
+.search-bar {
+  padding: 10px 16px; /* Ajustez le rembourrage pour agrandir l'input */
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: calc(40% - 10px); /* Augmentez la largeur de l'input */
+  font-size: 0.9rem; /* Ajustez éventuellement la taille de la police */
+  margin-bottom: 10px; /* Réduisez l'espacement en bas */
+}
+
+
