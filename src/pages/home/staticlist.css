@@ -50,9 +50,9 @@
   margin-right: 10px; /* Ajoute un espacement à droite de l'image */
 }
 
-.header {
-  position: sticky; /* La barre d'en-tête reste fixe lorsque vous faites défiler la page */
-  top: 0; /* La barre d'en-tête est toujours en haut de son conteneur parent */
+.headerStaticList {
+  position: fixed; /* La barre d'en-tête est fixée par rapport à la fenêtre du navigateur */
+  top: 0; /* La barre d'en-tête est toujours en haut de la fenêtre */
   background-color: #f9f9f9;
   padding: 20px;
   width: 100%;

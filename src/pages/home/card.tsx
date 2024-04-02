@@ -1,15 +1,16 @@
-// StaticFileCard.jsx
-import React from "react";
 import { Link } from "react-router-dom";
-import './card.css';
-import SideBar from "../sidebar/sidebar"; // Importez le composant SideBar
-
-//<Link to={`/editor/${noteId}`}>
-
-
-const StaticFileCard = ({ title, description, noteId }) => {
+import "./card.css";
+interface StaticFileCardProps {
+  title: string;
+  description: string;
+  noteId: number;
+}
+const StaticFileCard = ({
+  title,
+  description,
+  noteId,
+}: StaticFileCardProps) => {
   return (
-    
     <div className="static-file-card">
       <h3>{title}</h3>
       <p>{description}</p>

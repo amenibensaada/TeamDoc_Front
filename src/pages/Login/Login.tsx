@@ -9,8 +9,9 @@ import signup_icon from "../../assets/img/aziz3.jpg";
 import logo from "../../assets/img/logo.png";
 import google_icon from "../../assets/img/login3.png";
 import { useMutation } from "@tanstack/react-query";
-import { loginUser } from "@/services/LoginUser";
+import { loginUser, loginWithGoogle } from "@/services/LoginUser";
 import { Button } from "@/components/ui/button";
+import firebase, { auth, signInWithGoogle } from "@/firebase/firebase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -39,12 +40,39 @@ export default function Login() {
       navigate("/");
     },
   });
-  
-  
-  
+  useEffect(() => {
+    auth.signOut().then(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      firebase.auth().onAuthStateChanged(async (newUser: any) => {
+        if (newUser) {
+          await loginWithGoogleMutation.mutate({ googleUuid: newUser.uid });
+        }
+      });
+    });
+  });
+  const handleGoogleSignIn = async () => {
+    await signInWithGoogle();
+  };
 
- 
-    
+  const loginWithGoogleMutation = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mutationFn: (body: any) => loginWithGoogle(body),
+    onSuccess: () => {
+      console.log("User created successfully");
+      setErrors({});
+      navigate("/sidebar");
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      if (error.response && error.response.status === 404) {
+        console.log("User not found. Please create an account.");
+        setErrors({ email: "User not found. Do you want to sign up instead?" });
+      } else {
+        console.log("User not found. Please create an account.");
+        setErrors({ email: "User not found. Please create an account." });
+      }
+    },
+  });
 
   const handleSubmit = () => {
     setIsSubmitted(true);
@@ -114,7 +142,7 @@ export default function Login() {
             <div className="header">
               <div className="text2">OR</div>
               <div className="underline"></div>
-              <Button className="d" >
+              <Button className="d" onClick={handleGoogleSignIn}>
                 <img src={google_icon} alt="Google Icon" />
               </Button>
             </div>
