@@ -1,4 +1,3 @@
-// index.js
 import { createContent, getContent } from "@/services/ContentService";
 import EditorJs from "@natterstefan/react-editor-js";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -9,6 +8,7 @@ import italicIcon from "../sidebar/assets/italic.png";
 import underlineIcon from "../sidebar/assets/underline.png";
 import SideBar from "../sidebar/sidebar";
 import { useEffect, useRef, useState } from "react";
+import "./editcontent.css";
 
 export const EditorReactContent = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

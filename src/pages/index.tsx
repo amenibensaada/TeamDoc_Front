@@ -1,13 +1,13 @@
 import Signup from "./Signup/Signup";
 import Login from "./Login/Login";
 import SideBar from "./sidebar/sidebar";
-import Editor from "./home/EditorContent";
 import Static from "./home/staticlist";
 
 import Conditions from "./forgetPassword/Conditions";
 import ResetPassword from "./forgetPassword/ResetPassword";
 import ForgetPassword from "./forgetPassword/forgetPassword";
 import { EditorReactContent } from "./home/EditorReactContent";
+import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 
 export default [
   {
@@ -40,21 +40,10 @@ export default [
     path: "/editor/:id",
     element: <EditorReactContent />,
   },
-  {
-    path: "/editor/react/:id",
-    element: <Editor />,
-  },
+
   {
     path: "/",
-    element: <Static />, // Utilisez StaticFileList comme page d'accueil par défaut
+    element: <Static />,
   },
-  //{
-  // path: "/test/*",
-  //element:<Test/> , }
-
-  // {
-  //   path: "login/*",
-  //   element: <Login />,
-  // },
-  //dddd
+  { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
 ];
