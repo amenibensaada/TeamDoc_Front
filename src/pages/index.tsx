@@ -9,6 +9,7 @@ import ResetPassword from "./forgetPassword/ResetPassword";
 import ForgetPassword from "./forgetPassword/forgetPassword";
 import { EditorReactContent } from "./home/EditorReactContent";
 import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
+import LandingPage from "./landingPage/landingPage";
 
 export default [
   {
@@ -51,4 +52,5 @@ export default [
     element: <Static />,
   },
   { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
+  { path: "/landingPage", element: <LandingPage /> },
 ];
