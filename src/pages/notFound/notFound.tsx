@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import './NotFound.css'; // Assurez-vous que le chemin d'accès est correct
+import { useEffect } from "react";
+import "./NotFound.css"; // Assurez-vous que le chemin d'accès est correct
 
 const NotFound = () => {
   useEffect(() => {
@@ -19,7 +19,9 @@ const NotFound = () => {
   return (
     <div className="not-found-content">
       <h1 className="not-found-header">Oops!</h1>
-      <p className="not-found-text">Sorry, the page you are looking for does not exist.</p>
+      <p className="not-found-text">
+        Sorry, the page you are looking for does not exist.
+      </p>
     </div>
   );
 };
