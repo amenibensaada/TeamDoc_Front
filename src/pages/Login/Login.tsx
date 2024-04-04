@@ -60,7 +60,7 @@ export default function Login() {
     onSuccess: () => {
       console.log("User created successfully");
       setErrors({});
-      navigate("/sidebar");
+      navigate("/folder");
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
@@ -148,7 +148,10 @@ export default function Login() {
             </div>
           </div>
           <div className="forgot-password">
-            Lost password ? <span>Click here !</span>
+            Lost password ?{" "}
+            <span onClick={() => navigate("/forgetPassword")}>
+              Click here !
+            </span>
           </div>
           <div className="submit-container">
             <Link

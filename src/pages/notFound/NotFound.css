@@ -1,0 +1,12 @@
+.not-found-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background-image: url('./path/to/your/notFound.PNG'); /* Ajustez le chemin d'accès */
+    background-size: cover; /* Couvre toute la zone disponible sans perdre les proportions */
+    background-position: center; /* Centre l'image dans le conteneur */
+  }
+  
