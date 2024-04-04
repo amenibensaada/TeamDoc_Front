@@ -7,7 +7,8 @@ import SideBar from "./sidebar/sidebar";
 import Conditions from "./forgetPassword/Conditions";
 import ResetPassword from "./forgetPassword/ResetPassword";
 import ForgetPassword from "./forgetPassword/forgetPassword";
-import Footer from  "./footer/Footer"
+import Footer from "./footer/footer";
+
 
 
 
