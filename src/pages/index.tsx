@@ -1,7 +1,8 @@
 import Signup from "./Signup/Signup";
-import ForgetPassword from "./ForgetPassword/ForgetPassword";
-import ResetPassword from "./ForgetPassword/ResetPassword";
-import Conditions from "./ForgetPassword/Conditions";
+import Conditions from "./forgetPassword/Conditions";
+import ResetPassword from "./forgetPassword/ResetPassword";
+import ForgetPassword from "./forgetPassword/forgetPassword";
+
 //import Test from "./ForgetPassword/Test";
 
 //import ResetPassword from "./ForgetPassword/ResetPassword";
