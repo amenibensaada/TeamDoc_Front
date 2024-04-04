@@ -1,25 +1,19 @@
 import Signup from "./Signup/Signup";
 import Login from "./Login/Login";
 import SideBar from "./sidebar/sidebar";
-
-
-
+import Static from "./home/staticlist";
+import Folder from "./home/folder";
 import Conditions from "./forgetPassword/Conditions";
 import ResetPassword from "./forgetPassword/ResetPassword";
 import ForgetPassword from "./forgetPassword/forgetPassword";
+import { EditorReactContent } from "./home/EditorReactContent";
+import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 import NotFound from "./notFound/notFound";
-
-
-
-
-
-
 export default [
-  
-    {
-      path: "login/",
-      element: <Login />,
-    },
+  {
+    path: "login/*",
+    element: <Login />,
+  },
   {
     path: "/signup/",
     element: <Signup />,
@@ -41,22 +35,23 @@ export default [
   {
     path: "/conditions/",
     element: <Conditions />,
-  }, 
+  },
+  {
+    path: "/editor/:id",
+    element: <EditorReactContent />,
+  },
 
   {
-    path: "/*", // This path will match any URL
-    element: <NotFound/> // Use the NotFound component as the element
-  }
-   
-] ;
-
-  //{
-  // path: "/test/*",
-  //element:<Test/> , }
-
-  // {
-  //   path: "login/*",
-  //   element: <Login />,
-  // },
-  //dddd
-
+    path: "/folder",
+    element: <Folder />,
+  },
+  {
+    path: "/folder/static",
+    element: <Static />,
+  },
+  {
+    path: "/*",
+    element: <NotFound />,
+  },
+  { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
+];
