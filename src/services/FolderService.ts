@@ -1,6 +1,6 @@
 
 export const getFolders = async (searchKeyword: string, page: number, perPage: number) => {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
+  // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
 
   try {
     const url = `http://localhost:3000/folder/search?keyword=${searchKeyword}&page=${page}&perPage=${perPage}`;
@@ -8,7 +8,7 @@ export const getFolders = async (searchKeyword: string, page: number, perPage: n
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        // "Authorization": `Bearer ${token}`
       },
     });
     
@@ -52,14 +52,14 @@ export const getFolders = async (searchKeyword: string, page: number, perPage: n
  
  
   export const deleteFolder = async (folderId: String) => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
 
     try {
         const response = await fetch(`http://localhost:3000/folder/${folderId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+                // "Authorization": `Bearer ${token}`
 
             },
         });
@@ -91,7 +91,7 @@ export const getFolders = async (searchKeyword: string, page: number, perPage: n
 //   }
 // };
 export const addFolder = async (folderName : String) => {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
+  // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
   
   try {
     const response = await fetch("http://localhost:3000/folder/AddFolder", {
@@ -114,14 +114,14 @@ export const addFolder = async (folderName : String) => {
 
   
 export const updateFolder = async (folderId : String, folderName : String) => {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
+  // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
 
     try {
       const response = await fetch(`http://localhost:3000/folder/${folderId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
+          // "Authorization": `Bearer ${token}`
 
         },
         body: JSON.stringify({ Name: folderName }),
