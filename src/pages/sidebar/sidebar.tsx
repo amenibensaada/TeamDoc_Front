@@ -29,14 +29,14 @@ export default function SideBar() {
           open ? "w-72" : "w-20 "
         } bg-dark-purple h-full p-5  pt-8 relative duration-300`}>
         <img
-          src="/src/pages/sidebar/assets/control.png"
+          src="/public/assets/control.png"
           className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
                border-2 rounded-full  ${!open && "rotate-180"}`}
           onClick={() => setOpen(!open)}
         />
         <div className="flex gap-x-4 items-center">
           <img
-            src="/src/pages/sidebar/assets/logo.png"
+            src="/public/assets/logo.png"
             className={`cursor-pointer duration-500 ${
               open && "rotate-[360deg]"
             }`}
@@ -59,7 +59,7 @@ export default function SideBar() {
               } `}>
               {Menu.path ? (
                 <Link to={Menu.path} className="flex items-center gap-x-2">
-                  <img src={`/src/pages/sidebar/assets/${Menu.src}.png`} />
+                  <img src={`/public/assets/${Menu.src}.png`} />
                   <span
                     className={`${!open && "hidden"} origin-left duration-200`}>
                     {Menu.title}
@@ -67,7 +67,7 @@ export default function SideBar() {
                 </Link>
               ) : (
                 <div className="flex items-center gap-x-2">
-                  <img src={`/src/pages/sidebar/assets/${Menu.src}.png`} />
+                  <img src={`/public/assets/${Menu.src}.png`} />
                   <span
                     className={`${!open && "hidden"} origin-left duration-200`}>
                     {Menu.title}
