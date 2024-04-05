@@ -5,10 +5,14 @@ import "./card.css";
 interface StaticFileCardProps {
   title: string;
   description: string;
-  noteId: string;
+  noteId: number;
 }
 
-const StaticFileCard = ({ title, description, noteId }: StaticFileCardProps) => {
+const StaticFileCard = ({
+  title,
+  description,
+  noteId,
+}: StaticFileCardProps) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
 
