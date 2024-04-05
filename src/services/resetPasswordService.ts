@@ -1,13 +1,10 @@
-
 import { z } from "zod";
 import { resetPasswordSchema } from "../pages/dto/resetPasswordDto";
 
 export const resetPassword = async (
-  resetPasswordData: z.infer<typeof resetPasswordSchema>,
-  token: string
-
+  resetPasswordData: z.infer<typeof resetPasswordSchema>
 ) => {
-  const url = `http://localhost:3000/auth/resetPassword?token=${token}`;
+  const url = `http://localhost:3000/auth/resetPassword`;
 
   const response = await fetch(url, {
     method: "POST",
