@@ -46,7 +46,7 @@ export default function ResetPassword() {
           <div className="text">Forget Password</div>
           <div className="underline"></div>
         </div>
-        <div className="frame">
+        <div className="frame"> {/* Ajoutez la classe frame ici */}
           <div className="inputs">
             {errorMessage && (
               <div className="text-red-500 mb-2">{errorMessage}</div>
