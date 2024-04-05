@@ -1,4 +1,4 @@
-
+const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZmFjNGEyMTgxNmY3NzU0MmJmMDRlYyIsImVtYWlsIjoiYW1hbEBnbWFpbC5jb20iLCJyb2xlIjpbIkNMSUVOVCJdLCJpYXQiOjE3MTIyNjU1MzIsImV4cCI6MTcxMjM1MTkzMn0.vWYmWhTncyx4DC9cYYRd9COjbYq9DJDdp07dgop0UQY';
 export const getFolders = async (searchKeyword: string, page: number, perPage: number) => {
   // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
 
@@ -8,7 +8,7 @@ export const getFolders = async (searchKeyword: string, page: number, perPage: n
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${token}`
       },
     });
     
@@ -59,7 +59,7 @@ export const getFolders = async (searchKeyword: string, page: number, perPage: n
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                // "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`
 
             },
         });
@@ -98,7 +98,7 @@ export const addFolder = async (folderName : String) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({ Name: folderName }),
     });
@@ -121,7 +121,7 @@ export const updateFolder = async (folderId : String, folderName : String) => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          // "Authorization": `Bearer ${token}`
+          "Authorization": `Bearer ${token}`
 
         },
         body: JSON.stringify({ Name: folderName }),
