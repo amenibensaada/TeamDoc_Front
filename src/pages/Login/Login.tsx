@@ -34,10 +34,12 @@ export default function Login() {
   const isFormValid = email !== "" && password !== "";
   const mutation = useMutation({
     mutationFn: (body: z.infer<typeof loginSchema>) => loginUser(body),
-    onSuccess: () => {
-      console.log("User created successfully");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onSuccess: (data: any) => {
+      console.log("User created successfully", data);
+      localStorage.setItem("token", data.token.token);
       setErrors({});
-      navigate("/");
+      navigate("/folder");
     },
   });
   useEffect(() => {
@@ -57,8 +59,11 @@ export default function Login() {
   const loginWithGoogleMutation = useMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (body: any) => loginWithGoogle(body),
-    onSuccess: () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onSuccess: (data: any) => {
       console.log("User created successfully");
+      localStorage.setItem("token", data.token.token);
+
       setErrors({});
       navigate("/folder");
     },
