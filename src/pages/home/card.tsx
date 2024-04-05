@@ -11,8 +11,8 @@ interface StaticFileCardProps {
 const StaticFileCard = ({
   title,
   description,
-  noteId,
-}: StaticFileCardProps) => {
+}: // noteId,
+StaticFileCardProps) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
 

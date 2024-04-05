@@ -54,18 +54,19 @@ const StaticFileList = () => {
         "Description des politiques et procédures internes de l'entreprise pour une utilisation conforme.",
     },
   ];
-
-  const [searchTerm, setSearchTerm] = useState(""); // État pour stocker le terme de recherche
-  const [sortByName, setSortByName] = useState(false); // État pour activer/désactiver le tri par nom
+  // const [searchTerm, setSearchTerm] = useState(""); // État pour stocker le terme de recherche
+  // const [sortByName, setSortByName] = useState(false);
+  const [searchTerm] = useState(""); // État pour stocker le terme de recherche
+  const [sortByName] = useState(false); // État pour activer/désactiver le tri par nom
   const [currentPage, setCurrentPage] = useState(1); // État pour stocker le numéro de la page actuelle
   const itemsPerPage = 5; // Nombre d'éléments par page
 
   // Fonction pour mettre à jour le terme de recherche
-  const handleSearchChange = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSearchTerm(e.target.value);
-  };
+  // const handleSearchChange = (e: {
+  //   target: { value: React.SetStateAction<string> };
+  // }) => {
+  //   setSearchTerm(e.target.value);
+  // };
 
   // // Fonction pour changer de page
   const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
@@ -111,11 +112,10 @@ const StaticFileList = () => {
               type="text"
               placeholder="     Search..."
               className="search-bar1"
-             
             />
           </div>
         </div>
-            {/* <button onClick={() => setSortByName(!sortByName)}>
+        {/* <button onClick={() => setSortByName(!sortByName)}>
               {sortByName
                 ? "Désactiver le tri par nom"
                 : "Activer le tri par nom"}
