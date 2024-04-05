@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import "./signup.css";
-
 import user_icon from "../../assets/img/person.png";
 import email_icon from "../../assets/img/email.png";
 import password_icon from "../../assets/img/password.png";
@@ -11,7 +10,6 @@ import signup_icon from "../../assets/img/aziz1.jpg";
 import logo from "../../assets/img/logo.png";
 import { signupSchema } from "../dto/createUserDto";
 import { createUser } from "@/services/userService";
-//import { createUser } from "@/services/userService";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -32,27 +30,27 @@ export default function Signup() {
   }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChangeFirstName = (e) => {
+  const handleChangeFirstName = (e: ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, firstName: "" }));
   };
 
-  const handleChangeLastName = (e) => {
+  const handleChangeLastName = (e: ChangeEvent<HTMLInputElement>) => {
     setLastName(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, lastName: "" }));
   };
 
-  const handleChangeEmail = (e) => {
+  const handleChangeEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, email: "" }));
   };
 
-  const handleChangePassword = (e) => {
+  const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, password: "" }));
   };
 
-  const handleChangeConfirmPassword = (e) => {
+  const handleChangeConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
     setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: "" }));
   };
@@ -192,7 +190,7 @@ export default function Signup() {
           <div className="submit-container">
             <div
               className={buttonClass}
-              onClick={isFormValid ? handleSubmit : null}
+              onClick={isFormValid ? handleSubmit : undefined}
               style={
                 !isFormValid && isSubmitted ? { cursor: "not-allowed" } : {}
               }>
