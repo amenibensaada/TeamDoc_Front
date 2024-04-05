@@ -49,9 +49,10 @@ export default [
     path: "/folder/static",
     element: <Static />,
   },
+
+  { path: "/contenthistory/:id", element: <HistoricalChangesPage /> },
   {
     path: "/*",
     element: <NotFound />,
   },
-  { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
 ];
