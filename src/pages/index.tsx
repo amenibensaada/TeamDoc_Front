@@ -9,6 +9,8 @@ import ForgetPassword from "./forgetPassword/forgetPassword";
 import { EditorReactContent } from "./home/EditorReactContent";
 import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 import NotFound from "./notFound/notFound";
+import Footer from "./footer/footer";
+
 export default [
   {
     path: "login/*",
@@ -37,6 +39,9 @@ export default [
     element: <Conditions />,
   },
   {
+    path:"/footer",
+    element: <Footer />
+  },{
     path: "/editor/:id",
     element: <EditorReactContent />,
   },
