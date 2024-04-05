@@ -34,10 +34,12 @@ export default function Login() {
   const isFormValid = email !== "" && password !== "";
   const mutation = useMutation({
     mutationFn: (body: z.infer<typeof loginSchema>) => loginUser(body),
-    onSuccess: () => {
-      console.log("User created successfully");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onSuccess: (data: any) => {
+      console.log("User created successfully", data);
+      localStorage.setItem("token", data.token.token);
       setErrors({});
-      navigate("/");
+      navigate("/folder");
     },
   });
   useEffect(() => {
@@ -57,10 +59,13 @@ export default function Login() {
   const loginWithGoogleMutation = useMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (body: any) => loginWithGoogle(body),
-    onSuccess: () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onSuccess: (data: any) => {
       console.log("User created successfully");
+      localStorage.setItem("token", data.token.token);
+
       setErrors({});
-      navigate("/sidebar");
+      navigate("/folder");
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
@@ -148,7 +153,10 @@ export default function Login() {
             </div>
           </div>
           <div className="forgot-password">
-            Lost password ? <span>Click here !</span>
+            Lost password ?{" "}
+            <span onClick={() => navigate("/forgetPassword")}>
+              Click here !
+            </span>
           </div>
           <div className="submit-container">
             <Link

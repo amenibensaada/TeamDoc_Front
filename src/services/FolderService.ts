@@ -1,6 +1,9 @@
-
-export const getFolders = async (searchKeyword: string, page: number, perPage: number) => {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
+export const getFolders = async (
+  searchKeyword: string,
+  page: number,
+  perPage: number
+) => {
+  const token = localStorage.getItem("token");
 
   try {
     const url = `http://localhost:3000/folder/search?keyword=${searchKeyword}&page=${page}&perPage=${perPage}`;
@@ -8,23 +11,24 @@ export const getFolders = async (searchKeyword: string, page: number, perPage: n
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
-    
+
     if (!response.ok) {
       throw new Error("Échec de la récupération des dossiers");
     }
 
     return response.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Échec de la récupération des dossiers: " + error.message);
   }
 };
 // export const getFolders = async (searchKeyword: string, page: number, perPage: number) => {
-//   console.log("Paramètres de recherche envoyés à l'API :", { searchKeyword, page, perPage }); 
+//   console.log("Paramètres de recherche envoyés à l'API :", { searchKeyword, page, perPage });
 //   const url = `http://localhost:3000/folder/search?keyword=${searchKeyword}&page=${page}&perPage=${perPage}`;
-  
+
 //   try {
 //       const response = await fetch(url, {
 //           method: "GET",
@@ -32,7 +36,7 @@ export const getFolders = async (searchKeyword: string, page: number, perPage: n
 //               "Content-Type": "application/json",
 //           },
 //       });
-      
+
 //       if (!response.ok) {
 //           throw new Error("Failed to get Folders");
 //       }
@@ -43,34 +47,26 @@ export const getFolders = async (searchKeyword: string, page: number, perPage: n
 //   }
 // };
 
+export const deleteFolder = async (folderId: string) => {
+  const token = localStorage.getItem("token");
 
-
-
-
-
- 
- 
- 
-  export const deleteFolder = async (folderId: String) => {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
-
-    try {
-        const response = await fetch(`http://localhost:3000/folder/${folderId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-
-            },
-        });
-        if (!response.ok) {
-            throw new Error("Failed to delete folder");
-        }
-        
-        return;
-    } catch (error : any) {
-        throw new Error("Failed to delete folder: " + error.message);
+  try {
+    const response = await fetch(`http://localhost:3000/folder/${folderId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Failed to delete folder");
     }
+
+    return;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw new Error("Failed to delete folder: " + error.message);
+  }
 };
 
 // export const addFolder = async (folderName: String) => {
@@ -90,15 +86,15 @@ export const getFolders = async (searchKeyword: string, page: number, perPage: n
 //       throw new Error("Failed to add folder: " + error.message);
 //   }
 // };
-export const addFolder = async (folderName : String) => {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
-  
+export const addFolder = async (folderName: string) => {
+  const token = localStorage.getItem("token");
+
   try {
     const response = await fetch("http://localhost:3000/folder/AddFolder", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ Name: folderName }),
     });
@@ -106,48 +102,52 @@ export const addFolder = async (folderName : String) => {
       throw new Error("Failed to add folder");
     }
     return response.json();
-  } catch (error : any) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     throw new Error("Failed to add folder: " + error.message);
   }
 };
 
+export const updateFolder = async (folderId: string, folderName: string) => {
+  const token = localStorage.getItem("token");
 
-  
-export const updateFolder = async (folderId : String, folderName : String) => {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MDVkOGExZGRmMmQyZmRiZWUyZGVjNSIsImVtYWlsIjoiYmJAZ21haWwuY29tIiwicm9sZSI6WyJDTElFTlQiXSwiaWF0IjoxNzEyMDA4MzU0LCJleHAiOjE3MTIwOTQ3NTR9.snRXUUa7jxDZ3YCOIJOjNjey_9DYLzx4ILGVkZwLEKo";
-
-    try {
-      const response = await fetch(`http://localhost:3000/folder/${folderId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-
-        },
-        body: JSON.stringify({ Name: folderName }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to update folder");
-      }
-      return response.json();
-    } catch (error:any) {
-      throw new Error("Failed to update folder: " + error.message);
+  try {
+    const response = await fetch(`http://localhost:3000/folder/${folderId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ Name: folderName }),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to update folder");
     }
-  };
-  
-  export const searchFolders = async (keyword : any) => {
-    try {
-      const response = await fetch(`http://localhost:3000/folder/search?keyword=${keyword}`, {
+    return response.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw new Error("Failed to update folder: " + error.message);
+  }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const searchFolders = async (keyword: any) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/folder/search?keyword=${keyword}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-      });
-      if (!response.ok) {
-        throw new Error("Failed to search folders");
       }
-      return response.json();
-    } catch (error : any) {
-      throw new Error("Failed to search folders: " + error.message);
+    );
+    if (!response.ok) {
+      throw new Error("Failed to search folders");
     }
-  };
+    return response.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw new Error("Failed to search folders: " + error.message);
+  }
+};

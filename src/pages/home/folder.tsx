@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SideBar from "../sidebar/sidebar";
-import folderIcon from "../sidebar/assets/Folder.png";
+import folderIcon from "/public/assets/Folder.png";
 import { Link } from "react-router-dom";
 import "./folder.css";
 import { useQuery } from "@tanstack/react-query";
