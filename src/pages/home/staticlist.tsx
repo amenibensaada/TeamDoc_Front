@@ -98,30 +98,30 @@ const StaticFileList = () => {
   return (
     <div className="content-container">
       <SideBar />
-      <div className="main-content">
-        <div className="headerStaticList">
-          <div className="pp">
-            <h1>Bienvenue sur TeamDoc</h1>
+      <div className="main-content2">
+        <div className="header1">
+          <div className="pp1">
             <img
-              src="/src/pages/sidebar/assets/logo.png"
+              src="/src/assets/img/logo.png"
               className={`cursor-pointer duration-500 `}
             />
           </div>
-          <div className="search-bar-container">
+          <div className="search-bar-container1">
             <input
               type="text"
-              placeholder="Rechercher..."
-              className="search-bar"
-              value={searchTerm || ""}
-              onChange={handleSearchChange}
+              placeholder="     Search..."
+              className="search-bar1"
+             
             />
-            <button onClick={() => setSortByName(!sortByName)}>
+          </div>
+        </div>
+            {/* <button onClick={() => setSortByName(!sortByName)}>
               {sortByName
                 ? "Désactiver le tri par nom"
                 : "Activer le tri par nom"}
             </button>
           </div>
-        </div>
+        </div> */}
         <div className="file-list-container">
           <div className="static-file-list">
             {currentItems.map((file) => (
