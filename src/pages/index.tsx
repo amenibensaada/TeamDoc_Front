@@ -8,6 +8,7 @@ import ResetPassword from "./forgetPassword/ResetPassword";
 import ForgetPassword from "./forgetPassword/forgetPassword";
 import { EditorReactContent } from "./home/EditorReactContent";
 import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
+import LandingPage from "./landingPage/landingPage";
 import NotFound from "./notFound/notFound";
 import Footer from "./footer/footer";
 
@@ -39,9 +40,10 @@ export default [
     element: <Conditions />,
   },
   {
-    path:"/footer",
-    element: <Footer />
-  },{
+    path: "/footer",
+    element: <Footer />,
+  },
+  {
     path: "/editor/:id",
     element: <EditorReactContent />,
   },
@@ -54,6 +56,8 @@ export default [
     path: "/folder/static",
     element: <Static />,
   },
+  { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
+  { path: "/landingPage", element: <LandingPage /> },
 
   { path: "/contenthistory/:id", element: <HistoricalChangesPage /> },
   {
