@@ -5,38 +5,45 @@
 }
 
 .static-file-card {
-  background-color: #f9f9f9; /* Couleur de fond plus claire */
+  background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre plus subtile */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 0 10px 20px;
   width: 300px;
+  display: flex; /* Align buttons horizontally */
+  flex-direction: column; /* Stack items vertically */
 }
 
 .static-file-card h3 {
   font-size: 1.3rem;
-   /* Taille de la police légèrement réduite */
-  margin-bottom: 8px; /* Marge inférieure réduite */
-  
+  margin-bottom: 8px;
 }
 
 .static-file-card p {
   font-size: 1rem;
-  color: #888; /* Couleur du texte légèrement atténuée */
+  color: #888;
+}
+
+.static-file-card .buttons-container {
+  margin-top: 30px;
+  margin-left: 50px;
+  display: flex; /* Align buttons horizontally */
+  gap: 10px;
 }
 
 .static-file-card button {
-  background-color: #4db2ff; /* Couleur de fond */
+  
+  background-color: #4db2ff;
   color: #fff;
   border: none;
   padding: 10px 20px;
   font-size: 1rem;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s; /* Animation de transition */
-  margin-top: 20px;
+  transition: background-color 0.3s;
 }
 
 .static-file-card button:hover {
-  background-color: #1e90ff; /* Couleur de survol plus sombre */
+  background-color: #1e90ff;
 }

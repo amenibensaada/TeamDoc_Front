@@ -1,4 +1,4 @@
-.content-container {
+.content-container1 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,23 +6,23 @@
 }
 
 .main-content {
-  position: sticky; /* La barre d'en-tête reste fixe lorsque vous faites défiler la page */
-
-  flex: 1; /* Pour que le contenu principal s'étende pour remplir l'espace disponible */
+  flex: 1;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* Ajoutez un défilement vertical si le contenu dépasse */
 }
 
 
 
-.search-bar {
+.search-bar1 {
   padding: 8px; /* Réduire le rembourrage */
   border-radius: 5px;
   border: 1px solid #ddd;
   width: calc(20% - 40px); /* Largeur ajustée pour correspondre au padding de 20px de chaque côté */
   font-size: 0.9rem; /* Réduire la taille de la police */
   margin-bottom: 10px; /* Réduire l'espacement en bas */
+  margin-left: 500px;
+
 
 }
 .pagination {
@@ -33,7 +33,7 @@
 
 
 
-.static-file-list {
+.static-file-list1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -41,13 +41,16 @@
 
 }
 
-.pp {
+.pp1 {
   display: flex;
   align-items: center; /* Aligne les éléments verticalement */
 }
 
-.pp img {
-  margin-right: 10px; /* Ajoute un espacement à droite de l'image */
+.pp1 img {
+  margin-right: 10px;
+  align-items: center; /* Aligne les éléments verticalement */
+  margin-left: 300px;
+  /* Ajoute un espacement à droite de l'image */
 }
 
 .headerStaticList {
@@ -62,7 +65,7 @@
 }
 
 
-.search-bar-container {
+.search-bar-container1 {
   display: flex;
   align-items: center;
   justify-content: space-between; /* Ajoute un espacement uniforme entre les éléments */

@@ -108,8 +108,8 @@ export default function Signup() {
 
   return (
     <>
-      <div className="container">
-        <div className="left-half">
+      <div className="container2">
+        <div className="left-half1">
           <div className="header">
             <img
               src={logo}
@@ -204,7 +204,7 @@ export default function Signup() {
           {/* Affichez le message d'erreur */}
           {errorMessage}
         </div>
-        <div className="right-half">
+        <div className="right-half2">
           {/* Ajoutez votre image de profil ici */}
           <img src={signup_icon} alt="Profile" />
         </div>

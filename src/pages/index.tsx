@@ -57,7 +57,7 @@ export default [
     element: <Static />,
   },
   { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
-  { path: "/landingPage", element: <LandingPage /> },
+  { path: "/", element: <LandingPage /> },
 
   { path: "/contenthistory/:id", element: <HistoricalChangesPage /> },
   {

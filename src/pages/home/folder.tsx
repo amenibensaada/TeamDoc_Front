@@ -121,9 +121,8 @@ const FoldersPage = () => {
       <div className="main-content">
         <div className="header">
           <div className="pp">
-            <h1>Welcome to TeamDoc</h1>
             <img
-              src="/src/pages/sidebar/assets/logo.png"
+              src="/src/assets/img/logo.png"
               className={`cursor-pointer duration-500 `}
             />
           </div>
