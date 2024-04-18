@@ -3,9 +3,9 @@ import EditorJs from "@natterstefan/react-editor-js";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import Header from "@editorjs/header";
-import boldIcon from "../sidebar/assets/bold.png";
-import italicIcon from "../sidebar/assets/italic.png";
-import underlineIcon from "../sidebar/assets/underline.png";
+import boldIcon from "/public/assets/bold.png";
+import italicIcon from "/public/assets/italic.png";
+import underlineIcon from "/public/assets/underline.png";
 import SideBar from "../sidebar/sidebar";
 import { useEffect, useRef, useState } from "react";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

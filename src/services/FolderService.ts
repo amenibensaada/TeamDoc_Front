@@ -151,3 +151,4 @@ export const searchFolders = async (keyword: any) => {
     throw new Error("Failed to search folders: " + error.message);
   }
 };
+

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SideBar from "../sidebar/sidebar";
-import folderIcon from "../sidebar/assets/Folder.png";
+import folderIcon from "/public/assets/Folder.png";
 import { Link } from "react-router-dom";
 import "./folder.css";
 import { useQuery } from "@tanstack/react-query";
@@ -121,9 +121,8 @@ const FoldersPage = () => {
       <div className="main-content">
         <div className="header">
           <div className="pp">
-            <h1>Welcome to TeamDoc</h1>
             <img
-              src="/src/pages/sidebar/assets/logo.png"
+              src="/src/assets/img/logo.png"
               className={`cursor-pointer duration-500 `}
             />
           </div>

@@ -1,9 +1,27 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./card.css";
 import SideBar from "../sidebar/sidebar"; // Importez le composant SideBar
 import { getDocumentsbyid } from "@/services/documentsService";
-
+interface StaticFileCardProps {
+  title: string;
+  description: string;
+  noteId: number;
+}
 const StaticFileCard = ({ title, description, noteId, onDelete, onEdit }) => {
+    
+     const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+
+  const handleLike = () => {
+    setLikes(likes + 1);
+  };
+
+  const handleDislike = () => {
+    setDislikes(dislikes + 1);
+  };
+
+    
   const handleDelete = () => {
     onDelete(noteId);
   };
@@ -91,6 +109,28 @@ const StaticFileCard = ({ title, description, noteId, onDelete, onEdit }) => {
             />
           </svg>
         </button>
+         <div className="buttons-container">
+        <img
+          src="/like.png"
+          alt="Like"
+          className="like-icon"
+          onClick={handleLike}
+          width="50px"
+          height="50px"
+          style={{ cursor: "pointer" }}
+        />
+        <span>{likes}</span>
+        <img
+          src="/dislike.png"
+          alt="Dislike"
+          className="dislike-icon"
+          onClick={handleDislike}
+          width="50px"
+          height="50px"
+          style={{ cursor: "pointer" }}
+        />
+        <span>{dislikes}</span>
+      </div>
       </div>
     </div>
   );

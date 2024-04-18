@@ -1,4 +1,4 @@
-.container{
+.container22{
     display:flex;
     margin: auto;
     margin-top: 200px;
@@ -6,7 +6,7 @@
     background:#fff ;
     padding-bottom: 30px;
 }
-.left-half {
+.left-half11 {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -14,7 +14,7 @@
     margin-left: 40px;
 }
 
-.right-half {
+.right-half1 {
     flex: 1;
     display: flex;
     justify-content: center;
@@ -27,7 +27,7 @@
     object-fit: cover; /* Ajuste la taille de l'image pour qu'elle couvre entièrement la div */
 }
 
-.header{
+.header12{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -80,24 +80,24 @@
     font-size: 19px;
 
 }
-.forgot-password{
+.forgot-password1{
     padding-left: 62px;
     margin-top: 27px;
     color: #797979;
     font-size: 18px; 
 }
 
-.forgot-password span{
+.forgot-password1 span{
     color: #4c00b4;
     cursor: pointer;
 }
-.submit-container{
+.submit-container10{
     display: flex;
     gap: 30px;
     margin: 60px auto;
 }
 
-.submit{
+.submit1{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -110,7 +110,7 @@
     font-weight: 700;
     cursor: pointer;
 }
-.submit:hover {
+.submit1:hover {
     background: #380885; /* Changez la couleur au survol */
 }
 .submit1{
@@ -129,7 +129,7 @@
 .submit1:hover {
     background: #453d53; /* Changez la couleur au survol */
 }
-.d {
+.dw {
     margin-top: 25px; /* Ajustez la marge vers le haut pour l'espacement */
     margin-left: 120px; /* Ajustez la marge vers la gauche pour l'espacement horizontal */
     align-self: flex-start; /* Alignez-le sur le côté supérieur du conteneur parent */
@@ -138,7 +138,7 @@
 }
 
 /* Style pour l'image à l'intérieur du lien */
-.d img {
+.dw img {
     width: 300px; /* Ajustez la taille de l'image */
     height: auto; /* Laissez la hauteur s'ajuster automatiquement */
     margin-right: 10px; /* Ajoutez une marge à droite pour l'espacement */

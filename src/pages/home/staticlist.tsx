@@ -7,6 +7,7 @@ import { deletedocuments, getDocuments, updatedocuments } from "@/services/docum
 import AddDocumentForm from "./AddDocumentForm";
 
 const StaticFileList = () => {
+
   const { data: documentsdata, isError, isLoading, refetch } = useQuery({
     queryKey: ["documents"],
     queryFn: () => getDocuments(),
@@ -20,6 +21,19 @@ const StaticFileList = () => {
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
+     // const [searchTerm, setSearchTerm] = useState(""); // État pour stocker le terme de recherche
+  // const [sortByName, setSortByName] = useState(false);
+<!--   const [searchTerm] = useState(""); // État pour stocker le terme de recherche
+  const [sortByName] = useState(false); // État pour activer/désactiver le tri par nom
+  const [currentPage, setCurrentPage] = useState(1); // État pour stocker le numéro de la page actuelle
+  const itemsPerPage = 5; // Nombre d'éléments par page -->
+
+  // Fonction pour mettre à jour le terme de recherche
+  // const handleSearchChange = (e: {
+  //   target: { value: React.SetStateAction<string> };
+  // }) => {
+  //   setSearchTerm(e.target.value);
+  // };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -67,22 +81,25 @@ const StaticFileList = () => {
   return (
     <div className="content-container">
       <SideBar />
+
       <div className="main-content">
         <div className="header">
           <div className="pp">
+<!--              <div className="main-content2">
+        <div className="header1">
+          <div className="pp1"> -->
             <h1>Bienvenue sur TeamDoc</h1>
+
             <img
-              src="/src/pages/sidebar/assets/logo.png"
+              src="/src/assets/img/logo.png"
               className={`cursor-pointer duration-500 `}
             />
           </div>
-          <div className="search-bar-container">
+          <div className="search-bar-container1">
             <input
               type="text"
-              placeholder="Rechercher..."
-              className="search-bar"
-              value={searchTerm || ""}
-              onChange={handleSearchChange}
+              placeholder="     Search..."
+              className="search-bar1"
             />
             <button className="button-container" onClick={() => setSortByName(!sortByName)}>
               {sortByName ? "Désactiver le tri par nom" : "Activer le tri par nom"}
@@ -123,6 +140,17 @@ const StaticFileList = () => {
 
 
         </div>
+        
+        
+<!--           </div>
+        </div> -->
+        {/* <button onClick={() => setSortByName(!sortByName)}>
+              {sortByName
+                ? "Désactiver le tri par nom"
+                : "Activer le tri par nom"}
+            </button>
+          </div>
+        </div> */}
         <div className="file-list-container">
           <div className="static-file-list">
             {currentItems.map((file) => (

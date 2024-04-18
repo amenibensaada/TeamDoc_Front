@@ -34,10 +34,12 @@ export default function Login() {
   const isFormValid = email !== "" && password !== "";
   const mutation = useMutation({
     mutationFn: (body: z.infer<typeof loginSchema>) => loginUser(body),
-    onSuccess: () => {
-      console.log("User created successfully");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onSuccess: (data: any) => {
+      console.log("User created successfully", data);
+      localStorage.setItem("token", data.token.token);
       setErrors({});
-      navigate("/");
+      navigate("/folder");
     },
   });
   useEffect(() => {
@@ -57,10 +59,13 @@ export default function Login() {
   const loginWithGoogleMutation = useMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (body: any) => loginWithGoogle(body),
-    onSuccess: () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onSuccess: (data: any) => {
       console.log("User created successfully");
+      localStorage.setItem("token", data.token.token);
+
       setErrors({});
-      navigate("/sidebar");
+      navigate("/folder");
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
@@ -108,8 +113,8 @@ export default function Login() {
 
   return (
     <>
-      <div className="container ">
-        <div className="left-half">
+      <div className="container22 ">
+        <div className="left-half11">
           <div className="header">
             <img
               src={logo}
@@ -139,18 +144,21 @@ export default function Login() {
                 onChange={handleChangePassword}
               />
             </div>
-            <div className="header">
+            <div className="header12">
               <div className="text2">OR</div>
               <div className="underline"></div>
-              <Button className="d" onClick={handleGoogleSignIn}>
+              <Button className="dw" onClick={handleGoogleSignIn}>
                 <img src={google_icon} alt="Google Icon" />
               </Button>
             </div>
           </div>
-          <div className="forgot-password">
-            Lost password ? <span>Click here !</span>
+          <div className="forgot-password1">
+            Lost password ?{" "}
+            <span onClick={() => navigate("/forgetPassword")}>
+              Click here !
+            </span>
           </div>
-          <div className="submit-container">
+          <div className="submit-container10">
             <Link
               to="/signup"
               className={`submit1 ${isFormValid ? "" : "disabled"}`}>
@@ -167,7 +175,7 @@ export default function Login() {
           </div>
           {errorMessage}
         </div>
-        <div className="right-half">
+        <div className="right-half1">
           <img src={signup_icon} alt="Profile" />
         </div>
       </div>
