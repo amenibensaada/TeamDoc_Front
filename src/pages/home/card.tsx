@@ -103,7 +103,7 @@ const StaticFileCard = ({ title, description, noteId, onDelete, onEdit }) => {
       <h3 className="text-lg font-semibold mb-2">{title}</h3>
       <p className="text-sm text-gray-600 mb-4">{description}</p>
       <div className="flex space-x-2">
-        <Link to={`/editor/65f2fbe78e9282e0755a60dd`}>
+        <Link to={`/editor/65fc3cda53182916c84a6e99`}>
           <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center">
             <svg
               className="w-5 h-5 mr-2"
