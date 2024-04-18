@@ -1,6 +1,7 @@
-const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZmFjNGEyMTgxNmY3NzU0MmJmMDRlYyIsImVtYWlsIjoiYW1hbEBnbWFpbC5jb20iLCJyb2xlIjpbIkNMSUVOVCJdLCJpYXQiOjE3MTIyNjU1MzIsImV4cCI6MTcxMjM1MTkzMn0.vWYmWhTncyx4DC9cYYRd9COjbYq9DJDdp07dgop0UQY';
 
 const url='http://localhost:3000/Document'
+const token = localStorage.getItem("token");
+
 export const getDocuments = async () => {
   const response = await fetch(`${url}`, {
     method: "GET",
