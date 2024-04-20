@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { createdocuments } from "@/services/documentsService";
 
-const AddDocumentForm = ({ onClose }) => {
+interface AddDocumentFormProps {
+  onClose: () => void;
+  onUpdate: (formData: { Title: string; contentType: string; }, documentId: string) => Promise<void>;
+
+}
+
+const AddDocumentForm: React.FC<AddDocumentFormProps> = ({ onClose }) => {
   const [formData, setFormData] = useState({ Title: "", contentType: "" });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -12,7 +18,7 @@ const AddDocumentForm = ({ onClose }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await createdocuments(formData);
@@ -50,4 +56,5 @@ const AddDocumentForm = ({ onClose }) => {
 };
 
 export default AddDocumentForm;
+
 

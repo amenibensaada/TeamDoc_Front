@@ -1,52 +1,69 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import StaticFileCard from "./card";
 import "./staticlist.css";
 import SideBar from "../sidebar/sidebar";
 import { useQuery } from "@tanstack/react-query";
-import { deletedocuments, getDocuments, updatedocuments } from "@/services/documentsService";
+import {
+  deletedocuments,
+  getDocuments,
+  updatedocuments,
+} from "@/services/documentsService";
 import AddDocumentForm from "./AddDocumentForm";
-
+interface File {
+  _id: string;
+  Title: string;
+  contentType: string;
+  // Autres propriétés
+}
 const StaticFileList = () => {
-
-  const { data: documentsdata, isError, isLoading, refetch } = useQuery({
-    queryKey: ["documents"],
-    queryFn: () => getDocuments(),
-  });
-
   const [searchTerm, setSearchTerm] = useState("");
   const [sortByName, setSortByName] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
+  // const [initialDocumentData, setInitialDocumentData] = useState<File | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const handleSearchChange = (e) => {
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const {
+    data: documentsdata,
+    isError,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["documents"],
+    queryFn: () => getDocuments(),
+  });
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching documents</div>;
 
   const filteredAndSortedFiles = documentsdata
-    .filter((file) => file.Title.toLowerCase().includes(searchTerm.toLowerCase()))
-    .sort((a, b) => (sortByName ? a.Title.localeCompare(b.Title) : 0));
+    .filter((file:File) =>
+      file.Title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a:File, b:File) => (sortByName ? a.Title.localeCompare(b.Title) : 0));
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredAndSortedFiles.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredAndSortedFiles.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [initialDocumentData, setInitialDocumentData] = useState(null);
-
-  const handleToggleForm = (initialData = null, documentId = null) => {
+  const handleToggleForm = () => {
     setShowAddForm((prev) => !prev);
-    setInitialDocumentData(initialData);
+    // setInitialDocumentData(null);
     refetch();
   };
 
-  const handleDeleteDocument = async (documentId) => {
+  const handleDeleteDocument = async (documentId: string) => {
     try {
       await deletedocuments(documentId);
       refetch();
@@ -55,7 +72,10 @@ const StaticFileList = () => {
     }
   };
 
-  const handleUpdateDocument = async (formData, documentId) => {
+  const handleUpdateDocument = async (
+    formData: { Title: string; contentType: string },
+    documentId: string
+  ) => {
     try {
       await updatedocuments(formData, documentId);
       refetch();
@@ -68,13 +88,10 @@ const StaticFileList = () => {
   return (
     <div className="content-container">
       <SideBar />
-
       <div className="main-content">
         <div className="header">
           <div className="pp">
-           
             <h1>Bienvenue sur TeamDoc</h1>
-
             <img
               src="/src/assets/img/logo.png"
               className={`cursor-pointer duration-500 `}
@@ -85,9 +102,15 @@ const StaticFileList = () => {
               type="text"
               placeholder="     Search..."
               className="search-bar1"
+              onChange={handleSearchChange}
             />
-            <button className="button-container" onClick={() => setSortByName(!sortByName)}>
-              {sortByName ? "Désactiver le tri par nom" : "Activer le tri par nom"}
+            <button
+              className="button-container"
+              onClick={() => setSortByName(!sortByName)}
+            >
+              {sortByName
+                ? "Désactiver le tri par nom"
+                : "Activer le tri par nom"}
             </button>
           </div>
         </div>
@@ -95,40 +118,35 @@ const StaticFileList = () => {
           {showAddForm && (
             <AddDocumentForm
               onClose={handleToggleForm}
-              initialDocumentData={initialDocumentData}
               onUpdate={handleUpdateDocument}
             />
           )}
-          <button 
-  onClick={handleToggleForm}
-  className="flex items-center px-4 py-2 mt-4 text-sm font-medium text-white bg-pink-700 rounded-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
->
-  <svg 
-    className="w-5 h-5 mr-2" 
-    aria-hidden="true" 
-    xmlns="http://www.w3.org/2000/svg" 
-    fill="none" 
-    viewBox="0 0 24 24" 
-    stroke="currentColor"
-  >
-    <path 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-      strokeWidth="2" 
-      d="M12 6v6m0 0v6m0-6h6m-6 0H6" 
-    />
-  </svg>
-  Add Document
-</button>
-
-
-
-
+          <button
+            onClick={handleToggleForm}
+            className="flex items-center px-4 py-2 mt-4 text-sm font-medium text-white bg-pink-700 rounded-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+          >
+            <svg
+              className="w-5 h-5 mr-2"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+            Add Document
+          </button>
         </div>
-        
+
         <div className="file-list-container">
           <div className="static-file-list">
-            {currentItems.map((file) => (
+            {currentItems.map((file:File) => (
               <StaticFileCard
                 key={file._id}
                 title={file.Title}
@@ -137,9 +155,20 @@ const StaticFileList = () => {
                 onDelete={handleDeleteDocument}
                 onEdit={() => {
                   const newTitle = prompt("Enter new title:", file.Title);
-                  const newContentType = prompt("Enter new content type:", file.contentType);
-                  if (newTitle !== null && newTitle !== "" && newContentType !== null && newContentType !== "") {
-                    handleUpdateDocument({ Title: newTitle, contentType: newContentType }, file._id);
+                  const newContentType = prompt(
+                    "Enter new content type:",
+                    file.contentType
+                  );
+                  if (
+                    newTitle !== null &&
+                    newTitle !== "" &&
+                    newContentType !== null &&
+                    newContentType !== ""
+                  ) {
+                    handleUpdateDocument(
+                      { Title: newTitle, contentType: newContentType },
+                      file._id
+                    );
                   }
                 }}
               />
@@ -147,7 +176,7 @@ const StaticFileList = () => {
           </div>
           <div className="pagination">
             {Array(Math.ceil(filteredAndSortedFiles.length / itemsPerPage))
-              .fill()
+              .fill(undefined)
               .map((_, index) => (
                 <button
                   key={index}
