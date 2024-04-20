@@ -109,7 +109,6 @@ const StaticFileCard = ({ title, description, noteId, onDelete, onEdit }) => {
             />
           </svg>
         </button>
-         <div className="buttons-container">
         <img
           src="/like.png"
           alt="Like"
@@ -132,7 +131,6 @@ const StaticFileCard = ({ title, description, noteId, onDelete, onEdit }) => {
         <span>{dislikes}</span>
       </div>
       </div>
-    </div>
   );
 };
 

@@ -46,7 +46,6 @@ export const getFolders = async (
 //       throw new Error("Failed to fetch Folders: " + error.message);
 //   }
 // };
-
 export const deleteFolder = async (folderId: string) => {
   const token = localStorage.getItem("token");
 

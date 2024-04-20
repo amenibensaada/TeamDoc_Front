@@ -4,7 +4,7 @@ import folderIcon from "/public/assets/Folder.png";
 import { Link } from "react-router-dom";
 import "./folder.css";
 import { useQuery } from "@tanstack/react-query";
-import { getFolders } from "../../services/FolderService";
+import {  getFolders } from "../../services/FolderService";
 import {
   deleteFolder,
   addFolder,
@@ -148,12 +148,18 @@ const FoldersPage = () => {
                   <img src={folderIcon} alt="Folder Icon" />
                   <h3>{folder.Name}</h3>
                   <div className="button-container">
-                    <Link to={`/folder/static`} className="btn link-button">
+                  
+                    <Link
+                      to={`/folder/static`}
+                      className="btn link-button"
+                    >
                       Open Folder
                     </Link>
+                    {/* Reste du code inchangé... */}
                     <button
                       onClick={() => handleDeleteFolder(folder._id)}
-                      className="delete-button">
+                      className="delete-button"
+                    >
                       Delete Folder
                     </button>
                     <button
@@ -170,7 +176,8 @@ const FoldersPage = () => {
                             newFolderName
                           );
                         }
-                      }}>
+                      }}
+                    >
                       Update Folder
                     </button>
                   </div>
@@ -199,5 +206,4 @@ const FoldersPage = () => {
     </div>
   );
 };
-
 export default FoldersPage;
