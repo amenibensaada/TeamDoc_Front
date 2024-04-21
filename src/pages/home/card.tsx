@@ -91,6 +91,11 @@ const StaticFileCard = ({ title, description, noteId, onDelete, onEdit }: Static
         />
         <span>{dislikes}</span>
       </div>
+
+      <br />
+      <Link to={`/editor/660fb2c526e0ac259955f98f`}>
+        <button>Ajouter une note</button>
+      </Link>
     </div>
   );
 };

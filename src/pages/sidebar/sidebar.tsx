@@ -9,7 +9,11 @@ export default function SideBar() {
     { title: "Files ", src: "folders", gap: true },
     { title: " Create folder ", src: "new-folder" },
     { title: " Create file ", src: "add-file" },
-    { title: "Last Modification", src: "history", path: "/contenthistory" },
+    {
+      title: "Last Modification",
+      src: "history",
+      path: "/contenthistory/660fb2c526e0ac259955f98f",
+    },
     { title: "add team space", src: "queue" },
     { title: "Members", src: "diversity" },
     { title: "Inbox", src: "freedom-of-speech" },
@@ -74,7 +78,6 @@ export default function SideBar() {
           ))}
         </ul>
       </div>
-      
     </div>
   );
 }
