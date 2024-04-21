@@ -54,19 +54,18 @@ const StaticFileList = () => {
         "Description des politiques et procédures internes de l'entreprise pour une utilisation conforme.",
     },
   ];
-  // const [searchTerm, setSearchTerm] = useState(""); // État pour stocker le terme de recherche
-  // const [sortByName, setSortByName] = useState(false);
-  const [searchTerm] = useState(""); // État pour stocker le terme de recherche
-  const [sortByName] = useState(false); // État pour activer/désactiver le tri par nom
+  const [searchTerm, setSearchTerm] = useState(""); // État pour stocker le terme de recherche
+  const [sortByName, setSortByName] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1); // État pour stocker le numéro de la page actuelle
   const itemsPerPage = 5; // Nombre d'éléments par page
 
   // Fonction pour mettre à jour le terme de recherche
-  // const handleSearchChange = (e: {
-  //   target: { value: React.SetStateAction<string> };
-  // }) => {
-  //   setSearchTerm(e.target.value);
-  // };
+  const handleSearchChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setSearchTerm(e.target.value);
+  };
 
   // // Fonction pour changer de page
   const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
@@ -103,7 +102,7 @@ const StaticFileList = () => {
         <div className="header1">
           <div className="pp1">
             <img
-              src="/src/assets/img/logo.png"
+              src="/assets/logo.png"
               className={`cursor-pointer duration-500 `}
             />
           </div>
@@ -112,7 +111,16 @@ const StaticFileList = () => {
               type="text"
               placeholder="     Search..."
               className="search-bar1"
+              value={searchTerm || ""}
+              onChange={handleSearchChange}
             />
+            <button
+              className=" bg-white"
+              onClick={() => setSortByName(!sortByName)}>
+              {sortByName
+                ? "Désactiver le tri par nom"
+                : "Activer le tri par nom"}
+            </button>
           </div>
         </div>
         {/* <button onClick={() => setSortByName(!sortByName)}>

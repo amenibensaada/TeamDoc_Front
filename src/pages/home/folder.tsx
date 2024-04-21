@@ -122,7 +122,7 @@ const FoldersPage = () => {
         <div className="header">
           <div className="pp">
             <img
-              src="/src/assets/img/logo.png"
+              src="/assets/logo.png"
               className={`cursor-pointer duration-500 `}
             />
           </div>
