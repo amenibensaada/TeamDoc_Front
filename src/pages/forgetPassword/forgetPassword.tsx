@@ -46,7 +46,9 @@ export default function ResetPassword() {
           <div className="text">Forget Password</div>
           <div className="underline"></div>
         </div>
-        <div className="frame"> {/* Ajoutez la classe frame ici */}
+        <div className="frame">
+          {" "}
+          {/* Ajoutez la classe frame ici */}
           <div className="inputs">
             {errorMessage && (
               <div className="text-red-500 mb-2">{errorMessage}</div>
@@ -91,7 +93,11 @@ export default function ResetPassword() {
         </div>
       </div>
       <div className="right-half">
-        <img src="/Fo.svg" alt="Password Reset" className="password-image" />
+        <img
+          src="/assets/Fo.svg"
+          alt="Password Reset"
+          className="password-image"
+        />
       </div>
     </div>
   );

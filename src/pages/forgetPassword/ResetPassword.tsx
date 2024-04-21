@@ -145,7 +145,11 @@ export default function ResetPassword() {
         </div>
       </div>
       <div className="right-half">
-        <img src="/girl.svg" alt="Password Reset" className="password-image" />
+        <img
+          src="/assets/girl.svg"
+          alt="Password Reset"
+          className="password-image"
+        />
       </div>
     </div>
   );
