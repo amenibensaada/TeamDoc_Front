@@ -93,7 +93,7 @@ const StaticFileList = () => {
           <div className="pp">
             <h1>Bienvenue sur TeamDoc</h1>
             <img
-              src="/src/assets/img/logo.png"
+              src="/assets/logo.png"
               className={`cursor-pointer duration-500 `}
             />
           </div>
