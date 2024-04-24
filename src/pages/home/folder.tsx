@@ -4,7 +4,7 @@ import folderIcon from "/public/assets/Folder.png";
 import { Link } from "react-router-dom";
 import "./folder.css";
 import { useQuery } from "@tanstack/react-query";
-import {  getFolders } from "../../services/FolderService";
+import { getFolderbyid, getFolders } from "../../services/FolderService";
 import {
   deleteFolder,
   addFolder,
@@ -114,6 +114,26 @@ const FoldersPage = () => {
       refetch();
     }
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null); // Ajoutez le type string | null ici
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [folder, setFolder] = useState<unknown>(null);
+  const handleFolderClick = async (folderId: string) => {
+    setSelectedFolderId(folderId);
+    console.log(folderId);
+    try {
+      const folderData = await getFolderbyid(folderId);
+      setFolder(folderData);
+      console.log(folderData);
+    } catch (error) {
+     
+        console.error(
+          "Échec de la récupération des données du dossier:",
+          error instanceof Error ? error.message : "Erreur inconnue"
+        );
+    
+    }
+  };
 
   return (
     <div className="content-container">
@@ -148,13 +168,22 @@ const FoldersPage = () => {
                   <img src={folderIcon} alt="Folder Icon" />
                   <h3>{folder.Name}</h3>
                   <div className="button-container">
-                  
-                    <Link
+                    {/* <Link
                       to={`/folder/static`}
                       className="btn link-button"
                     >
                       Open Folder
+                    </Link> */}
+
+                    <Link
+                       to={`/folder/static/${folder._id}`}
+                      //to={`/folder/static`}
+                      className="btn link-button"
+                      onClick={() => handleFolderClick(folder._id)}
+                    >
+                      Open Folder
                     </Link>
+
                     {/* Reste du code inchangé... */}
                     <button
                       onClick={() => handleDeleteFolder(folder._id)}
