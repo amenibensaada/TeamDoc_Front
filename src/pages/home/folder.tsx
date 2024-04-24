@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import SideBar from "../sidebar/sidebar";
 import folderIcon from "/public/assets/Folder.png";
@@ -114,9 +115,8 @@ const FoldersPage = () => {
       refetch();
     }
   };
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null); // Ajoutez le type string | null ici
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  
+  const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
   const [folder, setFolder] = useState<unknown>(null);
   const handleFolderClick = async (folderId: string) => {
     setSelectedFolderId(folderId);
