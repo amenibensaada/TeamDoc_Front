@@ -116,8 +116,11 @@ const FoldersPage = () => {
     }
   };
   
-  const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
-  const [folder, setFolder] = useState<unknown>(null);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const [folder, setFolder] = useState<unknown>(null);
+
   const handleFolderClick = async (folderId: string) => {
     setSelectedFolderId(folderId);
     console.log(folderId);
