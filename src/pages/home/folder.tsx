@@ -137,7 +137,10 @@ const [folder, setFolder] = useState<unknown>(null);
     
     }
   };
-
+  useEffect(() => {
+    console.log("Selected folder ID:", selectedFolderId);
+    console.log("Folder:", folder);
+  }, [selectedFolderId, folder]);
   return (
     <div className="content-container">
       <SideBar />
