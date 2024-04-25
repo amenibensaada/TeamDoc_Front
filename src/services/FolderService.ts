@@ -63,7 +63,6 @@ export const deleteFolder = async (folderId: string) => {
     }
 
     return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Failed to delete folder: " + error.message);
   }
@@ -102,7 +101,6 @@ export const addFolder = async (folderName: string) => {
       throw new Error("Failed to add folder");
     }
     return response.json();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Failed to add folder: " + error.message);
   }
@@ -124,13 +122,11 @@ export const updateFolder = async (folderId: string, folderName: string) => {
       throw new Error("Failed to update folder");
     }
     return response.json();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Failed to update folder: " + error.message);
   }
 };
 
-// Dans votre service de gestion des dossiers (FolderService)
 export const shareFolder = async (folderId: string, userIdToShareWith: string): Promise<boolean> => {
   const token = localStorage.getItem('token');
   const url = `http://localhost:3000/folder/${folderId}/share`;
@@ -150,16 +146,15 @@ export const shareFolder = async (folderId: string, userIdToShareWith: string): 
       throw new Error('Failed to share folder');
     }
 
-    return true; // Indiquer le succès de l'opération
+    return true; 
   } catch (error:any) {
     console.error('Failed to share folder:', error.message);
-    return false; // Indiquer l'échec de l'opération
+    return false; 
   }
 };
 
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const searchFolders = async (keyword: any) => {
   try {
     const response = await fetch(
@@ -175,7 +170,6 @@ export const searchFolders = async (keyword: any) => {
       throw new Error("Failed to search folders");
     }
     return response.json();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error("Failed to search folders: " + error.message);
   }
