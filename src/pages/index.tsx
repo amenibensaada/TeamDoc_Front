@@ -11,6 +11,7 @@ import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 import LandingPage from "./landingPage/landingPage";
 import NotFound from "./notFound/notFound";
 import Footer from "./footer/footer";
+import Chat from "./ai/Chat";
 
 export default [
   {
@@ -60,6 +61,10 @@ export default [
   { path: "/", element: <LandingPage /> },
 
   { path: "/contenthistory/:id", element: <HistoricalChangesPage /> },
+  {
+    path: "/chat",
+    element: <Chat />,
+  },
   {
     path: "/*",
     element: <NotFound />,
