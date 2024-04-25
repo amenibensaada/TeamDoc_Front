@@ -11,6 +11,7 @@ import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 import LandingPage from "./landingPage/landingPage";
 import NotFound from "./notFound/notFound";
 import Footer from "./footer/footer";
+import SharedFoldersPage from "./home/foldershared";
 
 export default [
   {
@@ -63,5 +64,9 @@ export default [
   {
     path: "/*",
     element: <NotFound />,
+  },
+  {
+    path: "/Sharedfolders",
+    element: <SharedFoldersPage />,
   },
 ];

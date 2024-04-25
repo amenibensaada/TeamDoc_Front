@@ -130,6 +130,35 @@ export const updateFolder = async (folderId: string, folderName: string) => {
   }
 };
 
+// Dans votre service de gestion des dossiers (FolderService)
+export const shareFolder = async (folderId: string, userIdToShareWith: string): Promise<boolean> => {
+  const token = localStorage.getItem('token');
+  const url = `http://localhost:3000/folder/${folderId}/share`;
+  const requestBody = { userIdToShareWith };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to share folder');
+    }
+
+    return true; // Indiquer le succès de l'opération
+  } catch (error:any) {
+    console.error('Failed to share folder:', error.message);
+    return false; // Indiquer l'échec de l'opération
+  }
+};
+
+
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const searchFolders = async (keyword: any) => {
   try {
@@ -150,4 +179,58 @@ export const searchFolders = async (keyword: any) => {
   } catch (error: any) {
     throw new Error("Failed to search folders: " + error.message);
   }
+  
 };
+export const getSharedFolders = async () => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const url = "http://localhost:3000/folder/shared"; // L'URL pour récupérer les dossiers partagés
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Échec de la récupération des dossiers partagés");
+    }
+
+    return response.json();
+  } catch (error: any) {
+    throw new Error("Échec de la récupération des dossiers partagés: " + error.message);
+  }
+
+  
+};
+
+export const ignoreAccess = async (folderId: string, userIdToIgnore: string): Promise<boolean> => {
+  const token = localStorage.getItem('token');
+  const url = `http://localhost:3000/folder/${folderId}/ignore-access/${userIdToIgnore}`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE', 
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to ignore access');
+    }
+
+    return true; 
+  } catch (error:any) {
+    console.error('Failed to ignore access:', error.message);
+    return false; 
+  }
+};
+
+
+
+
+

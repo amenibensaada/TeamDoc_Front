@@ -51,7 +51,7 @@ const StaticFileCard = ({
         <span>{dislikes}</span>
       </div>
       <br />
-      <Link to={`/editor/65f2fbe78e9282e0755a60dd`}>
+      <Link to={`/editor/662003fd43e22a8021893d18`}>
         <button>Ajouter une note</button>
       </Link>
     </div>
