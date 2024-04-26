@@ -141,6 +141,24 @@ const [folder, setFolder] = useState<unknown>(null);
     console.log("Selected folder ID:", selectedFolderId);
     console.log("Folder:", folder);
   }, [selectedFolderId, folder]);
+
+//   const handleRemoveAllFolders = async () => {
+//   try {
+//     // Appelez la fonction removeFolders pour supprimer tous les dossiers
+//     await removeFolders();
+//     console.log("Tous les dossiers ont été supprimés avec succès");
+//     // Rechargez les données des dossiers après la suppression
+//     refetch();
+//   } catch (error) {
+//     console.error(
+//       "Une erreur s'est produite lors de la suppression de tous les dossiers:",
+//       error instanceof Error ? error.message : "Erreur inconnue"
+//     );
+//   }
+// };
+
+
+
   return (
     <div className="content-container">
       <SideBar />
@@ -162,6 +180,8 @@ const [folder, setFolder] = useState<unknown>(null);
             />
           </div>
         </div>
+        {/* <button onClick={handleRemoveAllFolders}>Remove All Folders</button> */}
+
         <div className="file-list-container">
           <div className="static-file-list">
             {isLoading && <div>Loading...</div>}
