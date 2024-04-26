@@ -8,11 +8,12 @@ import italicIcon from "/public/assets/italic.png";
 import underlineIcon from "/public/assets/underline.png";
 import SideBar from "../sidebar/sidebar";
 import { useEffect, useRef, useState } from "react";
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import ImageTool from "@editorjs/image";
-
 import "./editcontent.css";
+
 
 export const EditorReactContent = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -102,6 +103,18 @@ export const EditorReactContent = () => {
   const handleFontSizeDecrease = () => {
     document.execCommand("fontSize", false, "3");
   };
+const handleImageUpload = async (file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "hanaromdhani");
+  const response = await fetch("https://api.cloudinary.com/v1_1/dwi9bhke9/upload", {
+    method: "POST",
+    body: formData,
+  });
+  const data = await response.json();
+
+  return { success: 1, file: { url: data.secure_url } };
+};
 
   return (
     <div className="editor-container">
@@ -109,7 +122,7 @@ export const EditorReactContent = () => {
       <button type="button" onClick={onSave}>
         Save
       </button>
-
+  
       {content && (
         <EditorJs
           data={content}
@@ -119,10 +132,43 @@ export const EditorReactContent = () => {
           reinitializeOnPropsChange={true}
           tools={{
             header: Header,
-            image: ImageTool,
+            image: {
+              class: ImageTool,
+              config: {
+                  uploader: {
+                      uploadByFile(file: File) {
+                          return handleImageUpload(file);
+                      }
+                  },
+                  actions: {
+                    delete: true, 
+                  },
+              }
+          },
+          
+            // embed: {
+            //   class: Embed,
+            //   inlineToolbar:false,
+            //   config: {
+            //     services: {
+            //       youtube: true,
+            //       coub: true
+            //     }
+            //   }
+            // },
+            // video: {
+            //   class: VideoTool,
+            //   config: {
+            //     uploader: {
+            //       uploadByFile(file: File) {
+            //         return handleVideoUpload(file);
+            //       },
+            //     },
+            //   },
+            // }
           }}
           editorInstance={(editorInstance) => {
-            editor.current = editorInstance;
+            editor.current = editorInstance
           }}>
           <div id="custom-editor-container" />
         </EditorJs>
