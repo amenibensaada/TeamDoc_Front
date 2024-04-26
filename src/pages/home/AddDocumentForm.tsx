@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { createdocuments } from "@/services/documentsService";
+import {  createdocumentsByfolder } from "@/services/documentsService";
+import { useParams } from "react-router-dom";
 
 interface AddDocumentFormProps {
   onClose: () => void;
   onUpdate: (formData: { Title: string; contentType: string; }, documentId: string) => Promise<void>;
-
 }
 
-const AddDocumentForm: React.FC<AddDocumentFormProps> = ({ onClose }) => {
+const AddDocumentForm: React.FC<AddDocumentFormProps > = ({ onClose  }) => {
   const [formData, setFormData] = useState({ Title: "", contentType: "" });
+  const { folderId } = useParams<{ folderId: string }>(); 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -18,16 +19,37 @@ const AddDocumentForm: React.FC<AddDocumentFormProps> = ({ onClose }) => {
     }));
   };
 
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   try {
+  //     await createdocuments(formData);
+  //     setFormData({ Title: "", contentType: "" });
+  //     onClose();
+  //   } catch (error) {
+  //     console.error("Error adding document:", error);
+  //   }
+  // };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await createdocuments(formData);
-      setFormData({ Title: "", contentType: "" });
-      onClose();
+      if (folderId) {
+        console.log(folderId);
+
+        const data = await createdocumentsByfolder(folderId, formData);
+        console.log(data);
+
+        setFormData({ Title: "", contentType: "" });
+        onClose();
+        console.log(data);
+      } else {
+        console.error("folderId is undefined");
+      }
     } catch (error) {
       console.error("Error adding document:", error);
     }
-  };
+};
+
+
 
   return (
     <div className="add-document-form">

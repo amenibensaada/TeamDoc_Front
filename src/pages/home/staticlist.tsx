@@ -5,10 +5,11 @@ import SideBar from "../sidebar/sidebar";
 import { useQuery } from "@tanstack/react-query";
 import {
   deletedocuments,
-  getDocuments,
+  getDocumentsbyFolderId,
   updatedocuments,
 } from "@/services/documentsService";
 import AddDocumentForm from "./AddDocumentForm";
+import { useParams } from "react-router-dom";
 interface File {
   _id: string;
   Title: string;
@@ -19,8 +20,9 @@ const StaticFileList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortByName, setSortByName] = useState(false);
   const [showAddForm, setShowAddForm] = useState(false);
-  // const [initialDocumentData, setInitialDocumentData] = useState<File | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const { folderId } = useParams<{ folderId: string }>();
+
   const itemsPerPage = 5;
 
   const handlePageChange = (pageNumber: number) => {
@@ -31,6 +33,15 @@ const StaticFileList = () => {
     setSearchTerm(e.target.value);
   };
 
+  // const {
+  //   data: documentsdata,
+  //   isError,
+  //   isLoading,
+  //   refetch,
+  // } = useQuery({
+  //   queryKey: ["documents"],
+  //   queryFn: () => getDocuments(),
+  // });
   const {
     data: documentsdata,
     isError,
@@ -38,8 +49,17 @@ const StaticFileList = () => {
     refetch,
   } = useQuery({
     queryKey: ["documents"],
-    queryFn: () => getDocuments(),
+    queryFn: async () => {
+      if (folderId) {
+        const documents = await getDocumentsbyFolderId(folderId);
+        return documents;
+      } else {
+        return { message: "Aucun document trouvé car aucun ID de dossier n'est spécifié." };
+
+      }
+    },
   });
+  
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching documents</div>;
@@ -118,8 +138,7 @@ const StaticFileList = () => {
           {showAddForm && (
             <AddDocumentForm
               onClose={handleToggleForm}
-              onUpdate={handleUpdateDocument}
-            />
+              onUpdate={handleUpdateDocument}/>
           )}
           <button
             onClick={handleToggleForm}

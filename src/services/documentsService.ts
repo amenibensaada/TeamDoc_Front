@@ -16,7 +16,21 @@ export const getDocuments = async () => {
   }
   return response.json();
 };
+//folderid
+export const getDocumentsbyFolderId = async (id: string) => {
+  const response = await fetch(`${url}/documents/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
 
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to get Documents by id ");
+  }
+  return response.json();
+};
 export const getDocumentsbyid = async (id: string) => {
   const response = await fetch(`${url}/${id}`, {
     method: "GET",
@@ -31,6 +45,7 @@ export const getDocumentsbyid = async (id: string) => {
   }
   return response.json();
 };
+
 
 export const createdocuments = async (createDocumentsDto: any) => {
   const response = await fetch(`${url}`, {
@@ -47,6 +62,25 @@ export const createdocuments = async (createDocumentsDto: any) => {
   }
   return response.json();
 };
+export const createdocumentsByfolder = async (folderId: string, createDocumentsDto: unknown) => {
+  if (typeof createDocumentsDto === 'object' && createDocumentsDto !== null) {
+    const response = await fetch(`${url}/${folderId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ ...createDocumentsDto, folderId }), 
+    });
+    if (!response.ok) {
+      throw new Error("Failed to create documents");
+    }
+    return response.json();
+  } else {
+    throw new Error("createDocumentsDto is not an object");
+  }
+};
+
 export const createdocumentsfoldid = async (createDocumentsDto: any, idfol:string) => {
   const response = await fetch(`${url}/createavecaffectation/${idfol}`, {
     method: "POST",
@@ -62,7 +96,7 @@ export const createdocumentsfoldid = async (createDocumentsDto: any, idfol:strin
   return response.json();
 };
 
-export const updatedocuments = async (createDocumentsDto: any, id:string) => {
+export const updatedocuments = async (createDocumentsDto: unknown, id:string) => {
   const response = await fetch(`${url}/${id}`, {
     method: "Put",
     headers: {

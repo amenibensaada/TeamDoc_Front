@@ -14,7 +14,6 @@ interface StaticFileCardProps {
 const StaticFileCard = ({ title, description, noteId, onDelete, onEdit }: StaticFileCardProps) => {
   const [likes, setLikes] = useState(0);
   const [dislikes, setDislikes] = useState(0);
-
   const handleLike = () => {
     setLikes(likes + 1);
   };
