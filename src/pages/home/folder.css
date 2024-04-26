@@ -168,6 +168,8 @@ html, body, #root {
   border: 1px solid #ccc; /* Bordure */
   font-size: 16px; /* Taille de la police */
   transition: border-color 0.3s ease; /* Animation de transition */
+  background-color: white;
+
 }
 
 /* Style au survol de la barre de recherche */
@@ -233,4 +235,7 @@ html, body, #root {
 /* Style au survol des boutons dans les dossiers, sauf "Partager" et "Open Folder" */
 .folder button:not(.share-button):not(.link-button):hover {
   background-color: #50008f; /* Violet foncé au survol */
+}
+.custom-select {
+  background-color: white;
 }

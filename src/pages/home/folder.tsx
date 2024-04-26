@@ -273,6 +273,8 @@ const handleIgnoreAccess = async (folderId: string) => {
                   <img src={folderIcon} alt="Folder Icon" />
                   <h3>{folder.Name}</h3>
                   <select
+                    className="custom-select"
+
           value={selectedUserIds[folder._id] || ""}
           onChange={(e) => handleUserSelectionChange(folder._id, e.target.value)}>
           <option value="">Select a user</option>
@@ -310,6 +312,8 @@ const handleIgnoreAccess = async (folderId: string) => {
                       Update Folder
                     </button>
                     <select
+           className="custom-select"
+
   value={selectedUserIds[folder._id] || ""}
   onChange={(e) => {
     handleUserSelectionChange(folder._id, e.target.value); 
