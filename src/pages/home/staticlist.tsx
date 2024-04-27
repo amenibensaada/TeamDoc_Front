@@ -1,93 +1,75 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import StaticFileCard from "./card";
 import "./staticlist.css";
-import SideBar from "../sidebar/sidebar"; // Importez le composant SideBar
-
+import SideBar from "../sidebar/sidebar";
+import { useQuery } from "@tanstack/react-query";
+import {
+  deletedocuments,
+  getDocumentsbyFolderId,
+  updatedocuments,
+} from "@/services/documentsService";
+import AddDocumentForm from "./AddDocumentForm";
+import { useParams } from "react-router-dom";
+interface File {
+  _id: string;
+  Title: string;
+  contentType: string;
+  // Autres propriétés
+}
 const StaticFileList = () => {
-  const staticFiles = [
-    {
-      id: 1,
-      title: "Plan marketing",
-      description:
-        "Analyse du marché cible et stratégies de promotion pour lancer le produit X.",
-    },
-    {
-      id: 2,
-      title: "Feuille de route du projet",
-      description:
-        "Détail de toutes les étapes et des délais pour la réalisation du projet SmartGym.",
-    },
-    {
-      id: 3,
-      title: "Rapport de recherche",
-      description:
-        "Étude approfondie sur les effets du café sur la santé, basée sur des recherches récentes.",
-    },
-    {
-      id: 4,
-      title: "Guide de dépannage",
-      description:
-        "Solutions aux problèmes courants rencontrés dans le système X, avec des instructions détaillées.",
-    },
-    {
-      id: 5,
-      title: "Document de spécifications",
-      description:
-        "Spécifications techniques et fonctionnelles pour le développement du produit Y.",
-    },
-    {
-      id: 6,
-      title: "Documentation API",
-      description:
-        "Documentation complète sur les API disponibles pour la navigation dans l'application.",
-    },
-    {
-      id: 7,
-      title: "Présentation du projet",
-      description:
-        "Diapositives de présentation détaillant le projet, ses objectifs, ses avantages et son impact prévu.",
-    },
-    {
-      id: 8,
-      title: "Politiques et procédures",
-      description:
-        "Description des politiques et procédures internes de l'entreprise pour une utilisation conforme.",
-    },
-  ];
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortByName, setSortByName] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { folderId } = useParams<{ folderId: string }>();
 
-  const [searchTerm, setSearchTerm] = useState(""); // État pour stocker le terme de recherche
-  const [sortByName, setSortByName] = useState(false); // État pour activer/désactiver le tri par nom
-  const [currentPage, setCurrentPage] = useState(1); // État pour stocker le numéro de la page actuelle
-  const itemsPerPage = 5; // Nombre d'éléments par page
+  const itemsPerPage = 5;
 
-  // Fonction pour mettre à jour le terme de recherche
-  const handleSearchChange = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSearchTerm(e.target.value);
-  };
-
-  // // Fonction pour changer de page
-  const handlePageChange = (pageNumber: React.SetStateAction<number>) => {
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
-  // Fonction pour trier les fichiers statiques par titre
-  // const sortFilesByName = () => {
-  //   const sortedFiles = [...staticFiles].sort((a, b) =>
-  //     a.title.localeCompare(b.title)
-  //   );
-  //   return sortedFiles;
-  // };
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
 
-  // Filtrer et trier les fichiers statiques en fonction du terme de recherche et du tri par nom
-  const filteredAndSortedFiles = staticFiles
-    .filter((file) =>
-      file.title.toLowerCase().includes(searchTerm.toLowerCase())
+  // const {
+  //   data: documentsdata,
+  //   isError,
+  //   isLoading,
+  //   refetch,
+  // } = useQuery({
+  //   queryKey: ["documents"],
+  //   queryFn: () => getDocuments(),
+  // });
+  const {
+    data: documentsdata,
+    isError,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["documents"],
+    queryFn: async () => {
+      if (folderId) {
+        const documents = await getDocumentsbyFolderId(folderId);
+        return documents;
+      } else {
+        return { message: "Aucun document trouvé car aucun ID de dossier n'est spécifié." };
+
+      }
+    },
+  });
+  
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching documents</div>;
+
+  const filteredAndSortedFiles = documentsdata
+    .filter((file:File) =>
+      file.Title.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    .sort((a, b) => (sortByName ? a.title.localeCompare(b.title) : 0));
+    .sort((a:File, b:File) => (sortByName ? a.Title.localeCompare(b.Title) : 0));
 
-  // Index du premier élément de la page actuelle
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredAndSortedFiles.slice(
@@ -95,14 +77,43 @@ const StaticFileList = () => {
     indexOfLastItem
   );
 
+  const handleToggleForm = () => {
+    setShowAddForm((prev) => !prev);
+    // setInitialDocumentData(null);
+    refetch();
+  };
+
+  const handleDeleteDocument = async (documentId: string) => {
+    try {
+      await deletedocuments(documentId);
+      refetch();
+    } catch (error) {
+      console.error("Error deleting document:", error);
+    }
+  };
+
+  const handleUpdateDocument = async (
+    formData: { Title: string; contentType: string },
+    documentId: string
+  ) => {
+    try {
+      await updatedocuments(formData, documentId);
+      refetch();
+      alert("Document updated successfully!");
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
+  };
+
   return (
     <div className="content-container">
       <SideBar />
-      <div className="main-content2">
-        <div className="header1">
-          <div className="pp1">
+      <div className="main-content">
+        <div className="header">
+          <div className="pp">
+            <h1>Bienvenue sur TeamDoc</h1>
             <img
-              src="/src/assets/img/logo.png"
+              src="/assets/logo.png"
               className={`cursor-pointer duration-500 `}
             />
           </div>
@@ -111,36 +122,86 @@ const StaticFileList = () => {
               type="text"
               placeholder="     Search..."
               className="search-bar1"
-             
+              onChange={handleSearchChange}
             />
-          </div>
-        </div>
-            {/* <button onClick={() => setSortByName(!sortByName)}>
+            <button
+              className="button-container"
+              onClick={() => setSortByName(!sortByName)}
+            >
               {sortByName
                 ? "Désactiver le tri par nom"
                 : "Activer le tri par nom"}
             </button>
           </div>
-        </div> */}
+        </div>
+        <div>
+          {showAddForm && (
+            <AddDocumentForm
+              onClose={handleToggleForm}
+              onUpdate={handleUpdateDocument}/>
+          )}
+          <button
+            onClick={handleToggleForm}
+            className="flex items-center px-4 py-2 mt-4 text-sm font-medium text-white bg-pink-700 rounded-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
+          >
+            <svg
+              className="w-5 h-5 mr-2"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+            Add Document
+          </button>
+        </div>
+
         <div className="file-list-container">
           <div className="static-file-list">
-            {currentItems.map((file) => (
+            {currentItems.map((file:File) => (
               <StaticFileCard
-                key={file.id}
-                title={file.title}
-                description={file.description}
-                noteId={file.id}
+                key={file._id}
+                title={file.Title}
+                description={file.contentType}
+                noteId={file._id}
+                onDelete={handleDeleteDocument}
+                onEdit={() => {
+                  const newTitle = prompt("Enter new title:", file.Title);
+                  const newContentType = prompt(
+                    "Enter new content type:",
+                    file.contentType
+                  );
+                  if (
+                    newTitle !== null &&
+                    newTitle !== "" &&
+                    newContentType !== null &&
+                    newContentType !== ""
+                  ) {
+                    handleUpdateDocument(
+                      { Title: newTitle, contentType: newContentType },
+                      file._id
+                    );
+                  }
+                }}
               />
             ))}
           </div>
           <div className="pagination">
             {Array(Math.ceil(filteredAndSortedFiles.length / itemsPerPage))
-              // .fill()
+              .fill(undefined)
               .map((_, index) => (
                 <button
                   key={index}
                   className="button"
-                  onClick={() => handlePageChange(index + 1)}>
+                  onClick={() => handlePageChange(index + 1)}
+                >
                   {index + 1}
                 </button>
               ))}

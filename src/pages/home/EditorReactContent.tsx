@@ -1,29 +1,30 @@
-  import { createContent, getContent } from "@/services/ContentService";
-  import EditorJs from "@natterstefan/react-editor-js";
-  import { useMutation, useQuery } from "@tanstack/react-query";
-  import { useParams } from "react-router-dom";
-  import Header from "@editorjs/header";
-  import boldIcon from "/public/assets/bold.png";
-  import italicIcon from "/public/assets/italic.png";
-  import underlineIcon from "/public/assets/underline.png";
-  import SideBar from "../sidebar/sidebar";
-  import { useEffect, useRef, useState } from "react";
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  import ImageTool from "@editorjs/image";
+import { createContent, getContent } from "@/services/ContentService";
+import EditorJs from "@natterstefan/react-editor-js";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import Header from "@editorjs/header";
+import boldIcon from "/public/assets/bold.png";
+import italicIcon from "/public/assets/italic.png";
+import underlineIcon from "/public/assets/underline.png";
+import SideBar from "../sidebar/sidebar";
+import { useEffect, useRef, useState } from "react";
 
-  import "./editcontent.css";
-  
-  export const EditorReactContent = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const editor = useRef<any>();
-    const { id } = useParams();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [content, setContent] = useState<any>();
-    const query = useQuery({
-      queryKey: ["editor", id],
-      queryFn: () => getContent(id || ""),
-    });
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import ImageTool from "@editorjs/image";
+import "./editcontent.css";
+
+
+export const EditorReactContent = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const editor = useRef<any>();
+  const { id } = useParams();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [content, setContent] = useState<any>();
+  const query = useQuery({
+    queryKey: ["editor", id],
+    queryFn: () => getContent(id || ""),
+  });
 
     useEffect(() => {
       if (query.data?.content) {
@@ -99,19 +100,31 @@
       document.execCommand("fontSize", false, "6");
     };
 
-    const handleFontSizeDecrease = () => {
-      document.execCommand("fontSize", false, "3");
-    };
+  const handleFontSizeDecrease = () => {
+    document.execCommand("fontSize", false, "3");
+  };
+const handleImageUpload = async (file: File) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "hanaromdhani");
+  const response = await fetch("https://api.cloudinary.com/v1_1/dwi9bhke9/upload", {
+    method: "POST",
+    body: formData,
+  });
+  const data = await response.json();
 
-    return (
-      <div className="editor-container">
-        <SideBar />
-        <button type="button" onClick={onSave}>
-          Save
-        </button>
+  return { success: 1, file: { url: data.secure_url } };
+};
 
-        {content && (
-          <EditorJs
+  return (
+    <div className="editor-container">
+      <SideBar />
+      <button type="button" onClick={onSave}>
+        Save
+      </button>
+  
+      {content && (
+        <EditorJs
           data={content}
           holder="custom-editor-container"
           onReady={onReady}
@@ -119,10 +132,43 @@
           reinitializeOnPropsChange={true}
           tools={{
             header: Header,
-            image: ImageTool, // Ajoutez ImageTool à la liste des outils
+            image: {
+              class: ImageTool,
+              config: {
+                  uploader: {
+                      uploadByFile(file: File) {
+                          return handleImageUpload(file);
+                      }
+                  },
+                  actions: {
+                    delete: true, 
+                  },
+              }
+          },
+          
+            // embed: {
+            //   class: Embed,
+            //   inlineToolbar:false,
+            //   config: {
+            //     services: {
+            //       youtube: true,
+            //       coub: true
+            //     }
+            //   }
+            // },
+            // video: {
+            //   class: VideoTool,
+            //   config: {
+            //     uploader: {
+            //       uploadByFile(file: File) {
+            //         return handleVideoUpload(file);
+            //       },
+            //     },
+            //   },
+            // }
           }}
           editorInstance={(editorInstance) => {
-            editor.current = editorInstance;
+            editor.current = editorInstance
           }}>
           <div id="custom-editor-container" />
         </EditorJs>
