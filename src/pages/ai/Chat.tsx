@@ -1,18 +1,6 @@
 import { askQuestion } from "@/services/OpenAIService";
 import { useState } from "react";
 
-// import React, { useState } from "react";
-
-// function Chat() {
-//   const [question, setQuestion] = useState("");
-//   const [answer, setAnswer] = useState("");
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const response = await askQuestion(question);
-//     setAnswer(response);
-//   };
-
 function Chat() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -26,7 +14,7 @@ function Chat() {
   return (
     <div className="">
       <img src="/assets/logo.png" className=" w-1/12 mx-6 my-6" />
-      <div className="grid gap-4 lg:grid-cols-4 min-h-screen items-start lg:items-center lg:py-6 py-12 px-4 sm:px-6 lg:px-8 xl:px-12">
+      <div className="grid gap-4 lg:grid-cols-4  items-start lg:items-center lg:py-6 py-12 px-4 sm:px-6 lg:px-8 xl:px-12">
         <div className="hidden lg:flex flex-col gap-2">
           <div className="text-3xl font-bold">Talk to TeamDocAI</div>
           <div className="text-gray-500 dark:text-gray-400">
@@ -83,19 +71,3 @@ function Chat() {
 }
 
 export default Chat;
-
-// <div>
-//   <form onSubmit={handleSubmit}>
-//     <input
-//       type="text"
-//       value={question}
-//       onChange={(e) => setQuestion(e.target.value)}
-//     />
-//     <button type="submit">Ask</button>
-//   </form>
-//   <p>{answer}</p>
-// </div>
-//   );
-// }
-
-// export default Chat;

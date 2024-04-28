@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import ChatModal from "../ai/ChatModal";
 
 export default function SideBar() {
   const [open, setOpen] = useState(true);
@@ -18,6 +19,7 @@ export default function SideBar() {
     { title: "Members", src: "diversity" },
     { title: "Inbox", src: "freedom-of-speech" },
     { title: "Download", src: "cloud-computing" },
+
     { title: "Accounts", src: "User", gap: true },
     { title: "logout", src: "logout" },
   ];
@@ -44,12 +46,13 @@ export default function SideBar() {
           <h1
             className={`text-white origin-left font-medium text-xl duration-200 ${
               !open && "scale-0"
-            }`}>
-            TeamDoc
-          </h1>
+            }`}></h1>
         </div>
 
         <ul className="pt-6">
+          <li className="mt-2">
+            <ChatModal />
+          </li>
           {Menus.map((Menu, index) => (
             <li
               key={index}
