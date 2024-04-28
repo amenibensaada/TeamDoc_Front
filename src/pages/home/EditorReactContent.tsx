@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
 // @ts-ignore
 import ImageTool from "@editorjs/image";
 import "./editcontent.css";
-
+import CommentSection from "../comments/Comment";
 
 export const EditorReactContent = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,26 +103,30 @@ export const EditorReactContent = () => {
   const handleFontSizeDecrease = () => {
     document.execCommand("fontSize", false, "3");
   };
-const handleImageUpload = async (file: File) => {
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", "hanaromdhani");
-  const response = await fetch("https://api.cloudinary.com/v1_1/dwi9bhke9/upload", {
-    method: "POST",
-    body: formData,
-  });
-  const data = await response.json();
+  const handleImageUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "hanaromdhani");
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/dwi9bhke9/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const data = await response.json();
 
-  return { success: 1, file: { url: data.secure_url } };
-};
+    return { success: 1, file: { url: data.secure_url } };
+  };
 
   return (
     <div className="editor-container">
       <SideBar />
-      <button type="button" onClick={onSave}>
+
+      {/* <button type="button" onClick={onSave}>
         Save
-      </button>
-  
+      </button> */}
+
       {content && (
         <EditorJs
           data={content}
@@ -135,17 +139,17 @@ const handleImageUpload = async (file: File) => {
             image: {
               class: ImageTool,
               config: {
-                  uploader: {
-                      uploadByFile(file: File) {
-                          return handleImageUpload(file);
-                      }
+                uploader: {
+                  uploadByFile(file: File) {
+                    return handleImageUpload(file);
                   },
-                  actions: {
-                    delete: true, 
-                  },
-              }
-          },
-          
+                },
+                actions: {
+                  delete: true,
+                },
+              },
+            },
+
             // embed: {
             //   class: Embed,
             //   inlineToolbar:false,
@@ -168,12 +172,12 @@ const handleImageUpload = async (file: File) => {
             // }
           }}
           editorInstance={(editorInstance) => {
-            editor.current = editorInstance
+            editor.current = editorInstance;
           }}>
           <div id="custom-editor-container" />
         </EditorJs>
       )}
-      <div className="sidebar">
+      <div className="sidebar  ">
         <h2>Options de mise en forme</h2>
         <div className="button-container">
           <button onClick={handleBoldClick}>
@@ -199,6 +203,10 @@ const handleImageUpload = async (file: File) => {
 
         <button onClick={handleFontSizeIncrease}>Increase Font Size</button>
         <button onClick={handleFontSizeDecrease}>Decrease Font Size</button>
+        <button type="button" onClick={onSave}>
+          Save
+        </button>
+        <CommentSection />
       </div>
     </div>
   );
