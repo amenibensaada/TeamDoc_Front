@@ -60,6 +60,7 @@ export default [
   { path: "/", element: <LandingPage /> },
 
   { path: "/contenthistory/:id", element: <HistoricalChangesPage /> },
+
   {
     path: "/*",
     element: <NotFound />,
