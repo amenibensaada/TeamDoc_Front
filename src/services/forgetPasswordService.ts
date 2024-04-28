@@ -8,6 +8,7 @@ export const forgetPassword = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+
     },
     body: JSON.stringify(forgetPasswordData),
   });
