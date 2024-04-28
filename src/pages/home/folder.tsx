@@ -12,8 +12,10 @@ import {
   updateFolder,
   shareFolder,
   ignoreAccess,
+  toggleFolderAccess,
 } from "../../services/FolderService";
 import AddFolderModal from "./AddFolderModal";
+
 
 const FoldersPage = () => {
   const [page, setPage] = useState(1);
@@ -211,7 +213,20 @@ const handleIgnoreAccess = async (folderId: string) => {
   };
   
   
-
+  const handleToggleAccess = async (folderId: string) => {
+    try {
+      const success = await toggleFolderAccess(folderId);
+      if (success) {
+        console.log('Changement d\'accès réussi pour le dossier', folderId);
+      } else {
+        console.error('Échec du changement d\'accès pour le dossier', folderId);
+      }
+    } catch (error:any) {
+      console.error('Échec du changement d\'accès pour le dossier', folderId, ':', error.message);
+    }
+  };
+  
+  
   
   
 
@@ -316,6 +331,14 @@ const [folder, setFolder] = useState<unknown>(null);
                 <div key={folder._id} className="folder">
                   <img src={folderIcon} alt="Folder Icon" />
                   <h3>{folder.Name}</h3>
+                  <label className="switch">
+  <input
+    type="checkbox"
+    onChange={() => handleToggleAccess(folder._id)}
+  />
+  <span className="slider round"></span>
+</label>
+
                   <select
                     className="custom-select"
 
@@ -353,6 +376,7 @@ const [folder, setFolder] = useState<unknown>(null);
                     >
                       Delete Folder
                     </button>
+
                     <button
                       className="updatebutton1"
                       onClick={() => {

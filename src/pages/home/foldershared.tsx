@@ -77,7 +77,8 @@ const SharedFoldersPage = () => {
                     <h3>{folder.Name}</h3>
                     <p>Owner: {getOwnerName(folder.user)}</p> {/* Utilisation de la fonction getOwnerName pour obtenir le nom du propriétaire */}
                     <div className="button-container">
-                      <Link to={`/folder/static`} className="btn link-button">
+                      <Link                        to={`/folder/static/${folder._id}`}
+ className="btn link-button">
                         Open Folder
                       </Link>
                     </div>

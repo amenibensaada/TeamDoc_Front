@@ -244,6 +244,59 @@ export const ignoreAccess = async (folderId: string, userIdToIgnore: string): Pr
 };
 
 
+// ChartService.js
+
+export const getChartData = async () => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const url = `http://localhost:3000/folder/folder-creation-data`; // Mettez à jour l'URL si nécessaire
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get chart data");
+    }
+
+    // Log the response data before returning
+    const responseData = await response.json();
+    console.log("Response data from getChartData:", responseData);
+
+    return responseData;
+  } catch (error:any) {
+    throw new Error("Failed to fetch chart data: " + error.message);
+  }
+};
+  
+// folderService.js
+
+export const toggleFolderAccess = async (folderId: string) => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(`http://localhost:3000/folder/toggle-access/${folderId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to toggle folder access");
+    }
+
+    return true; // Indiquer que le changement d'accès a réussi
+  } catch (error:any) {
+    throw new Error("Failed to toggle folder access: " + error.message);
+  }
+};
+
 
 
 
