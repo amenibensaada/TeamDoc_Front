@@ -17,7 +17,10 @@ import {
 } from "@/services/commentService";
 import { useParams } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import { getUserById } from "@/services/userService";
+import io from "socket.io-client";
+const socket = io("http://localhost:3000", {
+  transports: ["websocket", "polling"],
+});
 
 export default function CommentSection() {
   interface Comment {
@@ -35,7 +38,15 @@ export default function CommentSection() {
   const [userId, setUserId] = useState("");
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [updatedCommentContent, setUpdatedCommentContent] = useState("");
+  useEffect(() => {
+    socket.on("newComment", () => {
+      fetchComments();
+    });
 
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -47,18 +58,8 @@ export default function CommentSection() {
 
   const fetchComments = async () => {
     try {
-      const comments = await getComment();
-      const commentsWithUserNames = await Promise.all(
-        comments.map(async (comment: { user: string }) => {
-          const user = await getUserById(comment.user);
-
-          return {
-            ...comment,
-            userName: user.firstName + " " + user.lastName,
-          };
-        })
-      );
-      setComments(commentsWithUserNames);
+      const comments = await getComment(id || "");
+      setComments(comments);
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -87,11 +88,6 @@ export default function CommentSection() {
   const handleCommentSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      if (!userId || !id) {
-        console.error("User ID and Document ID are required.");
-
-        return;
-      }
       await createComment({
         content: newComment,
         user: userId,
@@ -99,6 +95,7 @@ export default function CommentSection() {
       });
 
       setNewComment("");
+
       fetchComments();
     } catch (error) {
       console.error("Error creating comment:", error);
@@ -144,7 +141,9 @@ export default function CommentSection() {
                 <div key={comment._id} className="flex items-start gap-4">
                   <div className="grid gap-1.5">
                     <div className="flex items-center gap-2">
-                      <div className="font-semibold">{comment.userName}</div>
+                      <div className="font-semibold">
+                        {comment.user.firstName}
+                      </div>
                       <div className="text-gray-500 text-xs dark:text-gray-400">
                         {new Date(comment.createdAt).toLocaleDateString()}
                       </div>

@@ -1,10 +1,13 @@
-export const getComment = async () => {
-  const response = await fetch(`http://localhost:3000/comments`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+export const getComment = async (documentId: string) => {
+  const response = await fetch(
+    `http://localhost:3000/comments/document/${documentId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   if (!response.ok) {
     throw new Error("Failed to get content history");
   }
