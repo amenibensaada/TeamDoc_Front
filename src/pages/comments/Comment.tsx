@@ -108,7 +108,14 @@ export default function CommentSection() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Open Comments</Button>
+        <button className="  bg-slate-300 px-14 flex items-center gap-2">
+          {/* <img
+            src="/assets/comments.png"
+            alt="Robot Icon"
+            className="w-6 h-6"
+          /> */}
+          <span>Comments</span>
+        </button>
       </DialogTrigger>
       <DialogContent className="overflow-y-auto max-h-[500px]">
         <DialogHeader>

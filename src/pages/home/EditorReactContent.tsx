@@ -122,9 +122,10 @@ export const EditorReactContent = () => {
   return (
     <div className="editor-container">
       <SideBar />
-      <button type="button" onClick={onSave}>
+
+      {/* <button type="button" onClick={onSave}>
         Save
-      </button>
+      </button> */}
 
       {content && (
         <EditorJs
@@ -176,8 +177,7 @@ export const EditorReactContent = () => {
           <div id="custom-editor-container" />
         </EditorJs>
       )}
-      <div className="sidebar">
-        <CommentSection />
+      <div className="sidebar  ">
         <h2>Options de mise en forme</h2>
         <div className="button-container">
           <button onClick={handleBoldClick}>
@@ -203,6 +203,10 @@ export const EditorReactContent = () => {
 
         <button onClick={handleFontSizeIncrease}>Increase Font Size</button>
         <button onClick={handleFontSizeDecrease}>Decrease Font Size</button>
+        <button type="button" onClick={onSave}>
+          Save
+        </button>
+        <CommentSection />
       </div>
     </div>
   );
