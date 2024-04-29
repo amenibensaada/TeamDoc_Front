@@ -25,11 +25,14 @@ const socket = io("http://localhost:3000", {
 export default function CommentSection() {
   interface Comment {
     _id: string;
-    user: string;
+
     document?: string;
     content: string;
     createdAt: Date;
-    userName?: string;
+    user: {
+      firstName: string;
+      lastName: string;
+    };
   }
   const { id } = useParams();
 
@@ -142,7 +145,7 @@ export default function CommentSection() {
                   <div className="grid gap-1.5">
                     <div className="flex items-center gap-2">
                       <div className="font-semibold">
-                        {comment.user.firstName}
+                        {`${comment.user.firstName} ${comment.user.lastName}`}
                       </div>
                       <div className="text-gray-500 text-xs dark:text-gray-400">
                         {new Date(comment.createdAt).toLocaleDateString()}
