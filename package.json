@@ -79,6 +79,7 @@
   },
   "devDependencies": {
     "@types/editorjs__header": "^2.6.3",
+    "@rollup/rollup-linux-x64-gnu": "4.17.2",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/jwt-decode": "^3.1.0",
     "@types/node": "^20.11.19",
