@@ -8,11 +8,19 @@ import italicIcon from "/public/assets/italic.png";
 import underlineIcon from "/public/assets/underline.png";
 import SideBar from "../sidebar/sidebar";
 import { useEffect, useRef, useState } from "react";
+import { updateContentRealTime } from "@/services/ContentService";
+
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import ImageTool from "@editorjs/image";
 import "./editcontent.css";
+import { io } from 'socket.io-client';
+
+const socket = io('http://localhost:3000' , {
+  transports : ["websocket" , "polling"]
+}); // Remplacez l'URL par celle de votre backend
+
 
 
 export const EditorReactContent = () => {
@@ -35,6 +43,15 @@ export const EditorReactContent = () => {
     mutationFn: (body: { content: string; documentId: string }) =>
       createContent(body),
   });
+  socket.on('contentUpdate', () => {
+    getContent(id || "");
+    console.log('Connected to WebSocket server');
+  });
+  
+  socket.on('contentUpdate', (data) => {
+    console.log('Received content update:', data);
+    // Mettez à jour votre contenu en fonction des données reçues en temps réel
+  });
 
   const onReady = () => {
     console.log("Editor.js is ready to work!");
@@ -46,9 +63,7 @@ export const EditorReactContent = () => {
 
   const onSave = async () => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const outputData = await (editor as any).current.save();
-
       setContent(outputData);
       mutation.mutate(
         {
@@ -56,12 +71,13 @@ export const EditorReactContent = () => {
           documentId: id || "",
         },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
             query.refetch();
+            // Appeler la fonction de mise à jour en temps réel
+            await updateContentRealTime(id || "", JSON.stringify(outputData));
           },
         }
       );
-
       console.log("Article data: ", outputData);
     } catch (e) {
       console.log("Saving failed: ", e);
@@ -202,4 +218,5 @@ const handleImageUpload = async (file: File) => {
       </div>
     </div>
   );
+  
 };
