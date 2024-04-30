@@ -1,0 +1,28 @@
+
+
+.chart-heading {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.chart-wrapper {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.chart-container {
+    display: flex; /* Utilisez flexbox pour aligner les éléments horizontalement */
+    justify-content: center; /* Centre les éléments horizontalement */
+    align-items: center; /* Centre les éléments verticalement */
+    margin: 20px;
+
+    height: 100vh; /* Hauteur égale à la hauteur de la fenêtre */
+  }
+  
+  .chart-wrapper {
+    width: 50%; /* Occupe 50% de la largeur de la page */
+    max-width: 600px; /* Largeur maximale pour éviter que le graphique ne devienne trop large */
+  }
+  
