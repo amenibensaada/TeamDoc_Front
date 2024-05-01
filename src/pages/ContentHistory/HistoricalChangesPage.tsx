@@ -12,6 +12,10 @@ import { jwtDecode } from "jwt-decode";
 import { getUserById } from "@/services/userService";
 
 export default function HistoricalChangesPage() {
+  interface User {
+    firstName: string;
+    lastName: string;
+  }
   const { id } = useParams();
   const [data, setData] = useState<contentHistory | null>(null);
   const [user, setUser] = useState<User | null>(null);

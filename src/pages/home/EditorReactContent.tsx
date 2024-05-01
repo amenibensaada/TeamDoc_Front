@@ -66,7 +66,6 @@ export const EditorReactContent = () => {
       createContent(body),
   });
 
-  //const isViewAccess = query.data?.access === "view";
   if (query.data) {
     const documentId = query.data.documentId;
     getDocumentById(documentId)
@@ -199,7 +198,7 @@ export const EditorReactContent = () => {
       method: "POST",
       headers: {
         "content-type": "application/x-www-form-urlencoded",
-        "X-RapidAPI-Key": "839ed",
+        "X-RapidAPI-Key": "839eda305db",
         "X-RapidAPI-Host": "google-translate113.p.rapidapi.com",
       },
       body: new URLSearchParams({
