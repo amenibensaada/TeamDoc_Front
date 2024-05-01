@@ -46,9 +46,9 @@ export default function CommentSection() {
       fetchComments();
     });
 
-    return () => {
-      socket.disconnect();
-    };
+    // return () => {
+    //   socket.disconnect();
+    // };
   }, []);
   useEffect(() => {
     const token = localStorage.getItem("token");
