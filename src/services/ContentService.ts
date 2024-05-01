@@ -25,16 +25,15 @@ export const getContent = async (id: string) => {
   }
   return response.json();
 };
-export const updateContentRealTime = async (id  : string , updatedContent : string ) => {
-  const response = await fetch(`http://localhost:3000/content/${id}/update-real-time`, {
-    method: 'PUT',
+export const getDocumentById = async (documentId: string) => {
+  const response = await fetch(`http://localhost:3000/content/document/${documentId}`, {
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ content: updatedContent }),
   });
   if (!response.ok) {
-    throw new Error('Failed to update content in real time');
+    throw new Error("Failed to get document");
   }
   return response.json();
 };

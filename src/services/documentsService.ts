@@ -126,3 +126,15 @@ export const deletedocuments = async ( id:string) => {
   }
   return response.json();
 };
+export const getFolderById = async (folderId: string) => {
+  const response = await fetch(`http://localhost:3000/Document/folder/${folderId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to get document");
+  }
+  return response.json();
+};
