@@ -12,6 +12,10 @@ import LandingPage from "./landingPage/landingPage";
 import NotFound from "./notFound/notFound";
 import Footer from "./footer/footer";
 import Mailing from "./mailing/mailing";
+import App from "./calendar/calendar";
+
+
+
 
 export default [
   {
@@ -62,6 +66,7 @@ export default [
 
   { path: "/contenthistory/:id", element: <HistoricalChangesPage /> },
   { path: "/mailing", element: <Mailing /> },
+  { path: "/calendar", element: <App /> },
   {
     path: "/*",
     element: <NotFound />,

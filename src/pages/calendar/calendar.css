@@ -1,0 +1,62 @@
+/* Styles for Calendar Component */
+
+/* Container style */
+.schedule-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Calendar header style */
+  .schedule-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Calendar style */
+  .schedule-component {
+    width: 100%;
+    max-width: 800px; /* Ajustez la largeur maximale selon vos besoins */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Event item style */
+  .event-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+  }
+  
+  /* Event title style */
+  .event-title {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Event details style */
+  .event-details {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  /* Event location style */
+  .event-location {
+    font-style: italic;
+    color: #777;
+  }
+  
+  /* Event description style */
+  .event-description {
+    margin-top: 5px;
+    color: #666;
+  }
+  
