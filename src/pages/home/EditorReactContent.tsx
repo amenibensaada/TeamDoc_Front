@@ -17,7 +17,12 @@ import ImageTool from "@editorjs/image";
 import "./editcontent.css";
 import CommentSection from "../comments/Comment";
 
+import { TranslateModal } from "./translate/TranslateModal";
+
 export const EditorReactContent = () => {
+  const [translatedText, setTranslatedText] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editor = useRef<any>();
   const { id } = useParams();
@@ -57,7 +62,6 @@ export const EditorReactContent = () => {
   });
 
   //const isViewAccess = query.data?.access === "view";
-  //console.log(query.data); // Affiche l'objet complet
   if (query.data) {
     const documentId = query.data.documentId;
     getDocumentById(documentId)
@@ -95,13 +99,12 @@ export const EditorReactContent = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const outputData = await (editor as any).current.save();
-
       setContent(outputData);
-
       if (folderAccess !== "view") {
         mutation.mutate(
           {
             content: JSON.stringify(outputData),
+
             documentId: id || "",
           },
           {
@@ -171,13 +174,49 @@ export const EditorReactContent = () => {
     return { success: 1, file: { url: data.secure_url } };
   };
 
+  const translateText = async () => {
+    if (
+      !content ||
+      !content.blocks ||
+      content.blocks.length === 0 ||
+      !content.blocks[0].data ||
+      !content.blocks[0].data.text
+    ) {
+      console.error("Text not found in data");
+      return;
+    }
+
+    const textToTranslate =
+      content.blocks[0].data.text + "" + content.blocks[1].data.text;
+    const url =
+      "https://google-translate113.p.rapidapi.com/api/v1/translator/text";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        "X-RapidAPI-Key": "839ed",
+        "X-RapidAPI-Host": "google-translate113.p.rapidapi.com",
+      },
+      body: new URLSearchParams({
+        from: "en",
+        to: "fr",
+        text: textToTranslate,
+      }),
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      setTranslatedText(result.trans);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="editor-container">
       <SideBar />
-
-      {/* <button type="button" onClick={onSave}>
-        Save
-      </button> */}
 
       {content && (
         <EditorJs
@@ -258,8 +297,16 @@ export const EditorReactContent = () => {
         <button type="button" onClick={onSave}>
           Save
         </button>
+        <button onClick={translateText}>Translate Text</button>
+
         <CommentSection />
       </div>
+
+      <TranslateModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        translatedText={translatedText}
+      />
     </div>
   );
 };
