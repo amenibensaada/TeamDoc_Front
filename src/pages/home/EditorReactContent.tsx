@@ -15,9 +15,9 @@ import { getFolderById } from "../../services/documentsService";
 // @ts-ignore
 import ImageTool from "@editorjs/image";
 import "./editcontent.css";
-import CommentSection from "../comments/Comment";
 
 import { TranslateModal } from "./translate/TranslateModal";
+import CommentSection from "../comments/Comment";
 
 export const EditorReactContent = () => {
   const [translatedText, setTranslatedText] = useState<string | null>(null);
@@ -99,7 +99,6 @@ export const EditorReactContent = () => {
 
   const onSave = async () => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const outputData = await (editor as any).current.save();
       setContent(outputData);
       if (folderAccess !== "view") {

@@ -21,7 +21,7 @@ export default function SideBar() {
     //   gap: true,
     //   path: "/folder/static/:folderId",
     // },
-    { title: " Folder ", src: "new-folder", gap: true, path: "/folder" },
+    { title: " Meet ", src: "new-folder", gap: true, path: "/meet" },
     { title: " Create file ", src: "add-file" },
     {
       title: "Last Modification",

@@ -4,6 +4,7 @@ import { queryClient } from "./config/client";
 import routers from "./pages";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
+
 const router = createBrowserRouter(routers);
 function App() {
   return (

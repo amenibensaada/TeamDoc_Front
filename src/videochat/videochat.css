@@ -1,0 +1,124 @@
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: purple; /* Utiliser la couleur violet pour l'arrière-plan */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white; /* Utiliser du texte blanc */
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Ajouter des règles de style pour les éléments spécifiques à la page */
+  .home {
+    background-color: blue; /* Utiliser la couleur bleue pour la section home */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+  }
+  
+  .box {
+    margin-bottom: 10px;
+  }
+  
+  .box button {
+    background-color: white; /* Utiliser le blanc pour les boutons */
+    color: black; /* Texte en noir */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .box input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .videos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .local,
+  .remote {
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+  
+  .buttonsContainer {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .hangup.button,
+  .more.button {
+    background-color: purple;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .modalContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent noir */
+  }
+  
+  .modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .secondary {
+    background-color: #ccc; /* Gris clair pour les boutons secondaires */
+  }
+  
+  /* Ajouter d'autres règles de style au besoin */
+  
