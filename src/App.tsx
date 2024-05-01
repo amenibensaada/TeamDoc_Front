@@ -10,10 +10,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <Footer />
+      {/* <Footer /> */}
     </QueryClientProvider>
   );
-  
 }
 
 export default App;

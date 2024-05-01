@@ -11,6 +11,7 @@ import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 import LandingPage from "./landingPage/landingPage";
 import NotFound from "./notFound/notFound";
 import Footer from "./footer/footer";
+import ProfilePage from "./profile/profilePage";
 
 export default [
   {
@@ -58,6 +59,7 @@ export default [
   },
   { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
   { path: "/", element: <LandingPage /> },
+  { path: "/profile", element: <ProfilePage /> },
 
   { path: "/contenthistory/:id", element: <HistoricalChangesPage /> },
 
