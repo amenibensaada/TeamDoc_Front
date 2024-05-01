@@ -15,7 +15,6 @@ import ProfilePage from "./profile/profilePage";
 import SharedFoldersPage from "./home/foldershared";
 import Chart from "./home/chart";
 
-
 export default [
   {
     path: "login/*",
@@ -24,10 +23,6 @@ export default [
   {
     path: "/signup/",
     element: <Signup />,
-  },
-  {
-    path: "/sidebar/",
-    element: <SideBar />,
   },
 
   {
@@ -43,10 +38,7 @@ export default [
     path: "/conditions/",
     element: <Conditions />,
   },
-  {
-    path: "/footer",
-    element: <Footer />,
-  },
+
   {
     path: "/editor/:id",
     element: <EditorReactContent />,
@@ -69,11 +61,6 @@ export default [
   { path: "/profile", element: <ProfilePage /> },
 
   { path: "/contenthistory/:id", element: <HistoricalChangesPage /> },
-
-  {
-    path: "/*",
-    element: <NotFound />,
-  },
   {
     path: "/Sharedfolders",
     element: <SharedFoldersPage />,
@@ -81,5 +68,9 @@ export default [
   {
     path: "/Chart",
     element: <Chart />,
+  },
+  {
+    path: "/*",
+    element: <NotFound />,
   },
 ];
