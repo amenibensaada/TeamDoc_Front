@@ -37,11 +37,9 @@ export const EditorReactContent = () => {
   const navigateToHistory = () => {
     navigate(`/contenthistory/${id}`);
   };
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [documentData, setDocumentData] = useState<any>();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
-
+  console.log(documentData, isSaveDisabled);
   const documentQuery = useQuery({
     queryKey: ["document", id],
     queryFn: () => getDocumentById(id || ""),
@@ -310,7 +308,7 @@ export const EditorReactContent = () => {
       <TranslateModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        translatedText={translatedText}
+        translatedText={translatedText ?? ""}
       />
     </div>
   );

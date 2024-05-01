@@ -7,9 +7,10 @@ import { useQuery } from "@tanstack/react-query";
 import { getSharedFolders } from "../../services/FolderService";
 
 const SharedFoldersPage = () => {
-  const [page, setPage] = useState(1);
-  const perPage = 3;
+  // const [page, setPage] = useState(1);
+  // const perPage = 3;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [users, setUsers] = useState<any[]>([]);
 
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -17,7 +18,7 @@ const SharedFoldersPage = () => {
     data: sharedFoldersData,
     error,
     isLoading,
-    refetch,
+    // refetch,
   } = useQuery({
     queryKey: ["sharedFolders"],
     queryFn: () => getSharedFolders(),

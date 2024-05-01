@@ -1,7 +1,14 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
-
-export const TranslateModal = ({ isOpen, onClose, translatedText }) => {
+interface TranslateModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  translatedText: string;
+}
+export const TranslateModal: React.FC<TranslateModalProps> = ({
+  isOpen,
+  onClose,
+  translatedText,
+}) => {
   if (!isOpen) return null;
 
   return (

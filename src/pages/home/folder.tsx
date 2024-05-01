@@ -42,6 +42,7 @@ const FoldersPage = () => {
   const [folders, setFolders] = useState([]);
   const [showAddFolderModal, setShowAddFolderModal] = useState(false);
   const [userNames, setUserNames] = useState<{ [key: string]: string }>({});
+  console.log(userNames);
 
   useEffect(() => {
     const userNamesMap: { [key: string]: string } = {};
