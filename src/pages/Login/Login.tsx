@@ -147,9 +147,9 @@ export default function Login() {
             <div className="header12">
               <div className="text2">OR</div>
               <div className="underline"></div>
-              <Button className="dw" onClick={handleGoogleSignIn}>
+              <div className="dw" onClick={handleGoogleSignIn}>
                 <img src={google_icon} alt="Google Icon" />
-              </Button>
+              </div>
             </div>
           </div>
           <div className="forgot-password1">
