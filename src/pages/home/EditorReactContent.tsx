@@ -48,7 +48,7 @@ export const EditorReactContent = () => {
     console.log('Connected to WebSocket server');
   });
   
-  socket.on('contentUpdate', (data) => {
+  socket.on('contentUpdate', (data: any) => {
     console.log('Received content update:', data);
     // Mettez à jour votre contenu en fonction des données reçues en temps réel
   });

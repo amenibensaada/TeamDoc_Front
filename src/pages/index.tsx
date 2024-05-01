@@ -11,6 +11,7 @@ import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 import LandingPage from "./landingPage/landingPage";
 import NotFound from "./notFound/notFound";
 import Footer from "./footer/footer";
+import Meet from "@/videochat/videochat";
 
 export default [
   {
@@ -56,7 +57,9 @@ export default [
     path: "/folder/static/:folderId",
     element: <Static />,
   },
+  
   { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
+  { path: "/meet*", element: <Meet/> },
   { path: "/", element: <LandingPage /> },
 
   { path: "/contenthistory/:id", element: <HistoricalChangesPage /> },
