@@ -8,6 +8,8 @@ import italicIcon from "/public/assets/italic.png";
 import underlineIcon from "/public/assets/underline.png";
 import SideBar from "../sidebar/sidebar";
 import { useEffect, useRef, useState } from "react";
+import { getDocumentById } from "../../services/ContentService";
+import { getFolderById } from "../../services/documentsService";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -25,6 +27,24 @@ export const EditorReactContent = () => {
     queryKey: ["editor", id],
     queryFn: () => getContent(id || ""),
   });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [documentData, setDocumentData] = useState<any>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
+
+  const documentQuery = useQuery({
+    queryKey: ["document", id],
+    queryFn: () => getDocumentById(id || ""),
+  });
+
+  const [folderAccess, setFolderAccess] = useState("");
+
+  useEffect(() => {
+    if (documentQuery.data) {
+      setDocumentData(documentQuery.data);
+    }
+  }, [documentQuery.data]);
+  console.log(documentQuery.data);
 
   useEffect(() => {
     if (query.data?.content) {
@@ -35,6 +55,33 @@ export const EditorReactContent = () => {
     mutationFn: (body: { content: string; documentId: string }) =>
       createContent(body),
   });
+
+  //const isViewAccess = query.data?.access === "view";
+  //console.log(query.data); // Affiche l'objet complet
+  if (query.data) {
+    const documentId = query.data.documentId;
+    getDocumentById(documentId)
+      .then((document) => {
+        console.log("Document:", document);
+        if (document && document.folderId) {
+          const folderId = document.folderId;
+          getFolderById(folderId)
+            .then((folder) => {
+              console.log("Folder:", folder);
+              setFolderAccess(folder.access);
+              setIsSaveDisabled(folder.access === "view");
+            })
+            .catch((error) => {
+              console.error("Error fetching folder:", error);
+            });
+        } else {
+          console.error("Folder ID not found in the document");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching document:", error);
+      });
+  }
 
   const onReady = () => {
     console.log("Editor.js is ready to work!");
@@ -50,17 +97,22 @@ export const EditorReactContent = () => {
       const outputData = await (editor as any).current.save();
 
       setContent(outputData);
-      mutation.mutate(
-        {
-          content: JSON.stringify(outputData),
-          documentId: id || "",
-        },
-        {
-          onSuccess: () => {
-            query.refetch();
+
+      if (folderAccess !== "view") {
+        mutation.mutate(
+          {
+            content: JSON.stringify(outputData),
+            documentId: id || "",
           },
-        }
-      );
+          {
+            onSuccess: () => {
+              query.refetch();
+            },
+          }
+        );
+      } else {
+        console.log("Access level is 'view', cannot save content.");
+      }
 
       console.log("Article data: ", outputData);
     } catch (e) {

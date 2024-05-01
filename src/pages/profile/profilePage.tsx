@@ -110,15 +110,15 @@ export default function ProfilePage() {
         <SideBar />
         <div className="flex flex-col   px-40">
           <header className="flex h-14 items-center justify-between border-b px-96 bg-gray-100/40 dark:bg-gray-800/40">
-            <h1 className="text-lg font-semibold">Profile</h1>
+            <h1 className="text-lg font-semibold ">Profile</h1>
           </header>
           <main className="flex-1 p-6">
             <div className="mx-auto grid max-w-3xl gap-8">
               <div className="grid gap-4">
                 <div className="flex items-center gap-4">
                   <Avatar className="h-16 w-16">
-                    <AvatarImage alt="@shadcn" src="/placeholder-avatar.jpg" />
-                    <AvatarFallback>JP</AvatarFallback>
+                    <AvatarImage alt="@shadcn" src="/assets/avatar.png" />
+                    <AvatarFallback></AvatarFallback>
                   </Avatar>
                   <div className="grid gap-1">
                     <h2 className="text-xl font-semibold">
@@ -130,38 +130,39 @@ export default function ProfilePage() {
                     </p>
                   </div>
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-5">
                   <Label htmlFor="name">First Name</Label>
                   <Input defaultValue={user?.firstName} id="firstname" />
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-5">
                   <Label htmlFor="name">Last Name</Label>
                   <Input defaultValue={user?.lastName} id="lastname" />
                 </div>
-                <div className="grid gap-2">
+
+                <div className="grid gap-5">
                   <Label htmlFor="email">Email</Label>
                   <Input defaultValue={user?.email} id="email" type="email" />
                 </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="avatar">Avatar</Label>
-                  <Input id="avatar" type="file" />
-                </div>
               </div>
-              <div className="grid gap-4">
+              <div className="grid gap-5">
                 <div className="grid gap-2">
                   <Label htmlFor="password">Password</Label>
                   <Input id="password" type="password" />
                 </div>
-                <div className="grid gap-2">
+                <div className="grid gap-5">
                   <Label htmlFor="confirm-password">Confirm Password</Label>
                   <Input id="confirm-password" type="password" />
                 </div>
               </div>
-              <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={handleDeleteUser}>
+              <div className="flex justify-end gap-5">
+                <Button
+                  className="bg-red-500 text-white"
+                  onClick={handleDeleteUser}>
                   Delete Account
                 </Button>
-                <Button onClick={handleUpdateUser}>Save Changes</Button>
+                <Button variant="outline" onClick={handleUpdateUser}>
+                  Save Changes
+                </Button>
               </div>
             </div>
           </main>

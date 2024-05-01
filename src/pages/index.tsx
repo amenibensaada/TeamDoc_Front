@@ -12,6 +12,9 @@ import LandingPage from "./landingPage/landingPage";
 import NotFound from "./notFound/notFound";
 import Footer from "./footer/footer";
 import ProfilePage from "./profile/profilePage";
+import SharedFoldersPage from "./home/foldershared";
+import Chart from "./home/chart";
+
 
 export default [
   {
@@ -57,6 +60,10 @@ export default [
     path: "/folder/static/:folderId",
     element: <Static />,
   },
+  {
+    path: "/folder/static",
+    element: <Static />,
+  },
   { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
   { path: "/", element: <LandingPage /> },
   { path: "/profile", element: <ProfilePage /> },
@@ -66,5 +73,13 @@ export default [
   {
     path: "/*",
     element: <NotFound />,
+  },
+  {
+    path: "/Sharedfolders",
+    element: <SharedFoldersPage />,
+  },
+  {
+    path: "/Chart",
+    element: <Chart />,
   },
 ];
