@@ -11,6 +11,7 @@ import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 import LandingPage from "./landingPage/landingPage";
 import NotFound from "./notFound/notFound";
 import Footer from "./footer/footer";
+import Mailing from "./mailing/mailing";
 
 export default [
   {
@@ -60,6 +61,7 @@ export default [
   { path: "/", element: <LandingPage /> },
 
   { path: "/contenthistory/:id", element: <HistoricalChangesPage /> },
+  { path: "/mailing", element: <Mailing /> },
   {
     path: "/*",
     element: <NotFound />,
