@@ -1,7 +1,7 @@
 import { createContent, getContent } from "@/services/ContentService";
 import EditorJs from "@natterstefan/react-editor-js";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "@editorjs/header";
 import boldIcon from "/public/assets/bold.png";
 import italicIcon from "/public/assets/italic.png";
@@ -22,16 +22,21 @@ import { TranslateModal } from "./translate/TranslateModal";
 export const EditorReactContent = () => {
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editor = useRef<any>();
   const { id } = useParams();
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [content, setContent] = useState<any>();
   const query = useQuery({
     queryKey: ["editor", id],
     queryFn: () => getContent(id || ""),
   });
+  const navigateToHistory = () => {
+    navigate(`/contenthistory/${id}`);
+  };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [documentData, setDocumentData] = useState<any>();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -298,6 +303,7 @@ export const EditorReactContent = () => {
           Save
         </button>
         <button onClick={translateText}>Translate Text</button>
+        <button onClick={navigateToHistory}>History Page</button>
 
         <CommentSection />
       </div>
