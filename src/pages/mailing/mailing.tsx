@@ -122,7 +122,9 @@ function ContactForm() {
             <Input
               type="email"
               id="email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: {
+                target: { value: React.SetStateAction<string> };
+              }) => setEmail(e.target.value)}
               placeholder="username@gmail.com"
               required
             />
@@ -134,7 +136,9 @@ function ContactForm() {
             <Input
               type="text"
               id="subject"
-              onChange={(e) => setSubject(e.target.value)}
+              onChange={(e: {
+                target: { value: React.SetStateAction<string> };
+              }) => setSubject(e.target.value)}
               placeholder="Indiquez comment nous pouvons vous aider"
               required
             />
@@ -145,7 +149,9 @@ function ContactForm() {
             </label>
             <TextArea
               id="message"
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e: {
+                target: { value: React.SetStateAction<string> };
+              }) => setMessage(e.target.value)}
               placeholder="Votre message ici"
               required
               rows={4}
