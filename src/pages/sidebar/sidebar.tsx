@@ -1,27 +1,45 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ChatModal from "../ai/ChatModal";
 
 export default function SideBar() {
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
+  const logOutClick = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   const Menus = [
-    { title: "Dashboard", src: "Chart_fill" },
-    { title: "Files ", src: "folders", gap: true },
-    { title: " Create folder ", src: "new-folder" },
+    { title: "Open Chat", src: "iconAI", component: <ChatModal /> },
+
+    // { title: "Dashboard", src: "Chart_fill" },
+
+    // {
+    //   title: "Files ",
+    //   src: "folders",
+    //   gap: true,
+    //   path: "/folder/static/:folderId",
+    // },
+    { title: " Folder ", src: "new-folder", gap: true, path: "/folder" },
     { title: " Create file ", src: "add-file" },
     {
       title: "Last Modification",
       src: "history",
       path: "/contenthistory/660fb2c526e0ac259955f98f",
     },
-    { title: "add team space", src: "queue" },
-    { title: "Members", src: "diversity" },
-    { title: "Inbox", src: "freedom-of-speech" },
-    { title: "Download", src: "cloud-computing" },
+    // { title: "add team space", src: "queue" },
+    // { title: "Members", src: "diversity" },
+    // { title: "Inbox", src: "freedom-of-speech" },
+    // { title: "Download", src: "cloud-computing" },
 
-    { title: "Accounts", src: "User", gap: true },
-    { title: "logout", src: "logout" },
+    { title: "Accounts", src: "User", gap: true, path: "/profile" },
+    {
+      title: "logout",
+      src: "logout",
+      onClick: logOutClick,
+      isButton: true,
+    },
   ];
 
   return (
@@ -50,35 +68,44 @@ export default function SideBar() {
         </div>
 
         <ul className="pt-6">
-          <li className="mt-2">
+          {/* <li className="mt-2">
             <ChatModal />
-          </li>
+          </li> */}
           {Menus.map((Menu, index) => (
-            <li
-              key={index}
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4
+            <li key={index} onClick={Menu.onClick}>
+              <li
+                key={index}
+                className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4
                   ${Menu.gap ? "mt-9" : "mt-2"} ${
-                index === 0 && "bg-light-white"
-              } `}>
-              {Menu.path ? (
-                <Link to={Menu.path} className="flex items-center gap-x-2">
-                  <img src={`/assets/${Menu.src}.png`} />
-                  <span
-                    className={`${!open && "hidden"} origin-left duration-200`}>
-                    {Menu.title}
-                  </span>
-                </Link>
-              ) : (
-                <div className="flex items-center gap-x-2">
-                  <img src={`/assets/${Menu.src}.png`} />
-                  <span
-                    className={`${!open && "hidden"} origin-left duration-200`}>
-                    {Menu.title}
-                  </span>
-                </div>
-              )}
+                  index === 0 && "bg-light-white"
+                } `}>
+                {Menu.path ? (
+                  <Link to={Menu.path} className="flex items-center gap-x-2">
+                    <img src={`/assets/${Menu.src}.png`} />
+                    <span
+                      className={`${
+                        !open && "hidden"
+                      } origin-left duration-200`}>
+                      {Menu.title}
+                    </span>
+                  </Link>
+                ) : Menu.component ? (
+                  Menu.component
+                ) : (
+                  <div className="flex items-center gap-x-2">
+                    <img src={`/assets/${Menu.src}.png`} />
+                    <span
+                      className={`${
+                        !open && "hidden"
+                      } origin-left duration-200`}>
+                      {Menu.title}
+                    </span>
+                  </div>
+                )}
+              </li>
             </li>
           ))}
+          <li className="mt-2"></li>
         </ul>
       </div>
     </div>

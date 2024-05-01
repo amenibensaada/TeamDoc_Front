@@ -25,7 +25,6 @@ const socket = io("http://localhost:3000", {
 export default function CommentSection() {
   interface Comment {
     _id: string;
-
     document?: string;
     content: string;
     createdAt: Date;

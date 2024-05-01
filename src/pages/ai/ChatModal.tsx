@@ -16,9 +16,9 @@ const ChatModal = () => {
   return (
     <div>
       <button
-        className="  bg-slate-300 px-14 flex items-center gap-6"
+        className="  bg-inherit  flex items-center gap-6 "
         onClick={openChat}>
-        <img src="/assets/iconAI.png" alt="Robot Icon" className="w-6 h-6" />
+        <img src="/assets/iconAI.png" alt="Robot Icon" className=" h-9 w-9" />
         <span>Open Chat</span>
       </button>
       <Modal
