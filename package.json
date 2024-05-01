@@ -84,6 +84,8 @@
     "zod": "^3.23.4"
   },
   "devDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "*",
+
     "@types/editorjs__header": "^2.6.3",
     "@types/google-translate-api": "^2.3.5",
     "@types/jsonwebtoken": "^9.0.6",
