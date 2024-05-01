@@ -1,6 +1,5 @@
 import Signup from "./Signup/Signup";
 import Login from "./Login/Login";
-import SideBar from "./sidebar/sidebar";
 import Static from "./home/staticlist";
 import Folder from "./home/folder";
 import Conditions from "./forgetPassword/Conditions";
@@ -10,7 +9,6 @@ import { EditorReactContent } from "./home/EditorReactContent";
 import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 import LandingPage from "./landingPage/landingPage";
 import NotFound from "./notFound/notFound";
-import Footer from "./footer/footer";
 import ProfilePage from "./profile/profilePage";
 import SharedFoldersPage from "./home/foldershared";
 import Chart from "./home/chart";
