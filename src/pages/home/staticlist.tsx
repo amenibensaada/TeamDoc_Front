@@ -1,20 +1,23 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {  useState } from "react";
 import StaticFileCard from "./card";
 import "./staticlist.css";
 import SideBar from "../sidebar/sidebar";
 import { useQuery } from "@tanstack/react-query";
 import {
+
   deletedocuments,
   getDocumentsbyFolderId,
   updatedocuments,
 } from "@/services/documentsService";
 import AddDocumentForm from "./AddDocumentForm";
 import { useParams } from "react-router-dom";
+
 interface File {
   _id: string;
   Title: string;
   contentType: string;
-  // Autres propriétés
+
 }
 const StaticFileList = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,16 +35,10 @@ const StaticFileList = () => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
+   
+  
 
-  // const {
-  //   data: documentsdata,
-  //   isError,
-  //   isLoading,
-  //   refetch,
-  // } = useQuery({
-  //   queryKey: ["documents"],
-  //   queryFn: () => getDocuments(),
-  // });
+
   const {
     data: documentsdata,
     isError,
@@ -104,7 +101,7 @@ const StaticFileList = () => {
       console.error("Error updating document:", error);
     }
   };
-
+ 
   return (
     <div className="content-container">
       <SideBar />
@@ -116,6 +113,7 @@ const StaticFileList = () => {
               src="/assets/logo.png"
               className={`cursor-pointer duration-500 `}
             />
+             
           </div>
           <div className="search-bar-container1">
             <input

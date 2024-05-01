@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./card.css";
 import { getDocumentsbyid } from "@/services/documentsService";
@@ -6,21 +5,13 @@ import { getDocumentsbyid } from "@/services/documentsService";
 interface StaticFileCardProps {
   title: string;
   description: string;
-  noteId: string; // Assuming noteId is a string, adjust the type if necessary
+  noteId: string; 
   onDelete: (noteId: string) => void;
   onEdit: (noteId: string) => void;
 }
 
-const StaticFileCard = ({ title, description, noteId, onDelete, onEdit }: StaticFileCardProps) => {
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
-  const handleLike = () => {
-    setLikes(likes + 1);
-  };
+const StaticFileCard = ({ title, description, noteId, onDelete, onEdit  }: StaticFileCardProps) => {
 
-  const handleDislike = () => {
-    setDislikes(dislikes + 1);
-  };
 
   const handleDelete = () => {
     onDelete(noteId);
@@ -34,7 +25,7 @@ const StaticFileCard = ({ title, description, noteId, onDelete, onEdit }: Static
       console.error("Error fetching document for editing:", error);
     }
   };
-
+ 
   return (
     <div className="bg-white shadow-md rounded-lg p-4">
       <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -69,26 +60,7 @@ const StaticFileCard = ({ title, description, noteId, onDelete, onEdit }: Static
           </svg>
         </button>
 
-        <img
-          src="/like.png"
-          alt="Like"
-          className="like-icon"
-          onClick={handleLike}
-          width="50px"
-          height="50px"
-          style={{ cursor: "pointer" }}
-        />
-        <span>{likes}</span>
-        <img
-          src="/dislike.png"
-          alt="Dislike"
-          className="dislike-icon"
-          onClick={handleDislike}
-          width="50px"
-          height="50px"
-          style={{ cursor: "pointer" }}
-        />
-        <span>{dislikes}</span>
+   
       </div>
     </div>
   );
