@@ -76,7 +76,6 @@
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff; /* Couleur de fond bleue */
     color: #fff; /* Couleur du texte blanc */
     cursor: pointer;
     transition: background-color 0.3s ease;

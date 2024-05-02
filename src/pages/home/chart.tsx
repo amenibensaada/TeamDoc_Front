@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
-import { getChartData } from "../../services/FolderService";
+import { getSharedFolderCount } from "../../services/FolderService";
 import "./chart.css"; // Importez le fichier CSS pour le style du composant
-import {Chart,registerables} from 'chart.js'; 
+import { Chart, registerables } from 'chart.js';
+import { FaSyncAlt } from 'react-icons/fa';
 
+import Chart2 from "./chart2";
 
 const ChartPage = () => {
   const [chartData, setChartData] = useState<{
@@ -13,15 +15,17 @@ const ChartPage = () => {
     datasets: [],
     labels: []
   });
+  const [currentChartIndex, setCurrentChartIndex] = useState(0); // État pour suivre l'index de la charte actuellement affichée
+
   Chart.register(...registerables);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getChartData();
+        const data = await getSharedFolderCount();
         const formattedData = formatChartData(data);
         setChartData(formattedData);
-      } catch (error:any) {
+      } catch (error: any) {
         console.error("Failed to fetch chart data:", error.message);
       }
     };
@@ -31,17 +35,11 @@ const ChartPage = () => {
 
   const formatChartData = (data: any) => {
     return {
-      labels: data.map((entry: any) => {
-        const date = new Date(entry.date);
-        const day = date.getDate();
-        const month = date.getMonth() + 1; // Les mois sont indexés à partir de zéro, donc nous ajoutons 1
-        const year = date.getFullYear();
-        return `${day}-${month}-${year}`; // Format: JJ-MM-AAAA
-      }),
+      labels: data.map((entry: any) => entry.folderName),
       datasets: [
         {
-          label: "Nombre de dossiers",
-          data: data.map((entry: any) => entry.folderCount),
+          label: "Nombre de dossiers partagés",
+          data: data.map((entry: any) => entry.shareCount),
           fill: false,
           borderColor: "rgb(75, 192, 192)",
           tension: 0.1,
@@ -49,15 +47,22 @@ const ChartPage = () => {
       ],
     };
   };
-  
+  const handleChartChange = () => {
+    setCurrentChartIndex((prevIndex) => (prevIndex + 1) % 2); // Basculer entre les index 0 et 1
+  };
 
   return (
-    <div className="chart-container"> {/* Ajoutez une classe pour le conteneur principal */}
-      <h2 className="chart-heading">Chart Page</h2> {/* Ajoutez une classe pour le titre */}
-      <div className="chart-wrapper"> {/* Ajoutez une classe pour l'enveloppe du graphique */}
-        <Line data={chartData} /> {/* Utilisez Line de react-chartjs-2 pour afficher le graphique */}
+    <div className="chart-container">
+      <div className="chart-wrapper">
+        {currentChartIndex === 0 ? <Chart2 /> : null}
+        {currentChartIndex === 1 ? <Line data={chartData} /> : null}
+      </div>
+      <div className="change-chart-icon" onClick={handleChartChange}>
+        {/* Utilisation de l'icône de changement */}
+        <FaSyncAlt />
       </div>
     </div>
   );
 };
+
 export default ChartPage;

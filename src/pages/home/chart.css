@@ -1,28 +1,30 @@
-
+/* CSS pour le composant chart */
 
 .chart-heading {
   text-align: center;
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 20px; /* Assurez-vous que la marge est la même que pour le composant chart2 */
 }
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto; /* Hauteur automatique pour s'adapter au contenu */
+  max-width: 80%; /* Limitez la largeur maximale à 80% de la largeur de la fenêtre */
+  margin: 20px auto; /* Marge extérieure pour centrer le conteneur */
+}
+
 
 .chart-wrapper {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.chart-container {
-    display: flex; /* Utilisez flexbox pour aligner les éléments horizontalement */
-    justify-content: center; /* Centre les éléments horizontalement */
-    align-items: center; /* Centre les éléments verticalement */
-    margin: 20px;
 
-    height: 100vh; /* Hauteur égale à la hauteur de la fenêtre */
-  }
-  
-  .chart-wrapper {
-    width: 50%; /* Occupe 50% de la largeur de la page */
-    max-width: 600px; /* Largeur maximale pour éviter que le graphique ne devienne trop large */
-  }
-  
+  display: flex;
+  flex: 0.5; /* Réduisez la taille du composant pour qu'il occupe 50% de l'espace disponible */
+  max-width: 300px; /* Réduisez la largeur maximale à 150px */
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  margin: 10px; /* Ajoute une marge autour des graphiques */
+}

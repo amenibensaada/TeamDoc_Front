@@ -13,6 +13,10 @@ import NotFound from "./notFound/notFound";
 import Footer from "./footer/footer";
 import SharedFoldersPage from "./home/foldershared";
 import Chart from "./home/chart";
+import Chatbot from "./home/chatbot";
+import Chartt from "./home/chart2";
+
+
 
 
 export default [
@@ -80,4 +84,12 @@ export default [
     path: "/Chart",
     element: <Chart />,
   },
+  {
+    path: "/chat",
+    element: <Chatbot />,
+  },
+   {
+     path: "/chart2",
+     element: <Chartt/>,
+   },
 ];

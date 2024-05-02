@@ -77,7 +77,7 @@
   padding: 8px 12px; /* Ajustez la taille du bouton */
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #123c6a;
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -98,12 +98,15 @@
 /* staticlist.css */
 /* staticlist.css */
 .button-container button {
-  background-color: blue !important;
-  color: white !important;
-  border: none !important;
-  padding: 10px 20px !important;
-  cursor: pointer !important;
-  margin-right: 10px !important;
+  background-color: #6a0dad;
+ /* Couleur de fond */
+  color: #fff; /* Couleur du texte */
+  border: none; /* Supprimer la bordure */
+  border-radius: 8px; /* Coins arrondis */
+  padding: 10px 20px; /* Ajustement du rembourrage */
+  cursor: pointer; /* Curseur pointeur */
+  transition: background-color 0.3s ease; /* Animation de transition */
+  margin-top: 10px; /* Espacement en haut */
 }
 
 .pagination .button {
