@@ -1,7 +1,7 @@
 import { createContent, getContent } from "@/services/ContentService";
 import EditorJs from "@natterstefan/react-editor-js";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import Header from "@editorjs/header";
 import boldIcon from "/public/assets/bold.png";
 import italicIcon from "/public/assets/italic.png";
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   listItem: {
-    marginLeft: 20, 
+    marginLeft: 20,
   },
   code: {
     fontFamily: "Courier",
@@ -200,17 +200,16 @@ export const EditorReactContent = () => {
   const navigateToHistory = () => {
     navigate(`/contenthistory/${id}`);
   };
- //pdf
- const handleDownloadPDF = async () => {
-  const doc = <MyDocument content={content} />;
-  const asPdf = pdf();
+  //pdf
+  const handleDownloadPDF = async () => {
+    const doc = <MyDocument content={content} />;
+    const asPdf = pdf();
 
-  asPdf.updateContainer(doc);
+    asPdf.updateContainer(doc);
 
-  const blob = await asPdf.toBlob();
-  saveAs(blob, "document.pdf");
-};
-
+    const blob = await asPdf.toBlob();
+    saveAs(blob, "document.pdf");
+  };
 
   const documentQuery = useQuery({
     queryKey: ["document", id],
@@ -231,19 +230,19 @@ export const EditorReactContent = () => {
       setContent(JSON.parse(query.data.content));
     }
   }, [query.data?.content]);
- //verification de click de button save
- useEffect(() => {
-  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-    if (content && !saveClicked) {
-      event.preventDefault();
-      event.returnValue = "";
-    }
-  };
-  window.addEventListener("beforeunload", handleBeforeUnload);
-  return () => {
-    window.removeEventListener("beforeunload", handleBeforeUnload);
-  };
-}, [content, saveClicked]);
+  //verification de click de button save
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (content && !saveClicked) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [content, saveClicked]);
 
   const mutation = useMutation({
     mutationFn: (body: { content: string; documentId: string }) =>
@@ -280,7 +279,6 @@ export const EditorReactContent = () => {
   };
 
   const onChange = () => {
-
     console.log(content);
     console.log("Now I know that Editor's content changed!");
   };
@@ -350,7 +348,6 @@ export const EditorReactContent = () => {
     document.execCommand("fontSize", false, "3");
   };
 
-
   const translateText = async () => {
     if (
       !content ||
@@ -412,8 +409,6 @@ export const EditorReactContent = () => {
 
     return { success: 1, file: { url: data.secure_url } };
   };
-
-
 
   return (
     <div className="editor-container">
@@ -487,7 +482,7 @@ export const EditorReactContent = () => {
         </EditorJs>
       )}
       <div className="sidebar  ">
-        <h2>Options de mise en forme</h2>
+        {/* <h2>Options de mise en forme</h2> */}
         <div className="button-container">
           <button onClick={handleBoldClick}>
             <img src={boldIcon} alt="Bold" />
@@ -499,19 +494,16 @@ export const EditorReactContent = () => {
             <img src={underlineIcon} alt="Underline" />
           </button>
         </div>
-  
-              
-      
 
-          <button onClick={handleAlignLeftClick}>Align Left</button>
-          <button onClick={handleAlignCenterClick}>Align Center</button>
-          <button onClick={handleAlignRightClick}>Align Right</button>
-          <button onClick={handleJustifyClick}>Justify</button>
+        <button onClick={handleAlignLeftClick}>Align Left</button>
+        <button onClick={handleAlignCenterClick}>Align Center</button>
+        <button onClick={handleAlignRightClick}>Align Right</button>
+        <button onClick={handleJustifyClick}>Justify</button>
 
-          <input
-            type="color"
-            onChange={(e) => handleTextColorChange(e.target.value)}
-          />
+        <input
+          type="color"
+          onChange={(e) => handleTextColorChange(e.target.value)}
+        />
 
         <button onClick={handleFontSizeIncrease}>Increase Font Size</button>
         <button onClick={handleFontSizeDecrease}>Decrease Font Size</button>
@@ -521,25 +513,23 @@ export const EditorReactContent = () => {
         </button>
 
         <button
-            type="button"
-            onClick={handleDownloadPDF}
-            className="bg-blue-500 hover:bg-blue-600 text-black font-bold py-1 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200"
-          >
-            Download PDF
-          </button>  
+          type="button"
+          onClick={handleDownloadPDF}
+          className="bg-blue-500 hover:bg-blue-600 text-black font-bold py-1 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200">
+          Download PDF
+        </button>
         <button onClick={translateText}>Translate Text</button>
         <button onClick={navigateToHistory}>History Page</button>
-
         <CommentSection />
         <TranslateModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        translatedText={translatedText ?? ""}
-      />
-      <div className="relative">
-            <StartRecordModal />
-     </div>
-      </div>  
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          translatedText={translatedText ?? ""}
+        />
+        <div className="relative">
+          <StartRecordModal />
+        </div>
+      </div>
     </div>
   );
 };

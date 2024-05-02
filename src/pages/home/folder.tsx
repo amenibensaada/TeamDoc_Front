@@ -385,7 +385,7 @@ const FoldersPage = () => {
                       }}>
                       Update Folder
                     </button>
-                    <select
+                    {/* <select
                       className="custom-select"
                       value={selectedUserIds[folder._id] || ""}
                       onChange={(e) => {
@@ -404,7 +404,7 @@ const FoldersPage = () => {
                         }
                         return null;
                       })}
-                    </select>
+                    </select> */}
 
                     <button onClick={() => handleIgnoreAccess(folder._id)}>
                       Ignore Access

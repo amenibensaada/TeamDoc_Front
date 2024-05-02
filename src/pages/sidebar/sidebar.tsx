@@ -15,12 +15,12 @@ export default function SideBar() {
 
     // { title: "Dashboard", src: "Chart_fill" },
 
-    // {
-    //   title: "Files ",
-    //   src: "folders",
-    //   gap: true,
-    //   path: "/folder/static/:folderId",
-    // },
+    {
+      title: "folders ",
+      src: "folders",
+      gap: true,
+      path: "/folder",
+    },
     { title: " Meet ", src: "new-folder", gap: true, path: "/meet" },
     { title: " Create file ", src: "add-file" },
     {
