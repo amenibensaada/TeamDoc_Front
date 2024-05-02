@@ -54,21 +54,24 @@ const StaticFileList = () => {
         const documents = await getDocumentsbyFolderId(folderId);
         return documents;
       } else {
-        return { message: "Aucun document trouvé car aucun ID de dossier n'est spécifié." };
-
+        return {
+          message:
+            "Aucun document trouvé car aucun ID de dossier n'est spécifié.",
+        };
       }
     },
   });
-  
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching documents</div>;
 
   const filteredAndSortedFiles = documentsdata
-    .filter((file:File) =>
+    .filter((file: File) =>
       file.Title.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    .sort((a:File, b:File) => (sortByName ? a.Title.localeCompare(b.Title) : 0));
+    .sort((a: File, b: File) =>
+      sortByName ? a.Title.localeCompare(b.Title) : 0
+    );
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -126,8 +129,7 @@ const StaticFileList = () => {
             />
             <button
               className="button-container"
-              onClick={() => setSortByName(!sortByName)}
-            >
+              onClick={() => setSortByName(!sortByName)}>
               {sortByName
                 ? "Désactiver le tri par nom"
                 : "Activer le tri par nom"}
@@ -138,20 +140,19 @@ const StaticFileList = () => {
           {showAddForm && (
             <AddDocumentForm
               onClose={handleToggleForm}
-              onUpdate={handleUpdateDocument}/>
+              onUpdate={handleUpdateDocument}
+            />
           )}
           <button
             onClick={handleToggleForm}
-            className="flex items-center px-4 py-2 mt-4 text-sm font-medium text-white bg-pink-700 rounded-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50"
-          >
+            className="flex items-center px-4 py-2 mt-4 text-sm font-medium text-white bg-pink-700 rounded-md hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50">
             <svg
               className="w-5 h-5 mr-2"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+              stroke="currentColor">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -165,7 +166,7 @@ const StaticFileList = () => {
 
         <div className="file-list-container">
           <div className="static-file-list">
-            {currentItems.map((file:File) => (
+            {currentItems.map((file: File) => (
               <StaticFileCard
                 key={file._id}
                 title={file.Title}
@@ -200,8 +201,7 @@ const StaticFileList = () => {
                 <button
                   key={index}
                   className="button"
-                  onClick={() => handlePageChange(index + 1)}
-                >
+                  onClick={() => handlePageChange(index + 1)}>
                   {index + 1}
                 </button>
               ))}
