@@ -10,6 +10,8 @@ import SideBar from "../sidebar/sidebar";
 import { useEffect, useRef, useState } from "react";
 import { getDocumentById } from "../../services/ContentService";
 import { getFolderById } from "../../services/documentsService";
+//import Typo from 'typo-js';
+
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -174,6 +176,10 @@ export const EditorReactContent = () => {
 
     return { success: 1, file: { url: data.secure_url } };
   };
+  //correction automatique ************************************************************************************
+ // Correction automatique
+
+  
 
   const translateText = async () => {
     if (

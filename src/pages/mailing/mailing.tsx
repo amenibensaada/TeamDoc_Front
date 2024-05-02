@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+//import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { HiOutlineMail, HiOutlineClipboardList, HiOutlineChatAlt2 } from "react-icons/hi";
-import { useSpring, animated } from "react-spring";
+import { useSpring } from "react-spring";
 import Footer from "../footer/footer";
+import { useState } from "react";
 
 
 const FormContainer = styled.div`
@@ -89,14 +90,14 @@ const StyledTextArea = styled.textarea`
   }
 `;
 
-const StyledButton = styled(Button)`
+/*const StyledButton = styled(Button)`
   background-color: #7e57c2;
   border-color: #7e57c2;
   &:hover {
     background-color: #5e35b1;
     border-color: #5e35b1;
   }
-`;
+`;*/
 
 const ImageContainer = styled.div`
   width: 40%;
@@ -179,9 +180,9 @@ function ContactForm() {
                 rows={4}
               />
             </InputGroup>
-            <StyledButton variant="primary" onClick={sendMail}>
+            <Button variant="primary" onClick={sendMail}>
               Envoyer
-            </StyledButton>
+            </Button>
             {isMailSent && (
               <p className="text-success mt-3">Mail envoyé avec succès!</p>
             )}
