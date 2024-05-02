@@ -172,7 +172,8 @@ function ContactForm() {
       </FormSection>
       <ImageContainer>
         {/* Ajoutez votre image/logo ici */}
-        <img src="./logo.png" alt="Logo de l'application" width="100%" />
+        <img src="./logo.png" alt="Logo de l'application" width="100%" /> 
+        
       </ImageContainer>
     </FormContainer>
   );
