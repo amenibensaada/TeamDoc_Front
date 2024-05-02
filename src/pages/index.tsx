@@ -9,6 +9,7 @@ import { EditorReactContent } from "./home/EditorReactContent";
 import HistoricalChangesPage from "./ContentHistory/HistoricalChangesPage";
 import LandingPage from "./landingPage/landingPage";
 import NotFound from "./notFound/notFound";
+import Meet from "@/videochat/videochat";
 import ProfilePage from "./profile/profilePage";
 import SharedFoldersPage from "./home/foldershared";
 import Chart from "./home/chart";
@@ -51,11 +52,13 @@ export default [
     path: "/folder/static/:folderId",
     element: <Static />,
   },
+  
   {
     path: "/folder/static",
     element: <Static />,
   },
   { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
+  { path: "/meet*", element: <Meet/> },
   { path: "/", element: <LandingPage /> },
   { path: "/profile", element: <ProfilePage /> },
 

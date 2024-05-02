@@ -19,7 +19,8 @@ import {
 } from "@react-pdf/renderer";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
-import Embed from "@editorjs/embed";import { getDocumentById } from "../../services/ContentService";
+import Embed from "@editorjs/embed";
+import { getDocumentById } from "../../services/ContentService";
 import { getFolderById } from "../../services/documentsService";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -28,9 +29,7 @@ import ImageTool from "@editorjs/image";
 import "./editcontent.css";
 import CommentSection from "../comments/Comment";
 import ChatModal from "../ai/ChatModal";
-//import { TextGenerationTool } from "./TextGenerationTool";
-
-//import SimpleVideo from 'simple-video-editorjs';
+import { TranslateModal } from "./translate/TranslateModal";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Paragraph from "@editorjs/paragraph";
@@ -52,16 +51,10 @@ import delimiter from "@editorjs/delimiter";
 import list from "@editorjs/list";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-// import Prism from 'prismjs';
-// import 'prismjs/themes/prism.css';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import LinkTool from "@editorjs/link";
 import StartRecordModal from "./startrecordemodel";
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { TranslateModal } from "./translate/TranslateModal";
 interface Block {
   id: string;
   type: string;
@@ -183,25 +176,35 @@ export const EditorReactContent = () => {
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editor = useRef<any>();
   const { id } = useParams();
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [content, setContent] = useState<any>();
   const [saveClicked, setSaveClicked] = useState(false);
+  const [documentData, setDocumentData] = useState<any>();
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
 
+  console.log(documentData, isSaveDisabled);
   const query = useQuery({
     queryKey: ["editor", id],
     queryFn: () => getContent(id || ""),
   });
+
   const navigateToHistory = () => {
     navigate(`/contenthistory/${id}`);
   };
-  const [documentData, setDocumentData] = useState<any>();
-  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
-  console.log(documentData, isSaveDisabled);
+ //pdf
+ const handleDownloadPDF = async () => {
+  const doc = <MyDocument content={content} />;
+  const asPdf = pdf();
+
+  asPdf.updateContainer(doc);
+
+  const blob = await asPdf.toBlob();
+  saveAs(blob, "document.pdf");
+};
+
+
   const documentQuery = useQuery({
     queryKey: ["document", id],
     queryFn: () => getDocumentById(id || ""),
@@ -221,6 +224,19 @@ export const EditorReactContent = () => {
       setContent(JSON.parse(query.data.content));
     }
   }, [query.data?.content]);
+ //verification de click de button save
+ useEffect(() => {
+  const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+    if (content && !saveClicked) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+  };
+  window.addEventListener("beforeunload", handleBeforeUnload);
+  return () => {
+    window.removeEventListener("beforeunload", handleBeforeUnload);
+  };
+}, [content, saveClicked]);
 
   const mutation = useMutation({
     mutationFn: (body: { content: string; documentId: string }) =>
@@ -257,15 +273,14 @@ export const EditorReactContent = () => {
   };
 
   const onChange = () => {
-    // handleContentChange(content);
 
     console.log(content);
     console.log("Now I know that Editor's content changed!");
   };
+
   // fonction save editor
   const onSave = async () => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const outputData = await (editor as any).current.save();
       setContent(outputData);
       if (folderAccess !== "view") {
@@ -329,29 +344,6 @@ export const EditorReactContent = () => {
   };
 
 
-  //image
-  const handleMediaUpload = async (file: File, type: string) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "hanaromdhani");
-
-    let uploadUrl = "";
-    if (type === "image") {
-      uploadUrl = "https://api.cloudinary.com/v1_1/dwi9bhke9/image/upload";
-    } else if (type === "video") {
-      uploadUrl = "https://api.cloudinary.com/v1_1/dwi9bhke9/video/upload";
-    }
-
-    const response = await fetch(uploadUrl, {
-      method: "POST",
-      body: formData,
-    });
-
-    const data = await response.json();
-
-    return { success: 1, file: { url: data.secure_url } };
-  };
-
   const translateText = async () => {
     if (
       !content ||
@@ -391,37 +383,30 @@ export const EditorReactContent = () => {
       console.error(error);
     }
   };
+
+  const handleMediaUpload = async (file: File, type: string) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "hanaromdhani");
+
+    let uploadUrl = "";
+    if (type === "image") {
+      uploadUrl = "https://api.cloudinary.com/v1_1/dwi9bhke9/image/upload";
+    } else if (type === "video") {
+      uploadUrl = "https://api.cloudinary.com/v1_1/dwi9bhke9/video/upload";
+    }
+
+    const response = await fetch(uploadUrl, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
     return { success: 1, file: { url: data.secure_url } };
   };
 
-  //pdf
-  const handleDownloadPDF = async () => {
-    const doc = <MyDocument content={content} />;
-    const asPdf = pdf();
 
-    asPdf.updateContainer(doc);
-
-    const blob = await asPdf.toBlob();
-    saveAs(blob, "document.pdf");
-  };
-
-  //verification de click de button save
-  useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      // Vérifier si le contenu a été modifié et si le bouton "Save" n'a pas été cliqué
-      if (content && !saveClicked) {
-        // Afficher une alerte personnalisée
-        event.preventDefault();
-        event.returnValue = "";
-      }
-    };
-    // Ajouter l'écouteur d'événement beforeunload
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    // Nettoyer l'écouteur d'événement lorsque le composant est démonté
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [content, saveClicked]);
 
   return (
     <div className="editor-container">
@@ -509,27 +494,7 @@ export const EditorReactContent = () => {
         </div>
   
               
-        <div className="sidebar">
-         
-         
-
-       
-        
-       
-     
-
-        <h2>Options de mise en forme</h2>
-        <div className="button-container">
-          <button onClick={handleBoldClick}>
-            <img src={boldIcon} alt="Bold" />
-          </button>
-          <button onClick={handleItalicClick}>
-            <img src={italicIcon} alt="Italic" />
-          </button>
-          <button onClick={handleUnderlineClick}>
-            <img src={underlineIcon} alt="Underline" />
-          </button>
-        </div>
+      
 
           <button onClick={handleAlignLeftClick}>Align Left</button>
           <button onClick={handleAlignCenterClick}>Align Center</button>
@@ -543,30 +508,31 @@ export const EditorReactContent = () => {
 
         <button onClick={handleFontSizeIncrease}>Increase Font Size</button>
         <button onClick={handleFontSizeDecrease}>Decrease Font Size</button>
+
         <button type="button" onClick={onSave}>
           Save
         </button>
+
         <button
             type="button"
             onClick={handleDownloadPDF}
             className="bg-blue-500 hover:bg-blue-600 text-black font-bold py-1 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200"
           >
             Download PDF
-          </button>
+          </button>  
         <button onClick={translateText}>Translate Text</button>
         <button onClick={navigateToHistory}>History Page</button>
 
         <CommentSection />
-      </div>
-
-      <TranslateModal
+        <TranslateModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         translatedText={translatedText ?? ""}
       />
-         <div className="relative">
+      <div className="relative">
             <StartRecordModal />
-          </div>
+     </div>
+      </div>  
     </div>
   );
 };
