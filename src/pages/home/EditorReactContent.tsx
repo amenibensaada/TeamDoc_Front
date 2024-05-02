@@ -1,11 +1,12 @@
 import { createContent, getContent } from "@/services/ContentService";
 import EditorJs from "@natterstefan/react-editor-js";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Link, useParams, useNavigate, } from "react-router-dom";
+import {useNavigate, Link, useParams } from "react-router-dom";
 import Header from "@editorjs/header";
 import boldIcon from "/public/assets/bold.png";
 import italicIcon from "/public/assets/italic.png";
 import underlineIcon from "/public/assets/underline.png";
+import SideBar from "../sidebar/sidebar";
 import { useEffect, useRef, useState } from "react";
 import { saveAs } from "file-saver";
 import {
@@ -60,6 +61,7 @@ import StartRecordModal from "./startrecordemodel";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
+import { TranslateModal } from "./translate/TranslateModal";
 interface Block {
   id: string;
   type: string;
@@ -177,8 +179,6 @@ const MyDocument: React.FC<{ content: Content }> = ({ content }) => (
     </Page>
   </Document>
 );
-
-
 export const EditorReactContent = () => {
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -267,8 +267,6 @@ export const EditorReactContent = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const outputData = await (editor as any).current.save();
-      console.log(outputData);
-
       setContent(outputData);
       if (folderAccess !== "view") {
         mutation.mutate(
@@ -287,19 +285,6 @@ export const EditorReactContent = () => {
         console.log("Access level is 'view', cannot save content.");
       }
 
-      mutation.mutate(
-        {
-          content: JSON.stringify(outputData),
-          documentId: id || "",
-        },
-        {
-          onSuccess: () => {
-            query.refetch();
-          },
-        }
-      );
-      setSaveClicked(true);
-      console.log(content);
       console.log("Article data: ", outputData);
     } catch (e) {
       console.log("Saving failed: ", e);
@@ -342,18 +327,7 @@ export const EditorReactContent = () => {
   const handleFontSizeDecrease = () => {
     document.execCommand("fontSize", false, "3");
   };
-  const handleImageUpload = async (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "hanaromdhani");
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dwi9bhke9/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const data = await response.json();
+
 
   //image
   const handleMediaUpload = async (file: File, type: string) => {
@@ -467,7 +441,7 @@ export const EditorReactContent = () => {
               config: {
                 uploader: {
                   uploadByFile(file: File) {
-                    return handleImageUpload(file);
+                    return handleMediaUpload(file, "image");
                   },
                 },
                 actions: {
@@ -476,26 +450,43 @@ export const EditorReactContent = () => {
               },
             },
 
-            // embed: {
-            //   class: Embed,
-            //   inlineToolbar:false,
-            //   config: {
-            //     services: {
-            //       youtube: true,
-            //       coub: true
-            //     }
-            //   }
-            // },
-            // video: {
-            //   class: VideoTool,
-            //   config: {
-            //     uploader: {
-            //       uploadByFile(file: File) {
-            //         return handleVideoUpload(file);
-            //       },
-            //     },
-            //   },
-            // }
+            embed: {
+              class: Embed,
+              inlineToolbar: false,
+              config: {
+                services: {
+                  youtube: true,
+                  coub: true,
+                  video: true,
+                },
+                uploader: {
+                  uploadByFile(file: File) {
+                    return handleMediaUpload(file, "video");
+                  },
+                },
+                actions: {
+                  delete: true,
+                },
+              },
+            },
+            paragraph: {
+              class: Paragraph,
+              inlineToolbar: true,
+            },
+            code: {
+              class: CodeTool,
+              config: {
+                // handleColorcode: handleColorcode,
+              },
+            },
+            inlineCode: InlineCode,
+            linkTool: {
+              class: LinkTool,
+              inlineToolbar: true,
+            },
+            table: Table,
+            list: list,
+            delimiter: delimiter,
           }}
           editorInstance={(editorInstance) => {
             editor.current = editorInstance;
@@ -516,109 +507,29 @@ export const EditorReactContent = () => {
             <img src={underlineIcon} alt="Underline" />
           </button>
         </div>
-    <div className="flex justify-center items-center h-screen">
-      <div className="editor-container">
-        {content && (
-          <EditorJs
-            data={content}
-            holder="custom-editor-container"
-            onReady={onReady}
-            onChange={onChange}
-            reinitializeOnPropsChange={true}
-            tools={{
-              header: Header,
-              image: {
-                class: ImageTool,
-                config: {
-                  uploader: {
-                    uploadByFile(file: File) {
-                      return handleMediaUpload(file, "image");
-                    },
-                  },
-                  actions: {
-                    delete: true,
-                  },
-                },
-              },
-
-              embed: {
-                class: Embed,
-                inlineToolbar: false,
-                config: {
-                  services: {
-                    youtube: true,
-                    coub: true,
-                    video: true,
-                  },
-                  uploader: {
-                    uploadByFile(file: File) {
-                      return handleMediaUpload(file, "video");
-                    },
-                  },
-                  actions: {
-                    delete: true,
-                  },
-                },
-              },
-              paragraph: {
-                class: Paragraph,
-                inlineToolbar: true,
-              },
-              code: {
-                class: CodeTool,
-                config: {
-                  // handleColorcode: handleColorcode,
-                },
-              },
-              inlineCode: InlineCode,
-              linkTool: {
-                class: LinkTool,
-                inlineToolbar: true,
-              },
-              table: Table,
-              list: list,
-              delimiter: delimiter,
-            }}
-            editorInstance={(editorInstance) => {
-              editor.current = editorInstance;
-            }}
-          >
-            <div id="custom-editor-container" />
-          </EditorJs>
-        )}
+  
+              
         <div className="sidebar">
-          <h2>Use our ChatBot for instant assistance!</h2>
-          <div className="relative">
-            <ChatModal />
-          </div>
-
-          <h2>Setting</h2>
+         
+         
 
        
-          <button
-            type="button"
-            onClick={handleDownloadPDF}
-            className="bg-blue-500 hover:bg-blue-600 text-black font-bold py-1 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200"
-          >
-            Download PDF
-          </button>
-          <div className="relative">
-            <StartRecordModal />
-          </div>
+        
+       
      
 
-          <h2>Options de mise en forme</h2>
-          <div className="button-container">
-            <button onClick={handleBoldClick}>
-              <img src={boldIcon} alt="Bold" />
-            </button>
-            <button onClick={handleItalicClick}>
-              <img src={italicIcon} alt="Italic" />
-            </button>
-            <button onClick={handleUnderlineClick}>
-              <img src={underlineIcon} alt="Underline" />
-            </button>
-          </div>
+        <h2>Options de mise en forme</h2>
+        <div className="button-container">
+          <button onClick={handleBoldClick}>
+            <img src={boldIcon} alt="Bold" />
+          </button>
+          <button onClick={handleItalicClick}>
+            <img src={italicIcon} alt="Italic" />
+          </button>
+          <button onClick={handleUnderlineClick}>
+            <img src={underlineIcon} alt="Underline" />
+          </button>
+        </div>
 
           <button onClick={handleAlignLeftClick}>Align Left</button>
           <button onClick={handleAlignCenterClick}>Align Center</button>
@@ -635,13 +546,17 @@ export const EditorReactContent = () => {
         <button type="button" onClick={onSave}>
           Save
         </button>
+        <button
+            type="button"
+            onClick={handleDownloadPDF}
+            className="bg-blue-500 hover:bg-blue-600 text-black font-bold py-1 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200"
+          >
+            Download PDF
+          </button>
         <button onClick={translateText}>Translate Text</button>
         <button onClick={navigateToHistory}>History Page</button>
 
         <CommentSection />
-          <button onClick={handleFontSizeIncrease}>Increase Font Size</button>
-          <button onClick={handleFontSizeDecrease}>Decrease Font Size</button>
-        </div>
       </div>
 
       <TranslateModal
@@ -649,6 +564,9 @@ export const EditorReactContent = () => {
         onClose={() => setIsModalOpen(false)}
         translatedText={translatedText ?? ""}
       />
+         <div className="relative">
+            <StartRecordModal />
+          </div>
     </div>
   );
 };
