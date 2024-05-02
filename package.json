@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@rollup/rollup-linux-x64-gnu": "*",
     "@alan-ai/alan-sdk-web": "^1.8.54",
     "@cloudinary/react": "^1.13.0",
     "@cloudinary/url-gen": "^1.19.0",
