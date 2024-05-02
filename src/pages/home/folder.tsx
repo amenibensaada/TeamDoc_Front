@@ -24,6 +24,7 @@ const FoldersPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [users, setUsers] = useState<any[]>([]);
   const [selectedUserId, setSelectedUserId] = useState("");
+  console.log(setSelectedUserId);
   const [selectedUserIds, setSelectedUserIds] = useState<{
     [key: string]: string;
   }>({});

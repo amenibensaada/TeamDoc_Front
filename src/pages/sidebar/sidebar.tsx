@@ -20,6 +20,11 @@ export default function SideBar() {
       src: "folders",
       gap: true,
       path: "/folder",
+    },{
+      title: "Mail ",
+      src: "folders",
+      gap: true,
+      path: "/mailing",
     },
     { title: " Meet ", src: "new-folder", gap: true, path: "/meet" },
     { title: " Create file ", src: "add-file" },

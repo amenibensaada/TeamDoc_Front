@@ -22,7 +22,7 @@ import {
 import Embed from "@editorjs/embed";
 import { getDocumentById } from "../../services/ContentService";
 import { getFolderById } from "../../services/documentsService";
-
+//import Typo from 'typo-js';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import ImageTool from "@editorjs/image";
