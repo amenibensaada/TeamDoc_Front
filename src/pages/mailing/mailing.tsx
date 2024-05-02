@@ -1,12 +1,15 @@
 //import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Button } from "react-bootstrap";
-import { HiOutlineMail, HiOutlineClipboardList, HiOutlineChatAlt2 } from "react-icons/hi";
+import {
+  HiOutlineMail,
+  HiOutlineClipboardList,
+  HiOutlineChatAlt2,
+} from "react-icons/hi";
 import { useSpring } from "react-spring";
 import Footer from "../footer/footer";
 import { useState } from "react";
-
+import { Button } from "@/components/ui/button";
 
 const FormContainer = styled.div`
   background-color: #f0f0f0;
@@ -180,9 +183,7 @@ function ContactForm() {
                 rows={4}
               />
             </InputGroup>
-            <Button variant="primary" onClick={sendMail}>
-              Envoyer
-            </Button>
+            <Button onClick={sendMail}>Envoyer</Button>
             {isMailSent && (
               <p className="text-success mt-3">Mail envoyé avec succès!</p>
             )}
