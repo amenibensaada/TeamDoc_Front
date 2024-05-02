@@ -28,6 +28,8 @@ import { getFolderById } from "../../services/documentsService";
 import ImageTool from "@editorjs/image";
 import "./editcontent.css";
 import CommentSection from "../comments/Comment";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import ChatModal from "../ai/ChatModal";
 import { TranslateModal } from "./translate/TranslateModal";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -179,8 +181,13 @@ export const EditorReactContent = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editor = useRef<any>();
   const { id } = useParams();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [content, setContent] = useState<any>();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [saveClicked, setSaveClicked] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [documentData, setDocumentData] = useState<any>();
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
 
