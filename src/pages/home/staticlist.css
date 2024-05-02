@@ -22,6 +22,7 @@
   font-size: 0.9rem; /* Réduire la taille de la police */
   margin-bottom: 10px; /* Réduire l'espacement en bas */
   margin-left: 500px;
+  background-color: #f9f9f9;
 
 
 }
@@ -79,6 +80,7 @@
   border-radius: 5px;
   background-color: #007bff;
   color: #fff;
+
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
