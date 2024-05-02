@@ -85,4 +85,20 @@
   .button-container button:hover {
     background-color: #0056b3; /* Couleur de fond bleue foncée au survol */
   }
+  .disabled-button {
+    /* Styles pour le bouton désactivé */
+    cursor: not-allowed;
+    pointer-events: none;
+    /* Autres styles... */
+  }
   
+  .save-button {
+    /* Styles par défaut pour le bouton */
+    cursor: pointer;
+    /* Autres styles... */
+  }
+  
+  .save-button:disabled {
+    /* Styles lorsque le bouton est désactivé */
+    cursor: not-allowed;
+  }

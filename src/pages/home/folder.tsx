@@ -10,12 +10,23 @@ import {
   deleteFolder,
   addFolder,
   updateFolder,
+  shareFolder,
+  ignoreAccess,
+  toggleFolderAccess,
 } from "../../services/FolderService";
 import AddFolderModal from "./AddFolderModal";
 
 const FoldersPage = () => {
   const [page, setPage] = useState(1);
   const perPage = 3;
+
+  const [users, setUsers] = useState<any[]>([]);
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const [selectedUserIds, setSelectedUserIds] = useState<{
+    [key: string]: string;
+  }>({});
+
+  const [selectedFolderId, setSelectedFolderId] = useState("");
 
   const [searchKeyword, setSearchKeyword] = useState("");
   const {
@@ -30,6 +41,32 @@ const FoldersPage = () => {
 
   const [folders, setFolders] = useState([]);
   const [showAddFolderModal, setShowAddFolderModal] = useState(false);
+  const [userNames, setUserNames] = useState<{ [key: string]: string }>({});
+  console.log(userNames);
+
+  useEffect(() => {
+    const userNamesMap: { [key: string]: string } = {};
+    users.forEach((user) => {
+      userNamesMap[user._id] = user.firstName;
+    });
+    setUserNames(userNamesMap);
+  }, [users]);
+
+  const handleIgnoreAccess = async (folderId: string) => {
+    try {
+      if (!selectedUserId) {
+        console.error("Aucun utilisateur sélectionné pour ignorer l'accès");
+        return;
+      }
+      console.log("Selected User ID in handleIgnoreAccess:", selectedUserId);
+      console.log("Folder ID in handleIgnoreAccess:", folderId);
+      await ignoreAccess(folderId, selectedUserId);
+      console.log("Accès ignoré avec succès");
+      refetch();
+    } catch (error: any) {
+      console.error("Échec de l'ignorance de l'accès:", error.message);
+    }
+  };
 
   useEffect(() => {
     if (foldersData) {
@@ -40,18 +77,54 @@ const FoldersPage = () => {
 
   console.log("Dossiers actuels:", folders);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/users");
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+        const userData = await response.json();
+        setUsers(userData);
+        console.log("Liste des utilisateurs:", userData);
+      } catch (error: any) {
+        console.error("Failed to fetch users:", error.message);
+      }
+    };
+    fetchUsers();
+  }, []);
+  useEffect(() => {
+    if (selectedUserId && foldersData) {
+      setSelectedFolderId(foldersData[0]._id);
+      console.log("Selected Folder ID:", selectedFolderId);
+    }
+  }, [selectedUserId, foldersData]);
+
+  const handleUserSelectionChange = (folderId: string, userId: string) => {
+    setSelectedUserIds({ ...selectedUserIds, [folderId]: userId });
+    console.log("Selected User ID for Folder", folderId, ":", userId);
+  };
+
   const handleDeleteFolder = async (folderId: string) => {
-    try {
-      await deleteFolder(folderId);
-      console.log("Dossier supprimé avec succès");
-      refetch();
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Échec de la suppression du dossier:", error.message);
-      } else {
-        console.error(
-          "Une erreur inattendue s'est produite lors de la suppression du dossier"
-        );
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this folder?"
+    );
+
+    if (confirmDelete) {
+      try {
+        await deleteFolder(folderId);
+        console.log("Dossier supprimé avec succès");
+        refetch();
+      } catch (error: any) {
+        console.log("Error message:", error.message);
+        if (
+          error instanceof Error &&
+          error.message === "Folder already shared with this user"
+        ) {
+          alert("This folder is already shared with this user.");
+        } else {
+          console.error("Failed to share folder:", error.message);
+        }
       }
     }
   };
@@ -92,11 +165,70 @@ const FoldersPage = () => {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleShareFolder = async (folderId: string) => {
+    try {
+      const userIdToShareWith = selectedUserIds[folderId];
+      console.log("Selected User ID to share with:", userIdToShareWith);
+      if (!userIdToShareWith) {
+        alert("Veuillez sélectionner un utilisateur pour partager le dossier");
+        return;
+      }
+
+      const folderToShare = foldersData.find(
+        (folder: any) => folder._id === folderId
+      );
+      if (!folderToShare) {
+        console.error("Le dossier sélectionné n'a pas été trouvé");
+        return;
+      }
+
+      if (folderToShare.sharedWith.includes(userIdToShareWith)) {
+        alert("Ce dossier est déjà partagé avec cet utilisateur.");
+        return;
+      }
+
+      const success = await shareFolder(folderId, userIdToShareWith);
+      console.log("Success:", success);
+      if (success) {
+        alert("Dossier partagé avec succès");
+        console.log(
+          "Dossier partagé avec succès avec l utilisateur",
+          userIdToShareWith
+        );
+        refetch();
+      } else {
+        alert("Échec du partage du dossier");
+        console.error("Failed to share folder");
+      }
+    } catch (error: any) {
+      console.error("Failed to share folder:", error.message);
+      alert("Échec du partage du dossier");
+    }
+  };
+
+  const handleToggleAccess = async (folderId: string) => {
+    try {
+      const success = await toggleFolderAccess(folderId);
+      if (success) {
+        console.log("Changement d'accès réussi pour le dossier", folderId);
+      } else {
+        console.error("Échec du changement d'accès pour le dossier", folderId);
+      }
+    } catch (error: any) {
+      console.error(
+        "Échec du changement d'accès pour le dossier",
+        folderId,
+        ":",
+        error.message
+      );
+    }
+  };
+
   const handleSearchInputChange = (event: any) => {
     setSearchKeyword(event.target.value);
     console.log("Mot-clé de recherche mis à jour:", event.target.value);
   };
+
   const goToPreviousPage = () => {
     if (page > 1) {
       setPage((prevPage) => prevPage - 1);
@@ -115,11 +247,10 @@ const FoldersPage = () => {
       refetch();
     }
   };
-  
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const [folder, setFolder] = useState<unknown>(null);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [folder, setFolder] = useState<unknown>(null);
 
   const handleFolderClick = async (folderId: string) => {
     setSelectedFolderId(folderId);
@@ -129,12 +260,10 @@ const [folder, setFolder] = useState<unknown>(null);
       setFolder(folderData);
       console.log(folderData);
     } catch (error) {
-     
-        console.error(
-          "Échec de la récupération des données du dossier:",
-          error instanceof Error ? error.message : "Erreur inconnue"
-        );
-    
+      console.error(
+        "Échec de la récupération des données du dossier:",
+        error instanceof Error ? error.message : "Erreur inconnue"
+      );
     }
   };
   useEffect(() => {
@@ -142,22 +271,22 @@ const [folder, setFolder] = useState<unknown>(null);
     console.log("Folder:", folder);
   }, [selectedFolderId, folder]);
 
-//   const handleRemoveAllFolders = async () => {
-//   try {
-//     // Appelez la fonction removeFolders pour supprimer tous les dossiers
-//     await removeFolders();
-//     console.log("Tous les dossiers ont été supprimés avec succès");
-//     // Rechargez les données des dossiers après la suppression
-//     refetch();
-//   } catch (error) {
-//     console.error(
-//       "Une erreur s'est produite lors de la suppression de tous les dossiers:",
-//       error instanceof Error ? error.message : "Erreur inconnue"
-//     );
-//   }
-// };
+  //   const handleRemoveAllFolders = async () => {
+  //   try {
+  //     // Appelez la fonction removeFolders pour supprimer tous les dossiers
+  //     await removeFolders();
+  //     console.log("Tous les dossiers ont été supprimés avec succès");
+  //     // Rechargez les données des dossiers après la suppression
+  //     refetch();
+  //   } catch (error) {
+  //     console.error(
+  //       "Une erreur s'est produite lors de la suppression de tous les dossiers:",
+  //       error instanceof Error ? error.message : "Erreur inconnue"
+  //     );
+  //   }
+  // };
 
-
+  console.log("Utilisateurs:", users);
 
   return (
     <div className="content-container">
@@ -188,11 +317,34 @@ const [folder, setFolder] = useState<unknown>(null);
             {error && <div>Error: {error.message}</div>}
             {foldersData &&
               foldersData.length > 0 &&
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               foldersData.map((folder: any) => (
                 <div key={folder._id} className="folder">
                   <img src={folderIcon} alt="Folder Icon" />
                   <h3>{folder.Name}</h3>
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      onChange={() => handleToggleAccess(folder._id)}
+                    />
+                    <span className="slider round"></span>
+                  </label>
+
+                  <select
+                    className="custom-select"
+                    value={selectedUserIds[folder._id] || ""}
+                    onChange={(e) =>
+                      handleUserSelectionChange(folder._id, e.target.value)
+                    }>
+                    <option value="">Select a user</option>
+                    {users.map((user) => (
+                      <option key={user._id} value={user._id}>
+                        {user.email}
+                      </option>
+                    ))}
+                  </select>
+                  <button onClick={() => handleShareFolder(folder._id)}>
+                    Partager
+                  </button>
                   <div className="button-container">
                     {/* <Link
                       to={`/folder/static`}
@@ -202,23 +354,22 @@ const [folder, setFolder] = useState<unknown>(null);
                     </Link> */}
 
                     <Link
-                       to={`/folder/static/${folder._id}`}
+                      to={`/folder/static/${folder._id}`}
                       //to={`/folder/static`}
                       className="btn link-button"
-                      onClick={() => handleFolderClick(folder._id)}
-                    >
+                      onClick={() => handleFolderClick(folder._id)}>
                       Open Folder
                     </Link>
 
                     {/* Reste du code inchangé... */}
                     <button
                       onClick={() => handleDeleteFolder(folder._id)}
-                      className="delete-button"
-                    >
+                      className="delete-button">
                       Delete Folder
                     </button>
+
                     <button
-                      className="update-button"
+                      className="updatebutton1"
                       onClick={() => {
                         const newFolderName = prompt(
                           "Enter new folder name:",
@@ -231,9 +382,32 @@ const [folder, setFolder] = useState<unknown>(null);
                             newFolderName
                           );
                         }
-                      }}
-                    >
+                      }}>
                       Update Folder
+                    </button>
+                    <select
+                      className="custom-select"
+                      value={selectedUserIds[folder._id] || ""}
+                      onChange={(e) => {
+                        handleUserSelectionChange(folder._id, e.target.value);
+                        setSelectedUserId(e.target.value);
+                      }}>
+                      <option value="">Select a user</option>
+                      {folder.sharedWith.map((userId: string) => {
+                        const user = users.find((user) => user._id === userId);
+                        if (user) {
+                          return (
+                            <option key={user._id} value={user._id}>
+                              {user.firstName} {user.lastName}
+                            </option>
+                          );
+                        }
+                        return null;
+                      })}
+                    </select>
+
+                    <button onClick={() => handleIgnoreAccess(folder._id)}>
+                      Ignore Access
                     </button>
                   </div>
                 </div>
@@ -248,6 +422,8 @@ const [folder, setFolder] = useState<unknown>(null);
         <button className="but" onClick={() => setShowAddFolderModal(true)}>
           Add Folder
         </button>
+
+        <Link to="/Sharedfolders">Dossiers Partagés</Link>
 
         <div className="pagination-buttons">
           {page > 1 && (
