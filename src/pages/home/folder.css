@@ -80,44 +80,29 @@ html, body, #root {
   margin-bottom: 10px;
 }
 
-/* Style pour chaque bouton dans le dossier */
-.folder button {
-  padding: 10px 20px; /* Ajustement de la taille du rembourrage */
-  border-radius: 8px; /* Coins arrondis */
-  background-color: #dc3545; /* Couleur de fond */
-  color: #fff; /* Couleur du texte */
-  border: none; /* Supprimer la bordure */
-  cursor: pointer;
-  transition: background-color 0.3s ease; /* Animation au survol */
-}
 
-/* Style au survol des boutons */
-.folder button:hover {
-  background-color: #c82333;
-}
 
-/* Style pour les boutons de lien */
 
 
 /* Style au survol des boutons de lien */
 .link-button:hover {
-  background-color: #212529;
+  background-color: #640fa5;
 }
 
 
 /* Style pour les boutons de suppression */
 .link-button,
-.delete-button,
-.update-button {
-  padding: 10px 20px; /* Ajustement de la taille du rembourrage */
-  border-radius: 8px; /* Coins arrondis */
-  background-color: #569254; /* Couleur de fond */
-  color: #fff; /* Couleur du texte */
-  border: none; /* Supprimer la bordure */
+.deletebutton1,
+.updatebutton1 {
+  padding: 10px 20px;
+  border-radius: 8px; 
+  background-color: #721087; 
+  color: #fff; 
+  border: none; 
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Animation au survol */
-  margin-top: 10px; /* Espacement supplémentaire en haut */
-  margin-left: 10px; /* Espacement entre les boutons */
+  transition: background-color 0.3s ease; 
+  margin-top: 10px;
+  margin-left: 10px; 
 }
 
 /* Style pour les boutons de suppression au survol */
@@ -129,7 +114,7 @@ html, body, #root {
   margin-bottom: 20px; /* Espacement en bas */
   padding: 10px; /* Ajustement de la taille du rembourrage */
   border-radius: 8px; /* Coins arrondis */
-  background-color: #007bff; /* Couleur de fond */
+  background-color: #7916ae; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
   border: none; /* Supprimer la bordure */
   cursor: pointer;
@@ -138,15 +123,16 @@ html, body, #root {
 /* Style pour la div contenant les boutons de pagination */
 .pagination-buttons {
   display: flex;
+
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 /* Style pour les boutons de pagination */
 .pagination-buttons button {
   padding: 10px 20px;
   border-radius: 8px;
-  background-color: #007bff;
+  background-color: #6c1ab4;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -155,12 +141,12 @@ html, body, #root {
 
 /* Style au survol des boutons de pagination */
 .pagination-buttons button:hover {
-  background-color: #0056b3;
+  background-color: #430e5a;
 }
 
 /* Style au survol du bouton Ajouter un dossier */
 .but:hover {
-  background-color: #0056b3; /* Nouvelle couleur de fond */
+  background-color: #3f0a54; /* Nouvelle couleur de fond */
 }
 
 /* Style au survol du bouton Supprimer le dossier */
@@ -182,11 +168,140 @@ html, body, #root {
   border: 1px solid #ccc; /* Bordure */
   font-size: 16px; /* Taille de la police */
   transition: border-color 0.3s ease; /* Animation de transition */
+  background-color: white;
+
 }
 
 /* Style au survol de la barre de recherche */
 .search-bar:hover,
 .search-bar:focus {
-  border-color: #007bff; /* Changement de couleur de la bordure au survol et au focus */
+  border-color: #63686d; /* Changement de couleur de la bordure au survol et au focus */
   outline: none; /* Supprimer la bordure de mise au point */
 }
+
+.logo-text {
+  font-size: 24px; /* Taille de la police */
+  font-weight: bold; /* Poids de la police */
+  margin-bottom: 20px; /* Espacement vers le bas */
+  color: #333; /* Couleur du texte */
+}
+/* Style pour le bouton Partager */
+.folder button.share-button {
+  background-color: #9718be; /* Couleur de fond */
+  color: #fff; /* Couleur du texte */
+  border: none; /* Supprimer la bordure */
+  border-radius: 8px; /* Coins arrondis */
+  padding: 10px 20px; /* Ajustement du rembourrage */
+  cursor: pointer; /* Curseur pointeur */
+  transition: background-color 0.3s ease; /* Animation de transition */
+  margin-top: 10px; /* Espacement en haut */
+}
+
+/* Style au survol du bouton Partager */
+.folder button.share-button:hover {
+  background-color: #0056b3; /* Nouvelle couleur de fond */
+}
+
+/* Style pour le menu déroulant select */
+.folder select {
+  padding: 10px; /* Ajustement du rembourrage */
+  border-radius: 8px; /* Coins arrondis */
+  border: 1px solid #ccc; /* Bordure */
+  font-size: 16px; /* Taille de la police */
+  transition: border-color 0.3s ease; /* Animation de transition */
+  margin-top: 10px; /* Espacement en haut */
+  width: 100%; /* Prend toute la largeur disponible */
+}
+
+/* Style au survol et au focus du menu déroulant select */
+.folder select:hover,
+.folder select:focus {
+  border-color: #007bff; /* Changement de couleur de la bordure */
+  outline: none; /* Supprimer la bordure de mise au point */
+}
+
+/* Style pour les boutons dans les dossiers, sauf "Partager" et "Open Folder" */
+.folder button:not(.share-button):not(.link-button) {
+  padding: 10px 20px;
+  border-radius: 8px;
+  background-color: #6a0dad; /* Violet */
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+/* Style au survol des boutons dans les dossiers, sauf "Partager" et "Open Folder" */
+.folder button:not(.share-button):not(.link-button):hover {
+  background-color: #50008f; /* Violet foncé au survol */
+}
+.custom-select {
+  background-color: white;
+}
+
+
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/* Style pour le conteneur de la case à cocher */

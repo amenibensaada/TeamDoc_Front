@@ -1,0 +1,25 @@
+/* CSS pour le composant chart2 */
+
+.chart-heading {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px; /* Assurez-vous que la marge est la même que pour le composant chart */
+  }
+  
+  .chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 40px); /* Utilisation de toute la hauteur de la fenêtre, moins la marge */
+  }
+  
+  .chart-wrapper {
+    max-width: none; /* Réinitialise la largeur maximale */
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    margin: 10px; /* Ajoute une marge autour des graphiques */
+  }
+  

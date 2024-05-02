@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+//import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { Button } from "react-bootstrap";
-import { useSpring, animated } from "react-spring";
+import {
+  HiOutlineMail,
+  HiOutlineClipboardList,
+  HiOutlineChatAlt2,
+} from "react-icons/hi";
+import { useSpring } from "react-spring";
+import Footer from "../footer/footer";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
-const FormContainer = styled(animated.div)`
-  background-color: #f3f1f5;
+const FormContainer = styled.div`
+  background-color: #f0f0f0;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -15,17 +22,25 @@ const FormContainer = styled(animated.div)`
   margin: 50px auto;
   width: 90%;
   max-width: 1000px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const FormSection = styled.section`
   padding: 20px;
   width: 60%;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Title = styled.h2`
   font-size: 2.5rem;
   font-weight: bold;
-  color: #2e3440;
+  color: #7e57c2; /* Violet */
   margin-bottom: 20px;
 `;
 
@@ -35,47 +50,67 @@ const Description = styled.p`
   margin-bottom: 30px;
 `;
 
+const InputGroup = styled.div`
+  position: relative;
+  margin-bottom: 20px;
+`;
+
 const Input = styled.input`
   width: 100%;
   padding: 12px;
-  margin-bottom: 20px;
   border: 1px solid #cbd5e0;
   border-radius: 5px;
   box-shadow: none;
   outline: none;
-  transition: border-color 0.3s ease;
+  padding-left: 40px;
+  transition: border-color 0.3s ease; /* Transition uniquement sur la couleur du bord */
   &:focus {
     border-color: #7e57c2;
+    box-shadow: 0 0 5px rgba(126, 87, 194, 0.5);
   }
 `;
 
-const TextArea = styled.textarea`
+const IconWrapper = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #7e57c2;
+`;
+
+const StyledTextArea = styled.textarea`
   width: 100%;
   padding: 12px;
-  margin-bottom: 20px;
   border: 1px solid #cbd5e0;
   border-radius: 5px;
   box-shadow: none;
   outline: none;
   resize: vertical;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease; /* Transition uniquement sur la couleur du bord */
   &:focus {
     border-color: #7e57c2;
+    box-shadow: 0 0 5px rgba(126, 87, 194, 0.5);
   }
 `;
 
-const StyledButton = styled(Button)`
+/*const StyledButton = styled(Button)`
   background-color: #7e57c2;
   border-color: #7e57c2;
   &:hover {
     background-color: #5e35b1;
     border-color: #5e35b1;
   }
-`;
+`;*/
 
 const ImageContainer = styled.div`
   width: 40%;
   margin-left: 20px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
 `;
 
 function ContactForm() {
@@ -84,11 +119,7 @@ function ContactForm() {
   const [message, setMessage] = useState("");
   const [isMailSent, setIsMailSent] = useState(false);
 
-  const animationProps = useSpring({
-    from: { opacity: 0, transform: "translateX(-50px)" },
-    to: { opacity: 1, transform: "translateX(0)" },
-    config: { duration: 500 },
-  });
+  const inputProps = useSpring({ opacity: 1, from: { opacity: 0 } });
 
   function sendMail() {
     if (recipient_email && subject && message) {
@@ -108,62 +139,63 @@ function ContactForm() {
   }
 
   return (
-    <FormContainer style={animationProps}>
-      <FormSection>
-        <Title>Envoyer un mail</Title>
-        <Description>
-          Remplissez le formulaire ci-dessous pour nous contacter.
-        </Description>
-        <form>
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label">
-              Votre Email
-            </label>
-            <Input
-              type="email"
-              id="email"
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="username@gmail.com"
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="subject" className="form-label">
-              Sujet
-            </label>
-            <Input
-              type="text"
-              id="subject"
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="Indiquez comment nous pouvons vous aider"
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="message" className="form-label">
-              Votre message
-            </label>
-            <TextArea
-              id="message"
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Votre message ici"
-              required
-              rows={4}
-            />
-          </div>
-          <StyledButton variant="primary" onClick={() => sendMail()}>
-            Envoyer
-          </StyledButton>
-          {isMailSent && (
-            <p className="text-success mt-3">Mail envoyé avec succès!</p>
-          )}
-        </form>
-      </FormSection>
-      <ImageContainer>
-        {/* Ajoutez votre image ici */}
-        <img src="./mailing.jpg" alt="Image Description" width="100%" />
-      </ImageContainer>
-    </FormContainer>
+    <>
+      <FormContainer>
+        <FormSection>
+          <Title>Envoyer un email</Title>
+          <Description>
+            Remplissez le formulaire ci-dessous pour nous contacter.
+          </Description>
+          <form>
+            <InputGroup>
+              <IconWrapper>
+                <HiOutlineMail />
+              </IconWrapper>
+              <Input
+                type="email"
+                style={inputProps}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Votre adresse email"
+                required
+              />
+            </InputGroup>
+            <InputGroup>
+              <IconWrapper>
+                <HiOutlineClipboardList />
+              </IconWrapper>
+              <Input
+                type="text"
+                style={inputProps}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="Objet du message"
+                required
+              />
+            </InputGroup>
+            <InputGroup>
+              <IconWrapper>
+                <HiOutlineChatAlt2 />
+              </IconWrapper>
+              <StyledTextArea
+                style={inputProps}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Votre message ici"
+                required
+                rows={4}
+              />
+            </InputGroup>
+            <Button onClick={sendMail}>Envoyer</Button>
+            {isMailSent && (
+              <p className="text-success mt-3">Mail envoyé avec succès!</p>
+            )}
+          </form>
+        </FormSection>
+        <ImageContainer>
+          {/* Ajoutez votre image/logo ici */}
+          <img src="./logo.png" alt="Logo de l'application" width="100%" />
+        </ImageContainer>
+      </FormContainer>
+      <Footer />
+    </>
   );
 }
 

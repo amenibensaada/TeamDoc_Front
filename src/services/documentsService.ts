@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 const url='http://localhost:3000/Document'
 const token = localStorage.getItem("token");
@@ -62,6 +64,10 @@ export const createdocuments = async (createDocumentsDto: any) => {
   }
   return response.json();
 };
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+
 export const createdocumentsByfolder = async (folderId: string, createDocumentsDto: unknown) => {
   if (typeof createDocumentsDto === 'object' && createDocumentsDto !== null) {
     const response = await fetch(`${url}/${folderId}`, {
@@ -123,6 +129,18 @@ export const deletedocuments = async ( id:string) => {
   });
   if (!response.ok) {
     throw new Error("Failed to delete documents- folder id ");
+  }
+  return response.json();
+};
+export const getFolderById = async (folderId: string) => {
+  const response = await fetch(`http://localhost:3000/Document/folder/${folderId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to get document");
   }
   return response.json();
 };

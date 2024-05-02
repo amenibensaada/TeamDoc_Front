@@ -1,6 +1,8 @@
 .editor-container {
     display: flex;
     height: 100vh;
+    overflow: hidden;
+
   }
   
   #editorjs {
@@ -15,7 +17,7 @@
   
   /* Ajoutez d'autres styles selon vos préférences */
   .sidebar {
-    position: fixed;
+     position: fixed; 
     top: 0;
     right: 0; /* Positionnement à droite */
     width: 200px;
@@ -23,7 +25,11 @@
     background-color: #f0f0f0;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+    overflow-y: auto;
+    transition: height 0.3s ease;
+}
+
+
   
   /* Ajoutez d'autres styles selon vos besoins */
   
@@ -76,7 +82,6 @@
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff; /* Couleur de fond bleue */
     color: #fff; /* Couleur du texte blanc */
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -85,4 +90,20 @@
   .button-container button:hover {
     background-color: #0056b3; /* Couleur de fond bleue foncée au survol */
   }
+  .disabled-button {
+    /* Styles pour le bouton désactivé */
+    cursor: not-allowed;
+    pointer-events: none;
+    /* Autres styles... */
+  }
   
+  .save-button {
+    /* Styles par défaut pour le bouton */
+    cursor: pointer;
+    /* Autres styles... */
+  }
+  
+  .save-button:disabled {
+    /* Styles lorsque le bouton est désactivé */
+    cursor: not-allowed;
+  }

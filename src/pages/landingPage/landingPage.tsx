@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import landingPage from "../../assets/img/landigPage.png";
+import Footer from "../footer/footer";
 // import logo from "../../assets/img/logo.png";
 
 function LandingPage() {
@@ -74,6 +75,7 @@ function LandingPage() {
                       </a>
                     </div>
                   </div>
+
                   <img
                     src={landingPage}
                     width="550"
@@ -87,6 +89,7 @@ function LandingPage() {
           </main>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

@@ -127,19 +127,21 @@
     cursor: pointer;
 }
 .submit1:hover {
-    background: #453d53; /* Changez la couleur au survol */
-}
-.dw {
-    margin-top: 25px; /* Ajustez la marge vers le haut pour l'espacement */
-    margin-left: 120px; /* Ajustez la marge vers la gauche pour l'espacement horizontal */
-    align-self: flex-start; /* Alignez-le sur le côté supérieur du conteneur parent */
-    display: flex; /* Utilisez flexbox pour aligner verticalement le contenu */
-    align-items: center; /* Alignez verticalement le contenu au centre */
+    background: #453d53;
 }
 
-/* Style pour l'image à l'intérieur du lien */
+.dw {
+    margin-top: 25px; 
+    margin-left: 120px; 
+    align-self: flex-start;
+    display: flex; 
+    align-items: center;
+    background-color: #fff;
+ ;
+}
+
 .dw img {
-    width: 300px; /* Ajustez la taille de l'image */
-    height: auto; /* Laissez la hauteur s'ajuster automatiquement */
-    margin-right: 10px; /* Ajoutez une marge à droite pour l'espacement */
+    width: 300px;
+    height: auto; 
+    margin-right: 10px; 
 }

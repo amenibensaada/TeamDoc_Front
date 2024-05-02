@@ -25,3 +25,15 @@ export const getContent = async (id: string) => {
   }
   return response.json();
 };
+export const getDocumentById = async (documentId: string) => {
+  const response = await fetch(`http://localhost:3000/content/document/${documentId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to get document");
+  }
+  return response.json();
+};
