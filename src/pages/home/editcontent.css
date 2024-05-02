@@ -1,6 +1,8 @@
 .editor-container {
     display: flex;
     height: 100vh;
+    overflow: hidden;
+
   }
   
   #editorjs {
@@ -15,7 +17,7 @@
   
   /* Ajoutez d'autres styles selon vos préférences */
   .sidebar {
-    position: fixed;
+     position: fixed; 
     top: 0;
     right: 0; /* Positionnement à droite */
     width: 200px;
@@ -23,7 +25,11 @@
     background-color: #f0f0f0;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
+    overflow-y: auto;
+    transition: height 0.3s ease;
+}
+
+
   
   /* Ajoutez d'autres styles selon vos besoins */
   

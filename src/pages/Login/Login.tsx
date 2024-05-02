@@ -10,7 +10,6 @@ import logo from "../../assets/img/logo.png";
 import google_icon from "../../assets/img/login3.png";
 import { useMutation } from "@tanstack/react-query";
 import { loginUser, loginWithGoogle } from "@/services/LoginUser";
-import { Button } from "@/components/ui/button";
 import firebase, { auth, signInWithGoogle } from "@/firebase/firebase";
 
 export default function Login() {
@@ -147,9 +146,9 @@ export default function Login() {
             <div className="header12">
               <div className="text2">OR</div>
               <div className="underline"></div>
-              <Button className="dw" onClick={handleGoogleSignIn}>
+              <div className="dw" onClick={handleGoogleSignIn}>
                 <img src={google_icon} alt="Google Icon" />
-              </Button>
+              </div>
             </div>
           </div>
           <div className="forgot-password1">

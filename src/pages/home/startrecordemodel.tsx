@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import Chat from "./Chat";
+import StartRecording from "./startRecording";
 
-const ChatModal = () => {
+const StartRecordModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openChat = () => {
@@ -16,25 +16,24 @@ const ChatModal = () => {
   return (
     <div>
       <button
-        className="  bg-inherit  flex items-center gap-6 "
+        className="  bg-slate-300 px-2 flex items-center gap-6"
         onClick={openChat}>
-        <img src="/assets/iconAI.png" alt="Robot Icon" className=" h-9 w-9" />
-        <span>Open Chat</span>
+        <img src="/public/assets/dancingAI.gif" alt="Robot Icon" className="w-6 h-6" />
+        <span>Start Record</span>
       </button>
       <Modal
         isOpen={isOpen}
         onRequestClose={closeChat}
         contentLabel="Chat Modal">
-        <Chat />
+        <StartRecording />
         <button
           className="  bg-slate-300 px-14 flex items-center gap-6"
           onClick={closeChat}>
-          <img src="/assets/iconAI.png" alt="Robot Icon" className="w-6 h-6" />
-          <span>Close Chat</span>
+          <span>Close</span>
         </button>
       </Modal>
     </div>
   );
 };
 
-export default ChatModal;
+export default StartRecordModal;

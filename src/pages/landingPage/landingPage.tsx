@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import landingPage from "../../assets/img/landigPage.png";
+import Footer from "../footer/footer";
 // import logo from "../../assets/img/logo.png";
-import Chart from "../home/chart"
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -74,7 +74,6 @@ function LandingPage() {
                         LogIn
                       </a>
                     </div>
-
                   </div>
 
                   <img
@@ -85,12 +84,12 @@ function LandingPage() {
                     className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
                   />
                 </div>
-                
               </div>
             </section>
           </main>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

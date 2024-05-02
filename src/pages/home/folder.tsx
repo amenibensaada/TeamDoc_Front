@@ -23,42 +23,39 @@
     const perPage = 3;
     const folderButtonRef = useRef<HTMLAnchorElement | null>(null);
 
-    const [users, setUsers] = useState<any[]>([]);
-    const [selectedUserId, setSelectedUserId] = useState("");
-    const [selectedUserIds, setSelectedUserIds] = useState<{ [key: string]: string }>({});
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [users, setUsers] = useState<any[]>([]);
+  const [selectedUserId, setSelectedUserId] = useState("");
+  console.log(setSelectedUserId);
+  const [selectedUserIds, setSelectedUserIds] = useState<{
+    [key: string]: string;
+  }>({});
 
     const [selectedFolderId, setSelectedFolderId] = useState(""); 
 
-    const [searchKeyword, setSearchKeyword] = useState("");
-    const {
-      data: foldersData,
-      error,
-      isLoading,
-      refetch,
-    } = useQuery({
-      queryKey: ["folders", page, perPage, searchKeyword],
-      queryFn: () => getFolders(searchKeyword, page, perPage),
-    });
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const {
+    data: foldersData,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["folders", page, perPage, searchKeyword],
+    queryFn: () => getFolders(searchKeyword, page, perPage),
+  });
 
-    
-    const [folders, setFolders] = useState([]);
-    const [showAddFolderModal, setShowAddFolderModal] = useState(false);
-    
-    
-    
+  const [folders, setFolders] = useState([]);
+  const [showAddFolderModal, setShowAddFolderModal] = useState(false);
+  const [userNames, setUserNames] = useState<{ [key: string]: string }>({});
+  console.log(userNames);
 
-    const [userNames, setUserNames] = useState<{ [key: string]: string }>({});
-    
-    
   useEffect(() => {
     const userNamesMap: { [key: string]: string } = {};
     users.forEach((user) => {
-      userNamesMap[user._id] = user.firstName; 
+      userNamesMap[user._id] = user.firstName;
     });
     setUserNames(userNamesMap);
   }, [users]);
-
-
 
   const handleIgnoreAccess = async (folderId: string) => {
     try {
@@ -286,6 +283,8 @@
       console.log("Selected folder ID:", selectedFolderId);
       console.log("Folder:", folder);
     }, [selectedFolderId, folder]);
+
+
 
 
     console.log("Utilisateurs:", users);  

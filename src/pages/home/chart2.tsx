@@ -1,17 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { getChartData } from "../../services/FolderService";
 import "./chart2.css"; // Importez le fichier CSS pour le style du composant
-import {Chart,registerables} from 'chart.js'; 
-
+import { Chart, registerables } from "chart.js";
 
 const ChartPage = () => {
   const [chartData, setChartData] = useState<{
-    datasets: { label: string; data: any[]; fill: boolean; borderColor: string; tension: number; }[];
+    datasets: {
+      label: string;
+      data: any[];
+      fill: boolean;
+      borderColor: string;
+      tension: number;
+    }[];
     labels: any[];
   }>({
     datasets: [],
-    labels: []
+    labels: [],
   });
   Chart.register(...registerables);
 
@@ -21,7 +26,7 @@ const ChartPage = () => {
         const data = await getChartData();
         const formattedData = formatChartData(data);
         setChartData(formattedData);
-      } catch (error:any) {
+      } catch (error: any) {
         console.error("Failed to fetch chart data:", error.message);
       }
     };
@@ -49,11 +54,10 @@ const ChartPage = () => {
       ],
     };
   };
-  
 
   return (
-    <div > 
-        <Line data={chartData} /> 
+    <div>
+      <Line data={chartData} />
     </div>
   );
 };
