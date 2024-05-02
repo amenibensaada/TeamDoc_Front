@@ -177,6 +177,8 @@ const MyDocument: React.FC<{ content: Content }> = ({ content }) => (
 export const EditorReactContent = () => {
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [key, setKey] = useState(0);
+
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editor = useRef<any>();
@@ -192,6 +194,7 @@ export const EditorReactContent = () => {
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
   const [isEditingEnabled, setIsEditingEnabled] = useState(true);
   const [isAlertShown, setIsAlertShown] = useState(false);
+
   console.log(documentData, isSaveDisabled);
   const query = useQuery({
     queryKey: ["editor", id],
@@ -239,11 +242,24 @@ export const EditorReactContent = () => {
         event.returnValue = "";
       }
     };
+
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [content, saveClicked]);
+
+  useEffect(() => {
+    setKey((prevKey) => prevKey + 1);
+  }, [isEditingEnabled]);
+
+  useEffect(() => {
+    if (folderAccess === "view") {
+      setIsEditingEnabled(false);
+    } else {
+      setIsEditingEnabled(true);
+    }
+  }, [folderAccess]);
 
   if (query.data) {
     const documentId = query.data.documentId;
@@ -305,7 +321,7 @@ export const EditorReactContent = () => {
               console.log("Folder:", folder);
               setFolderAccess(folder.access);
               setIsSaveDisabled(folder.access === "view");
-              setIsEditingEnabled(folder.access == "view");
+              setIsEditingEnabled(folder.access === "view");
             })
             .catch((error) => {
               console.error("Error fetching folder:", error);
@@ -455,12 +471,13 @@ export const EditorReactContent = () => {
 
       {content && (
         <EditorJs
+          key={key}
           data={content}
           holder="custom-editor-container"
           onReady={onReady}
           onChange={onChange}
           reinitializeOnPropsChange={true}
-          readOnly={!isEditingEnabled}
+          readOnly={isEditingEnabled}
           tools={{
             header: Header,
             image: {
