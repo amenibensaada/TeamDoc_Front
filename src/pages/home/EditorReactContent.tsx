@@ -16,6 +16,7 @@ import { updateContentRealTime } from "@/services/ContentService";
 import ImageTool from "@editorjs/image";
 import "./editcontent.css";
 import { io } from 'socket.io-client';
+import { any } from "zod";
 
 const socket = io('http://localhost:3000' , {
   transports : ["websocket" , "polling"]
@@ -24,15 +25,49 @@ const socket = io('http://localhost:3000' , {
 
 
 export const EditorReactContent = () => {
+
+  
+
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editor = useRef<any>();
   const { id } = useParams();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [content, setContent] = useState<any>();
+  //const [content, setContent] = useState({ blocks: [{ type: 'paragraph', data: { text: 'Initial content' } }] });
   const query = useQuery({
     queryKey: ["editor", id],
     queryFn: () => getContent(id || ""),
   });
+
+  const [keyLog, setKeyLog] = useState("");
+  useEffect(() => {
+    
+    const handleKeyUp = (event: { key: any; }) => {
+      console.log("Key pressed:", event.key);
+      
+      // Add your custom logic here based on the key pressed
+      const updatedKeyLog = keyLog + event.key;
+      setKeyLog(updatedKeyLog);
+
+      if (event.key === "Enter") {
+        socket.emit('message', updatedKeyLog);
+         
+        console.log("Updated Key Log:", updatedKeyLog);
+        
+      }
+      // Show the updated keyLog in the console
+      console.log("Updated Key Log:", updatedKeyLog);
+    };
+  
+    document.addEventListener("keyup", handleKeyUp);
+  
+    return () => {
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  },  [keyLog]);
+
+  
 
   useEffect(() => {
     if (query.data?.content) {
@@ -47,11 +82,19 @@ export const EditorReactContent = () => {
     getContent(id || "");
     console.log('Connected to WebSocket server');
   });
+
+  socket.on('serverMessage', (data) => {
+    console.log('Received content update:', data);
+    const updatedBlocks = content ? [...content.blocks] : [];
+    updatedBlocks.push({ type: 'paragraph', data: { text: data} });
+    const updatedContent = { ...content, blocks: updatedBlocks };
+    setContent(updatedContent);
+  });
   
-  socket.on('contentUpdate', (data) => {
+ /* socket.on('contentUpdate', (data) => {
     console.log('Received content update:', data);
     // Mettez à jour votre contenu en fonction des données reçues en temps réel
-  });
+  });*/
 
   const onReady = () => {
     console.log("Editor.js is ready to work!");
@@ -59,12 +102,14 @@ export const EditorReactContent = () => {
 
   const onChange = () => {
     console.log("Now I know that Editor's content changed!");
+   // socket.emit('message', 'Hello from the client!');
   };
 
   const onSave = async () => {
     try {
       const outputData = await (editor as any).current.save();
       setContent(outputData);
+      
       mutation.mutate(
         {
           content: JSON.stringify(outputData),
@@ -75,6 +120,15 @@ export const EditorReactContent = () => {
             query.refetch();
             // Appeler la fonction de mise à jour en temps réel
             await updateContentRealTime(id || "", JSON.stringify(outputData));
+
+            const lastBlock = outputData.blocks[outputData.blocks.length - 1];
+            const newBlockText = lastBlock?.data?.text || '';
+  
+            // Emit socket message with the new text
+            socket.emit('message', newBlockText);
+  
+            // Log only the last block's text
+            console.log("Last Block Text:", newBlockText);
           },
         }
       );
@@ -129,8 +183,13 @@ const handleImageUpload = async (file: File) => {
   });
   const data = await response.json();
 
+ 
+
   return { success: 1, file: { url: data.secure_url } };
-};
+
+}; 
+
+
 
   return (
     <div className="editor-container">
