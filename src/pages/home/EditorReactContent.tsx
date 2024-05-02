@@ -184,13 +184,14 @@ export const EditorReactContent = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [content, setContent] = useState<any>();
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+  // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [saveClicked, setSaveClicked] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [documentData, setDocumentData] = useState<any>();
   const [isSaveDisabled, setIsSaveDisabled] = useState(false);
-
+  const [isEditingEnabled, setIsEditingEnabled] = useState(true);
+  const [isAlertShown, setIsAlertShown] = useState(false);
   console.log(documentData, isSaveDisabled);
   const query = useQuery({
     queryKey: ["editor", id],
@@ -244,11 +245,6 @@ export const EditorReactContent = () => {
     };
   }, [content, saveClicked]);
 
-  const mutation = useMutation({
-    mutationFn: (body: { content: string; documentId: string }) =>
-      createContent(body),
-  });
-
   if (query.data) {
     const documentId = query.data.documentId;
     getDocumentById(documentId)
@@ -278,21 +274,65 @@ export const EditorReactContent = () => {
     console.log("Editor.js is ready to work!");
   };
 
+  useEffect(() => {
+    if (query.data?.content) {
+      setContent(JSON.parse(query.data.content));
+    }
+  }, [query.data?.content]);
+  const mutation = useMutation({
+    mutationFn: (body: { content: string; documentId: string }) =>
+      createContent(body),
+  });
+
+  useEffect(() => {
+    if (!isAlertShown && folderAccess === "view") {
+      setIsAlertShown(true);
+      alert("Vous ne pouvez pas modifier ce contenu.");
+    }
+  }, [folderAccess]);
+
+  //const isViewAccess = query.data?.access === "view";
+  //console.log(query.data); // Affiche l'objet complet
+  if (query.data) {
+    const documentId = query.data.documentId;
+    getDocumentById(documentId)
+      .then((document) => {
+        console.log("Document:", document);
+        if (document && document.folderId) {
+          const folderId = document.folderId;
+          getFolderById(folderId)
+            .then((folder) => {
+              console.log("Folder:", folder);
+              setFolderAccess(folder.access);
+              setIsSaveDisabled(folder.access === "view");
+              setIsEditingEnabled(folder.access == "view");
+            })
+            .catch((error) => {
+              console.error("Error fetching folder:", error);
+            });
+        } else {
+          console.error("Folder ID not found in the document");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching document:", error);
+      });
+  }
+
   const onChange = () => {
-    console.log(content);
     console.log("Now I know that Editor's content changed!");
   };
 
-  // fonction save editor
   const onSave = async () => {
     try {
       const outputData = await (editor as any).current.save();
+
       setContent(outputData);
+
       if (folderAccess !== "view") {
         mutation.mutate(
           {
             content: JSON.stringify(outputData),
-
             documentId: id || "",
           },
           {
@@ -302,7 +342,7 @@ export const EditorReactContent = () => {
           }
         );
       } else {
-        console.log("Access level is 'view', cannot save content.");
+        alert("Access level is 'view', cannot save content.");
       }
 
       console.log("Article data: ", outputData);
@@ -310,7 +350,6 @@ export const EditorReactContent = () => {
       console.log("Saving failed: ", e);
     }
   };
-
   const handleBoldClick = () => {
     document.execCommand("bold", false, undefined);
   };
@@ -421,6 +460,7 @@ export const EditorReactContent = () => {
           onReady={onReady}
           onChange={onChange}
           reinitializeOnPropsChange={true}
+          readOnly={!isEditingEnabled}
           tools={{
             header: Header,
             image: {

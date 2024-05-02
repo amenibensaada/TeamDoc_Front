@@ -296,6 +296,33 @@ export const toggleFolderAccess = async (folderId: string) => {
     throw new Error("Failed to toggle folder access: " + error.message);
   }
 };
+// FolderService.js
+
+export const getSharedFolderCount = async () => {
+  const token = localStorage.getItem("token");
+  try {
+    const url = `http://localhost:3000/folder/shared/count`; 
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to get shared folder count");
+    }
+
+    // Log the response data before returning
+    const responseData = await response.json();
+    console.log("Response data from getSharedFolderCount:", responseData);
+
+    return responseData;
+  } catch (error:any) {
+    throw new Error("Failed to fetch shared folder count: " + error.message);
+  }
+};
 
 
 

@@ -267,6 +267,7 @@ html, body, #root {
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: 34px;
+
 }
 
 .slider:before {
@@ -303,3 +304,4 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+/* Style pour le conteneur de la case à cocher */

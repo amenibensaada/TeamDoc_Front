@@ -1,24 +1,25 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SideBar from "../sidebar/sidebar";
 import folderIcon from "/public/assets/Folder.png";
 import { Link } from "react-router-dom";
 import "./folder.css";
 import { useQuery } from "@tanstack/react-query";
 import { getSharedFolders } from "../../services/FolderService";
+import Chatbot from "./chatbot";
 
 const SharedFoldersPage = () => {
   // const [page, setPage] = useState(1);
   // const perPage = 3;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [users, setUsers] = useState<any[]>([]);
 
   const [searchKeyword, setSearchKeyword] = useState("");
+  const folderButtonRef = useRef<HTMLAnchorElement | null>(null);
+
   const {
     data: sharedFoldersData,
     error,
     isLoading,
-    // refetch,
   } = useQuery({
     queryKey: ["sharedFolders"],
     queryFn: () => getSharedFolders(),
@@ -50,6 +51,14 @@ const SharedFoldersPage = () => {
     <div className="content-container">
       <SideBar />
       <div className="main-content">
+        <Chatbot
+          folderButtonRef={
+            folderButtonRef as React.RefObject<
+              HTMLButtonElement | HTMLLinkElement
+            >
+          }
+        />
+
         <div className="header">
           <div className="pp">
             <p className="logo-text">Shared Liste </p>

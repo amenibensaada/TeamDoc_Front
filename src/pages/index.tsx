@@ -14,6 +14,7 @@ import Meet from "@/videochat/videochat";
 import ProfilePage from "./profile/profilePage";
 import SharedFoldersPage from "./home/foldershared";
 import Chart from "./home/chart";
+import Chartt from "./home/chart2";
 
 export default [
   {
@@ -72,6 +73,14 @@ export default [
   {
     path: "/Chart",
     element: <Chart />,
+  },
+  // {
+  //   path: "/chat",
+  //   element: <Chatbot folderButtonRef={undefined}  />,
+  // },
+  {
+    path: "/chart2",
+    element: <Chartt />,
   },
   {
     path: "/*",
