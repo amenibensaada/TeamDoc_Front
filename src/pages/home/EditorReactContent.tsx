@@ -1,7 +1,7 @@
 import { createContent, getContent } from "@/services/ContentService";
 import EditorJs from "@natterstefan/react-editor-js";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate, } from "react-router-dom";
 import Header from "@editorjs/header";
 import boldIcon from "/public/assets/bold.png";
 import italicIcon from "/public/assets/italic.png";
@@ -18,11 +18,14 @@ import {
 } from "@react-pdf/renderer";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
-import Embed from "@editorjs/embed";
+import Embed from "@editorjs/embed";import { getDocumentById } from "../../services/ContentService";
+import { getFolderById } from "../../services/documentsService";
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import ImageTool from "@editorjs/image";
 import "./editcontent.css";
+import CommentSection from "../comments/Comment";
 import ChatModal from "../ai/ChatModal";
 //import { TextGenerationTool } from "./TextGenerationTool";
 
@@ -175,10 +178,16 @@ const MyDocument: React.FC<{ content: Content }> = ({ content }) => (
   </Document>
 );
 
+
 export const EditorReactContent = () => {
+  const [translatedText, setTranslatedText] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editor = useRef<any>();
   const { id } = useParams();
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [content, setContent] = useState<any>();
   const [saveClicked, setSaveClicked] = useState(false);
@@ -187,6 +196,25 @@ export const EditorReactContent = () => {
     queryKey: ["editor", id],
     queryFn: () => getContent(id || ""),
   });
+  const navigateToHistory = () => {
+    navigate(`/contenthistory/${id}`);
+  };
+  const [documentData, setDocumentData] = useState<any>();
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
+  console.log(documentData, isSaveDisabled);
+  const documentQuery = useQuery({
+    queryKey: ["document", id],
+    queryFn: () => getDocumentById(id || ""),
+  });
+
+  const [folderAccess, setFolderAccess] = useState("");
+
+  useEffect(() => {
+    if (documentQuery.data) {
+      setDocumentData(documentQuery.data);
+    }
+  }, [documentQuery.data]);
+  console.log(documentQuery.data);
 
   useEffect(() => {
     if (query.data?.content) {
@@ -198,6 +226,31 @@ export const EditorReactContent = () => {
     mutationFn: (body: { content: string; documentId: string }) =>
       createContent(body),
   });
+
+  if (query.data) {
+    const documentId = query.data.documentId;
+    getDocumentById(documentId)
+      .then((document) => {
+        console.log("Document:", document);
+        if (document && document.folderId) {
+          const folderId = document.folderId;
+          getFolderById(folderId)
+            .then((folder) => {
+              console.log("Folder:", folder);
+              setFolderAccess(folder.access);
+              setIsSaveDisabled(folder.access === "view");
+            })
+            .catch((error) => {
+              console.error("Error fetching folder:", error);
+            });
+        } else {
+          console.error("Folder ID not found in the document");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching document:", error);
+      });
+  }
 
   const onReady = () => {
     console.log("Editor.js is ready to work!");
@@ -217,6 +270,23 @@ export const EditorReactContent = () => {
       console.log(outputData);
 
       setContent(outputData);
+      if (folderAccess !== "view") {
+        mutation.mutate(
+          {
+            content: JSON.stringify(outputData),
+
+            documentId: id || "",
+          },
+          {
+            onSuccess: () => {
+              query.refetch();
+            },
+          }
+        );
+      } else {
+        console.log("Access level is 'view', cannot save content.");
+      }
+
       mutation.mutate(
         {
           content: JSON.stringify(outputData),
@@ -272,6 +342,18 @@ export const EditorReactContent = () => {
   const handleFontSizeDecrease = () => {
     document.execCommand("fontSize", false, "3");
   };
+  const handleImageUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "hanaromdhani");
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/dwi9bhke9/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const data = await response.json();
 
   //image
   const handleMediaUpload = async (file: File, type: string) => {
@@ -293,6 +375,48 @@ export const EditorReactContent = () => {
 
     const data = await response.json();
 
+    return { success: 1, file: { url: data.secure_url } };
+  };
+
+  const translateText = async () => {
+    if (
+      !content ||
+      !content.blocks ||
+      content.blocks.length === 0 ||
+      !content.blocks[0].data ||
+      !content.blocks[0].data.text
+    ) {
+      console.error("Text not found in data");
+      return;
+    }
+
+    const textToTranslate =
+      content.blocks[0].data.text + "" + content.blocks[1].data.text;
+    const url =
+      "https://google-translate113.p.rapidapi.com/api/v1/translator/text";
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        "X-RapidAPI-Key": "839eda305db",
+        "X-RapidAPI-Host": "google-translate113.p.rapidapi.com",
+      },
+      body: new URLSearchParams({
+        from: "en",
+        to: "fr",
+        text: textToTranslate,
+      }),
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      setTranslatedText(result.trans);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
     return { success: 1, file: { url: data.secure_url } };
   };
 
@@ -326,6 +450,72 @@ export const EditorReactContent = () => {
   }, [content, saveClicked]);
 
   return (
+    <div className="editor-container">
+      <SideBar />
+
+      {content && (
+        <EditorJs
+          data={content}
+          holder="custom-editor-container"
+          onReady={onReady}
+          onChange={onChange}
+          reinitializeOnPropsChange={true}
+          tools={{
+            header: Header,
+            image: {
+              class: ImageTool,
+              config: {
+                uploader: {
+                  uploadByFile(file: File) {
+                    return handleImageUpload(file);
+                  },
+                },
+                actions: {
+                  delete: true,
+                },
+              },
+            },
+
+            // embed: {
+            //   class: Embed,
+            //   inlineToolbar:false,
+            //   config: {
+            //     services: {
+            //       youtube: true,
+            //       coub: true
+            //     }
+            //   }
+            // },
+            // video: {
+            //   class: VideoTool,
+            //   config: {
+            //     uploader: {
+            //       uploadByFile(file: File) {
+            //         return handleVideoUpload(file);
+            //       },
+            //     },
+            //   },
+            // }
+          }}
+          editorInstance={(editorInstance) => {
+            editor.current = editorInstance;
+          }}>
+          <div id="custom-editor-container" />
+        </EditorJs>
+      )}
+      <div className="sidebar  ">
+        <h2>Options de mise en forme</h2>
+        <div className="button-container">
+          <button onClick={handleBoldClick}>
+            <img src={boldIcon} alt="Bold" />
+          </button>
+          <button onClick={handleItalicClick}>
+            <img src={italicIcon} alt="Italic" />
+          </button>
+          <button onClick={handleUnderlineClick}>
+            <img src={underlineIcon} alt="Underline" />
+          </button>
+        </div>
     <div className="flex justify-center items-center h-screen">
       <div className="editor-container">
         {content && (
@@ -404,14 +594,7 @@ export const EditorReactContent = () => {
 
           <h2>Setting</h2>
 
-          <button
-            type="button"
-            onClick={onSave}
-            className="bg-green-500 hover:bg-green-600 text-black font-bold py-2 px-4 rounded focus:outline-none focus:ring focus:ring-green-200"
-          >
-            Save
-          </button>
-
+       
           <button
             type="button"
             onClick={handleDownloadPDF}
@@ -447,10 +630,25 @@ export const EditorReactContent = () => {
             onChange={(e) => handleTextColorChange(e.target.value)}
           />
 
+        <button onClick={handleFontSizeIncrease}>Increase Font Size</button>
+        <button onClick={handleFontSizeDecrease}>Decrease Font Size</button>
+        <button type="button" onClick={onSave}>
+          Save
+        </button>
+        <button onClick={translateText}>Translate Text</button>
+        <button onClick={navigateToHistory}>History Page</button>
+
+        <CommentSection />
           <button onClick={handleFontSizeIncrease}>Increase Font Size</button>
           <button onClick={handleFontSizeDecrease}>Decrease Font Size</button>
         </div>
       </div>
+
+      <TranslateModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        translatedText={translatedText ?? ""}
+      />
     </div>
   );
 };
