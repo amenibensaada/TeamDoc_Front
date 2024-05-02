@@ -1,3 +1,4 @@
+
 import Signup from "./Signup/Signup";
 import Login from "./Login/Login";
 import Static from "./home/staticlist";
@@ -16,48 +17,50 @@ import SharedFoldersPage from "./home/foldershared";
 import Chart from "./home/chart";
 import Chartt from "./home/chart2";
 
-export default [
+import Mycalendar from './mycalendar/mycalendar';
+
+const routes = [
   {
-    path: "login/*",
+    path: '/login',
     element: <Login />,
   },
   {
-    path: "/signup/",
+    path: '/signup',
     element: <Signup />,
   },
-
   {
-    path: "/forgetPassword",
+    path: '/forgetPassword',
     element: <ForgetPassword />,
   },
-
   {
-    path: "/reset-password/:token",
+    path: '/reset-password/:token',
     element: <ResetPassword />,
   },
   {
-    path: "/conditions/",
+    path: '/conditions',
     element: <Conditions />,
   },
-
   {
-    path: "/editor/:id",
+    path: '/editor/:id',
     element: <EditorReactContent />,
   },
-
   {
-    path: "/folder",
+    path: '/folder',
     element: <Folder />,
   },
 
   {
-    path: "/folder/static/:folderId",
+    path: '/folder/static/:folderId',
     element: <Static />,
   },
 
   {
     path: "/folder/static",
     element: <Static />,
+  },
+  {
+    path: '/mycalendar',
+    element: <Mycalendar />,
   },
   { path: "/contenthistory/:id*", element: <HistoricalChangesPage /> },
   { path: "/meet*", element: <Meet /> },
@@ -87,3 +90,5 @@ export default [
     element: <NotFound />,
   },
 ];
+
+export default routes;

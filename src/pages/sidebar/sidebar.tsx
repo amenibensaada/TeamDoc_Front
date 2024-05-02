@@ -20,7 +20,8 @@ export default function SideBar() {
       src: "folders",
       gap: true,
       path: "/folder",
-    },{
+    },
+    {
       title: "Mail ",
       src: "folders",
       gap: true,
@@ -33,7 +34,7 @@ export default function SideBar() {
       src: "history",
       path: "/contenthistory/660fb2c526e0ac259955f98f",
     },
-    // { title: "add team space", src: "queue" },
+    { title: "Calendar", src: "queue", path: "/mycalendar" },
     // { title: "Members", src: "diversity" },
     // { title: "Inbox", src: "freedom-of-speech" },
     // { title: "Download", src: "cloud-computing" },
