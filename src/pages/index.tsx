@@ -14,7 +14,7 @@ import LandingPage from './landingPage/landingPage';
 import NotFound from './notFound/notFound';
 import Footer from './footer/footer';
 import Mailing from './mailing/mailing';
-import App from './calendar/calendar';
+
 import Mycalendar from './mycalendar/mycalendar';
 
 const routes = [
@@ -70,10 +70,7 @@ const routes = [
     path: '/mailing',
     element: <Mailing />,
   },
-  {
-    path: '/calendar',
-    element: <App />,
-  },
+  
   {
     path: '/mycalendar',
     element: <Mycalendar />,
