@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import SideBar from "../sidebar/sidebar";
@@ -20,8 +21,10 @@ const FoldersPage = () => {
   const [page, setPage] = useState(1);
   const perPage = 3;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [users, setUsers] = useState<any[]>([]);
   const [selectedUserId, setSelectedUserId] = useState("");
+  console.log(setSelectedUserId);
   const [selectedUserIds, setSelectedUserIds] = useState<{
     [key: string]: string;
   }>({});
@@ -385,7 +388,7 @@ const FoldersPage = () => {
                       }}>
                       Update Folder
                     </button>
-                    <select
+                    {/* <select
                       className="custom-select"
                       value={selectedUserIds[folder._id] || ""}
                       onChange={(e) => {
@@ -404,7 +407,7 @@ const FoldersPage = () => {
                         }
                         return null;
                       })}
-                    </select>
+                    </select> */}
 
                     <button onClick={() => handleIgnoreAccess(folder._id)}>
                       Ignore Access

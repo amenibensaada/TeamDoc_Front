@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import StaticFileCard from "./card";
 import "./staticlist.css";
@@ -10,11 +11,11 @@ import {
 } from "@/services/documentsService";
 import AddDocumentForm from "./AddDocumentForm";
 import { useParams } from "react-router-dom";
+
 interface File {
   _id: string;
   Title: string;
   contentType: string;
-  // Autres propriétés
 }
 const StaticFileList = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,15 +34,6 @@ const StaticFileList = () => {
     setSearchTerm(e.target.value);
   };
 
-  // const {
-  //   data: documentsdata,
-  //   isError,
-  //   isLoading,
-  //   refetch,
-  // } = useQuery({
-  //   queryKey: ["documents"],
-  //   queryFn: () => getDocuments(),
-  // });
   const {
     data: documentsdata,
     isError,
@@ -113,22 +105,18 @@ const StaticFileList = () => {
       <SideBar />
       <div className="main-content">
         <div className="header">
-          <div className="pp">
+          <div className="pp py-12">
             <h1>Bienvenue sur TeamDoc</h1>
-            <img
-              src="/assets/logo.png"
-              className={`cursor-pointer duration-500 `}
-            />
           </div>
           <div className="search-bar-container1">
             <input
               type="text"
               placeholder="     Search..."
-              className="search-bar1"
+              className="search-bar1 "
               onChange={handleSearchChange}
             />
             <button
-              className="button-container"
+              className="button-container text-white"
               onClick={() => setSortByName(!sortByName)}>
               {sortByName
                 ? "Désactiver le tri par nom"

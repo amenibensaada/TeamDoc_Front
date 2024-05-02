@@ -1,47 +1,216 @@
 import { createContent, getContent } from "@/services/ContentService";
 import EditorJs from "@natterstefan/react-editor-js";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import Header from "@editorjs/header";
 import boldIcon from "/public/assets/bold.png";
 import italicIcon from "/public/assets/italic.png";
 import underlineIcon from "/public/assets/underline.png";
 import SideBar from "../sidebar/sidebar";
 import { useEffect, useRef, useState } from "react";
+import { saveAs } from "file-saver";
+import {
+  Document,
+  Page,
+  Text,
+  StyleSheet,
+  Image,
+  pdf,
+} from "@react-pdf/renderer";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import Embed from "@editorjs/embed";
 import { getDocumentById } from "../../services/ContentService";
 import { getFolderById } from "../../services/documentsService";
 //import Typo from 'typo-js';
-
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import ImageTool from "@editorjs/image";
 import "./editcontent.css";
-
-import { TranslateModal } from "./translate/TranslateModal";
 import CommentSection from "../comments/Comment";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import ChatModal from "../ai/ChatModal";
+import { TranslateModal } from "./translate/TranslateModal";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import Paragraph from "@editorjs/paragraph";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import CodeTool from "@editorjs/code";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import InlineCode from "@editorjs/inline-code";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import Table from "@editorjs/table";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import delimiter from "@editorjs/delimiter";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import list from "@editorjs/list";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import LinkTool from "@editorjs/link";
+import StartRecordModal from "./startrecordemodel";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+interface Block {
+  id: string;
+  type: string;
+  data: {
+    text?: string;
+    file?: {
+      url: string;
+    };
+    items?: string[];
+    url: string;
+    code: string;
+  };
+}
+
+interface Content {
+  blocks: Block[];
+}
+//stylesheetpdf
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: "column",
+    backgroundColor: "#FFFFFF",
+    padding: 20,
+  },
+  header: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  paragraph: {
+    fontSize: 12,
+    marginBottom: 10,
+  },
+  image: {
+    marginBottom: 20,
+    maxWidth: "100%",
+  },
+  link: {
+    color: "blue",
+    textDecorationLine: "underline",
+  },
+  list: {
+    marginBottom: 10,
+  },
+  listItem: {
+    marginLeft: 20,
+  },
+  code: {
+    fontFamily: "Courier",
+    fontSize: 10,
+    backgroundColor: "#000000",
+    padding: 5,
+    marginBottom: 10,
+  },
+});
+
+const MyDocument: React.FC<{ content: Content }> = ({ content }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      {content.blocks.map((block: Block, index: number) => {
+        if (block.type === "header") {
+          return (
+            <Text key={index} style={styles.header}>
+              {block.data.text}
+            </Text>
+          );
+        } else if (block.type === "paragraph") {
+          return (
+            <Text key={index} style={styles.paragraph}>
+              {block.data.text}
+            </Text>
+          );
+        } else if (
+          block.type === "image" &&
+          block.data.file &&
+          block.data.file.url
+        ) {
+          return (
+            <Image key={index} src={block.data.file.url} style={styles.image} />
+          );
+        } else if (block.type === "list" && block.data.items) {
+          return (
+            <ol key={index} style={styles.list}>
+              {block.data.items.map((item: string, itemIndex: number) => (
+                <li key={itemIndex} style={styles.listItem}>
+                  <Text>{item}</Text>
+                </li>
+              ))}
+            </ol>
+          );
+        } else if (block.type === "link" && block.data.url) {
+          // Vérifiez si l'URL est une URL externe ou interne
+          const isExternalLink = block.data.url.startsWith("http");
+          if (isExternalLink) {
+            return (
+              <Link key={index} to={block.data.url} style={styles.link}>
+                {block.data.text}
+              </Link>
+            );
+          } else {
+            return (
+              <Link key={index} to={block.data.url} style={styles.link}>
+                {block.data.text}
+              </Link>
+            );
+          }
+        } else if (block.type === "code" && block.data.code) {
+          return (
+            <code key={index} style={styles.code}>
+              {block.data.code}
+            </code>
+          );
+        }
+        return null;
+      })}
+    </Page>
+  </Document>
+);
 export const EditorReactContent = () => {
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editor = useRef<any>();
   const { id } = useParams();
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [content, setContent] = useState<any>();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [saveClicked, setSaveClicked] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [documentData, setDocumentData] = useState<any>();
+  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
+
+  console.log(documentData, isSaveDisabled);
   const query = useQuery({
     queryKey: ["editor", id],
     queryFn: () => getContent(id || ""),
   });
+
   const navigateToHistory = () => {
     navigate(`/contenthistory/${id}`);
   };
-  const [documentData, setDocumentData] = useState<any>();
-  const [isSaveDisabled, setIsSaveDisabled] = useState(false);
-  console.log(documentData, isSaveDisabled);
+  //pdf
+  const handleDownloadPDF = async () => {
+    const doc = <MyDocument content={content} />;
+    const asPdf = pdf();
+
+    asPdf.updateContainer(doc);
+
+    const blob = await asPdf.toBlob();
+    saveAs(blob, "document.pdf");
+  };
+
   const documentQuery = useQuery({
     queryKey: ["document", id],
     queryFn: () => getDocumentById(id || ""),
@@ -61,6 +230,20 @@ export const EditorReactContent = () => {
       setContent(JSON.parse(query.data.content));
     }
   }, [query.data?.content]);
+  //verification de click de button save
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (content && !saveClicked) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [content, saveClicked]);
+
   const mutation = useMutation({
     mutationFn: (body: { content: string; documentId: string }) =>
       createContent(body),
@@ -96,9 +279,11 @@ export const EditorReactContent = () => {
   };
 
   const onChange = () => {
+    console.log(content);
     console.log("Now I know that Editor's content changed!");
   };
 
+  // fonction save editor
   const onSave = async () => {
     try {
       const outputData = await (editor as any).current.save();
@@ -125,6 +310,7 @@ export const EditorReactContent = () => {
       console.log("Saving failed: ", e);
     }
   };
+
   const handleBoldClick = () => {
     document.execCommand("bold", false, undefined);
   };
@@ -161,25 +347,6 @@ export const EditorReactContent = () => {
   const handleFontSizeDecrease = () => {
     document.execCommand("fontSize", false, "3");
   };
-  const handleImageUpload = async (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "hanaromdhani");
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/dwi9bhke9/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const data = await response.json();
-
-    return { success: 1, file: { url: data.secure_url } };
-  };
-  //correction automatique ************************************************************************************
- // Correction automatique
-
-  
 
   const translateText = async () => {
     if (
@@ -221,6 +388,28 @@ export const EditorReactContent = () => {
     }
   };
 
+  const handleMediaUpload = async (file: File, type: string) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "hanaromdhani");
+
+    let uploadUrl = "";
+    if (type === "image") {
+      uploadUrl = "https://api.cloudinary.com/v1_1/dwi9bhke9/image/upload";
+    } else if (type === "video") {
+      uploadUrl = "https://api.cloudinary.com/v1_1/dwi9bhke9/video/upload";
+    }
+
+    const response = await fetch(uploadUrl, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    return { success: 1, file: { url: data.secure_url } };
+  };
+
   return (
     <div className="editor-container">
       <SideBar />
@@ -239,7 +428,7 @@ export const EditorReactContent = () => {
               config: {
                 uploader: {
                   uploadByFile(file: File) {
-                    return handleImageUpload(file);
+                    return handleMediaUpload(file, "image");
                   },
                 },
                 actions: {
@@ -248,26 +437,43 @@ export const EditorReactContent = () => {
               },
             },
 
-            // embed: {
-            //   class: Embed,
-            //   inlineToolbar:false,
-            //   config: {
-            //     services: {
-            //       youtube: true,
-            //       coub: true
-            //     }
-            //   }
-            // },
-            // video: {
-            //   class: VideoTool,
-            //   config: {
-            //     uploader: {
-            //       uploadByFile(file: File) {
-            //         return handleVideoUpload(file);
-            //       },
-            //     },
-            //   },
-            // }
+            embed: {
+              class: Embed,
+              inlineToolbar: false,
+              config: {
+                services: {
+                  youtube: true,
+                  coub: true,
+                  video: true,
+                },
+                uploader: {
+                  uploadByFile(file: File) {
+                    return handleMediaUpload(file, "video");
+                  },
+                },
+                actions: {
+                  delete: true,
+                },
+              },
+            },
+            paragraph: {
+              class: Paragraph,
+              inlineToolbar: true,
+            },
+            code: {
+              class: CodeTool,
+              config: {
+                // handleColorcode: handleColorcode,
+              },
+            },
+            inlineCode: InlineCode,
+            linkTool: {
+              class: LinkTool,
+              inlineToolbar: true,
+            },
+            table: Table,
+            list: list,
+            delimiter: delimiter,
           }}
           editorInstance={(editorInstance) => {
             editor.current = editorInstance;
@@ -276,7 +482,7 @@ export const EditorReactContent = () => {
         </EditorJs>
       )}
       <div className="sidebar  ">
-        <h2>Options de mise en forme</h2>
+        {/* <h2>Options de mise en forme</h2> */}
         <div className="button-container">
           <button onClick={handleBoldClick}>
             <img src={boldIcon} alt="Bold" />
@@ -301,20 +507,29 @@ export const EditorReactContent = () => {
 
         <button onClick={handleFontSizeIncrease}>Increase Font Size</button>
         <button onClick={handleFontSizeDecrease}>Decrease Font Size</button>
+
         <button type="button" onClick={onSave}>
           Save
         </button>
+
+        <button
+          type="button"
+          onClick={handleDownloadPDF}
+          className="bg-blue-500 hover:bg-blue-600 text-black font-bold py-1 px-4 rounded focus:outline-none focus:ring focus:ring-blue-200">
+          Download PDF
+        </button>
         <button onClick={translateText}>Translate Text</button>
         <button onClick={navigateToHistory}>History Page</button>
-
         <CommentSection />
+        <TranslateModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          translatedText={translatedText ?? ""}
+        />
+        <div className="relative">
+          <StartRecordModal />
+        </div>
       </div>
-
-      <TranslateModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        translatedText={translatedText ?? ""}
-      />
     </div>
   );
 };

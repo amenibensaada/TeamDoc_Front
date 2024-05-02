@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 const url='http://localhost:3000/Document'
 const token = localStorage.getItem("token");
@@ -62,6 +64,10 @@ export const createdocuments = async (createDocumentsDto: any) => {
   }
   return response.json();
 };
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+
 export const createdocumentsByfolder = async (folderId: string, createDocumentsDto: unknown) => {
   if (typeof createDocumentsDto === 'object' && createDocumentsDto !== null) {
     const response = await fetch(`${url}/${folderId}`, {

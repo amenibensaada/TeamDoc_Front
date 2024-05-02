@@ -16,6 +16,11 @@ export default function SideBar() {
     // { title: "Dashboard", src: "Chart_fill" },
 
     {
+      title: "folders ",
+      src: "folders",
+      gap: true,
+      path: "/folder",
+    },{
       title: "Mail ",
       src: "folders",
       gap: true,

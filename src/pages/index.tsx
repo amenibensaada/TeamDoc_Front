@@ -48,6 +48,7 @@ export default [
     path: "/folder",
     element: <Folder />,
   },
+
   {
     path: "/folder/static/:folderId",
     element: <Static />,
