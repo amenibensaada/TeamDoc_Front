@@ -20,6 +20,7 @@ const FoldersPage = () => {
   const [page, setPage] = useState(1);
   const perPage = 3;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [users, setUsers] = useState<any[]>([]);
   const [selectedUserId, setSelectedUserId] = useState("");
   const [selectedUserIds, setSelectedUserIds] = useState<{
