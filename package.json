@@ -45,12 +45,6 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@tanstack/react-query": "^5.28.6",
     "@tanstack/react-table": "^8.12.0",
-<<<<<<< HEAD
-=======
-    "@types/firebase": "^3.2.1",
-    "@vitalets/google-translate-api": "^9.2.0",
-    "ai": "^3.0.31",
->>>>>>> e18d9724916ab7e82fac03d5e1565aa7d9ee9c70
     "axios": "^1.6.8",
     "bootstrap": "^5.3.2",
     "cdbreact": "^1.5.18",

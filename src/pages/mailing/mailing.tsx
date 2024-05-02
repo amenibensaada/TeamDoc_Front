@@ -4,6 +4,8 @@ import axios from "axios";
 import { Button } from "react-bootstrap";
 import { HiOutlineMail, HiOutlineClipboardList, HiOutlineChatAlt2 } from "react-icons/hi";
 import { useSpring, animated } from "react-spring";
+import Footer from "../footer/footer";
+
 
 const FormContainer = styled.div`
   background-color: #f0f0f0;
@@ -16,11 +18,19 @@ const FormContainer = styled.div`
   margin: 50px auto;
   width: 90%;
   max-width: 1000px;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const FormSection = styled.section`
   padding: 20px;
   width: 60%;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Title = styled.h2`
@@ -91,6 +101,12 @@ const StyledButton = styled(Button)`
 const ImageContainer = styled.div`
   width: 40%;
   margin-left: 20px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
 `;
 
 function ContactForm() {
@@ -119,65 +135,66 @@ function ContactForm() {
   }
 
   return (
-    <FormContainer>
-      <FormSection>
-        <Title>Envoyer un email</Title>
-        <Description>
-          Remplissez le formulaire ci-dessous pour nous contacter.
-        </Description>
-        <form>
-          <InputGroup>
-            <IconWrapper>
-              <HiOutlineMail />
-            </IconWrapper>
-            <Input
-              type="email"
-              style={inputProps}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Votre adresse email"
-              required
-            />
-          </InputGroup>
-          <InputGroup>
-            <IconWrapper>
-              <HiOutlineClipboardList />
-            </IconWrapper>
-            <Input
-              type="text"
-              style={inputProps}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="Objet du message"
-              required
-            />
-          </InputGroup>
-          <InputGroup>
-            <IconWrapper>
-              <HiOutlineChatAlt2 />
-            </IconWrapper>
-            <StyledTextArea
-              style={inputProps}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Votre message ici"
-              required
-              rows={4}
-            />
-          </InputGroup>
-          <StyledButton variant="primary" onClick={sendMail}>
-            Envoyer
-          </StyledButton>
-          {isMailSent && (
-            <p className="text-success mt-3">Mail envoyé avec succès!</p>
-          )}
-        </form>
-      </FormSection>
-      <ImageContainer>
-        {/* Ajoutez votre image/logo ici */}
-        <img src="./logo.png" alt="Logo de l'application" width="100%" /> 
-        
-      </ImageContainer>
-    </FormContainer>
+    <>
+      <FormContainer>
+        <FormSection>
+          <Title>Envoyer un email</Title>
+          <Description>
+            Remplissez le formulaire ci-dessous pour nous contacter.
+          </Description>
+          <form>
+            <InputGroup>
+              <IconWrapper>
+                <HiOutlineMail />
+              </IconWrapper>
+              <Input
+                type="email"
+                style={inputProps}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Votre adresse email"
+                required
+              />
+            </InputGroup>
+            <InputGroup>
+              <IconWrapper>
+                <HiOutlineClipboardList />
+              </IconWrapper>
+              <Input
+                type="text"
+                style={inputProps}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="Objet du message"
+                required
+              />
+            </InputGroup>
+            <InputGroup>
+              <IconWrapper>
+                <HiOutlineChatAlt2 />
+              </IconWrapper>
+              <StyledTextArea
+                style={inputProps}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Votre message ici"
+                required
+                rows={4}
+              />
+            </InputGroup>
+            <StyledButton variant="primary" onClick={sendMail}>
+              Envoyer
+            </StyledButton>
+            {isMailSent && (
+              <p className="text-success mt-3">Mail envoyé avec succès!</p>
+            )}
+          </form>
+        </FormSection>
+        <ImageContainer>
+          {/* Ajoutez votre image/logo ici */}
+          <img src="./logo.png" alt="Logo de l'application" width="100%" />
+        </ImageContainer>
+      </FormContainer>
+      <Footer />
+    </>
   );
 }
-
 
 export default ContactForm;
