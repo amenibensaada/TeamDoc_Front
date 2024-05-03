@@ -32,7 +32,6 @@ jobs:
         with:
           args: >
             -Dsonar.organization=TeamDoc_Front
-            -Dsonar.projectKey=amenibensaada
 
       # - name: Test
       #   run: npm run test
