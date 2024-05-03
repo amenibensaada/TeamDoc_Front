@@ -24,8 +24,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build
+      - name: SonarQube Scan
+        uses: SonarSource/sonarcloud-github-action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organisation=TeamDoc_Front
+            -Dsonar.projectKey=amenibensaada
 
       # - name: Test
       #   run: npm run test
