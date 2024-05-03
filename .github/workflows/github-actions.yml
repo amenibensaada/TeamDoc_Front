@@ -25,6 +25,7 @@ jobs:
             -Dsonar.organization=TeamDoc_Front
             -Dsonar.projectKey=amenibensaada_TeamDoc_Front
             -Dsonar.branch.name=main
+            -Dsonar.analysis.mode=publish
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
