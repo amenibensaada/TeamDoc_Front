@@ -24,6 +24,8 @@ jobs:
           args: >
             -Dsonar.organization=TeamDoc_Front
             -Dsonar.projectKey=amenibensaada_TeamDoc_Front
+            -Dsonar.branch.name=main
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
