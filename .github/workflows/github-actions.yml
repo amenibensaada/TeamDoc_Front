@@ -31,7 +31,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.organisation=amenibensaada
+            -Dsonar.organization=TeamDoc_Front
             -Dsonar.projectKey=amenibensaada
 
       # - name: Test
