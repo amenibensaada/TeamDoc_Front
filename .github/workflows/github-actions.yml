@@ -25,7 +25,7 @@ jobs:
         run: npm install
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarcloud-github-action
+        uses: SonarSource/sonarcloud-github-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
