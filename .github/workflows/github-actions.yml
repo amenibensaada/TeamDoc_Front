@@ -27,6 +27,7 @@ jobs:
             -Dsonar.branch.name=main
             -Dsonar.analysis.mode=publish
             -Dsonar.language=js
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
