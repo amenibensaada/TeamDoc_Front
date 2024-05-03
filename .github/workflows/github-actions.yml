@@ -22,7 +22,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.organization=Ameni Ben Saada
+            -Dsonar.organization=amenibensaada
             -Dsonar.projectKey=amenibensaada_TeamDoc_Front
             -Dsonar.branch.name=main
             -Dsonar.analysis.mode=publish
