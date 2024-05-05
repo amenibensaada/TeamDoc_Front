@@ -28,14 +28,14 @@ export default function SideBar() {
       path: "/mailing",
     },
     { title: " Meet ", src: "new-folder", gap: true, path: "/meet" },
-    { title: " Create file ", src: "add-file" },
-    {
-      title: "Last Modification",
-      src: "history",
-      path: "/contenthistory/660fb2c526e0ac259955f98f",
-    },
+    // { title: " Create file ", src: "add-file" },
+    // {
+    //   title: "Last Modification",
+    //   src: "history",
+    //   path: "/contenthistory/660fb2c526e0ac259955f98f",
+    // },
     { title: "Calendar", src: "queue", path: "/mycalendar" },
-    // { title: "Members", src: "diversity" },
+    { title: "Chart", src: "diversity", path: "/chart" },
     // { title: "Inbox", src: "freedom-of-speech" },
     // { title: "Download", src: "cloud-computing" },
 

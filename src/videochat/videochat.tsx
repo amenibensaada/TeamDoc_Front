@@ -10,6 +10,7 @@ import "firebase/compat/firestore";
 
 import { PhoneDisabled, MoreVert, FileCopy } from "@mui/icons-material";
 import "./videochat.css";
+import SideBar from "@/pages/sidebar/sidebar";
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -47,16 +48,25 @@ function Meet() {
   const [joinCode, setJoinCode] = useState<string>("");
 
   return (
-    <div className="app">
-      {currentPage === "home" ? (
-        <Menu
-          joinCode={joinCode}
-          setJoinCode={setJoinCode}
-          setPage={setCurrentPage}
-        />
-      ) : (
-        <Videos mode={currentPage} callId={joinCode} setPage={setCurrentPage} />
-      )}
+    <div>
+      <div className="grid min-h-screen w-full grid-cols-[240px_1fr] overflow-hidden">
+        <SideBar />
+        <div className="app">
+          {currentPage === "home" ? (
+            <Menu
+              joinCode={joinCode}
+              setJoinCode={setJoinCode}
+              setPage={setCurrentPage}
+            />
+          ) : (
+            <Videos
+              mode={currentPage}
+              callId={joinCode}
+              setPage={setCurrentPage}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
